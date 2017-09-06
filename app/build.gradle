@@ -1,0 +1,53 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 23
+    buildToolsVersion "25.0.3"
+
+    defaultConfig {
+        applicationId "com.perpendox.phem"
+        minSdkVersion 8
+        targetSdkVersion 19
+
+        versionCode 2190143
+        versionName "1.43"
+
+        productFlavors {
+            arm {
+                versionNameSuffix "-arm"
+                ndk {
+                    abiFilters "armeabi-v7a"
+                }
+            }
+            intel {
+                versionNameSuffix "-intel"
+                ndk {
+                    abiFilters "x86"
+                }
+            }
+        }
+
+        externalNativeBuild {
+            ndkBuild {
+                arguments "NDK_APPLICATION_MK=src/main/jni/Application.mk"
+            }
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-project.txt'
+        }
+    }
+    externalNativeBuild {
+        ndkBuild {
+            path 'src/main/jni/Android.mk'
+        }
+    }
+}
+
+dependencies {
+    compile 'com.android.support:support-v4:19.+'
+    compile 'com.android.support:appcompat-v7:19.+'
+}
