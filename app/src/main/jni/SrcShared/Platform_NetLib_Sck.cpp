@@ -158,7 +158,7 @@ static Bool NetLibToSocketsFDSet		(const NetFDSetType*			inFDSet,
 										 UInt16							inWidth,
 										 fd_set*&						outFSSet,
 										 int&							outWidth);
-static Bool SocketsToNetLibFDSet		(const fd_set*					inFDSet,
+static Bool SocketsToNetLibFDSet		(fd_set*						inFDSet,
 										 int							inWidth,
 										 NetFDSetType*					outFSSet,
 										 UInt16&						outWidth);
@@ -2630,7 +2630,7 @@ Bool NetLibToSocketsFDSet (	const NetFDSetType*	inFDSet,
  *
  ***********************************************************************/
 
-Bool SocketsToNetLibFDSet (	const fd_set*	inFDSet,
+Bool SocketsToNetLibFDSet (	fd_set*			inFDSet,
 							int				inWidth,
 							NetFDSetType*	outFSSet,
 							UInt16&			outWidth)
