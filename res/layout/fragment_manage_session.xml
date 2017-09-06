@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/sessionmgmtlabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/session_mgmt_label"
+            android:textSize="@dimen/page_title_size"
+            android:textStyle="bold" />
+
+        <View
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/top_separator_height"
+            android:background="@color/android_green" />
+
+        <TextView
+            android:id="@+id/new_session_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/new_session_blurb"
+            android:textSize="@dimen/general_text_size" />
+
+        <Button
+            android:id="@+id/new_session_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/new_session_butn_txt" />
+
+        <View
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/normal_separator_height"
+            android:background="@color/android_green" />
+
+        <TextView
+            android:id="@+id/load_session_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/load_session_blurb"
+            android:textSize="@dimen/general_text_size" />
+
+        <Button
+            android:id="@+id/load_session_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/load_session_butn_txt" />
+
+        <View
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/normal_separator_height"
+            android:background="@color/android_green" />
+
+        <TextView
+            android:id="@+id/save_session_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/save_session_blurb"
+            android:textSize="@dimen/general_text_size" />
+
+        <Button
+            android:id="@+id/save_session_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="save_click"
+            android:text="@string/save_session_butn_txt" />
+    </LinearLayout>
+
+</ScrollView>

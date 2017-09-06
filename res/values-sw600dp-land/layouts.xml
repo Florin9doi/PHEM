@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="main" type="layout">@layout/main_landscape</item>
+    <bool name="big_screen">true</bool>
+    <bool name="is_landscape">true</bool>
+    <string name="which_one">values-sw600dp-land</string>
+</resources>

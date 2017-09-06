@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".AboutFragment" >
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal" >
+
+        <TextView
+            android:id="@+id/about_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:text="@string/about_title_text"
+            android:textSize="@dimen/page_title_size"
+            android:textStyle="bold" />
+
+        <View
+            android:id="@+id/top_strut"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/top_separator_height"
+            android:layout_below="@id/about_title"
+            android:background="@color/android_green" />
+
+        <ImageView
+            android:id="@+id/about_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/top_strut"
+            android:layout_centerHorizontal="true"
+            android:contentDescription="@string/none"
+            android:src="@drawable/ic_launcher" >
+        </ImageView>
+
+        <TextView
+            android:id="@+id/acronym_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/about_icon"
+            android:layout_centerHorizontal="true"
+            android:gravity="center_horizontal"
+            android:text="@string/acronym_text"
+            android:textSize="@dimen/sub_heading_size"
+            android:textStyle="bold" />
+
+        <View
+            android:id="@+id/acro_strut"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/normal_separator_height"
+            android:layout_below="@id/acronym_label"
+            android:background="@color/android_green" />
+
+        <TextView
+            android:id="@+id/about_blurb"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/acro_strut"
+            android:layout_centerHorizontal="true"
+            android:gravity="center_horizontal"
+            android:text="@string/about_blurb"
+            android:textSize="@dimen/general_text_size" />
+
+        <TextView
+            android:id="@+id/derived_blurb"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/about_blurb"
+            android:layout_centerHorizontal="true"
+            android:gravity="center_horizontal"
+            android:text="@string/derived_blurb"
+            android:textSize="@dimen/general_text_size" />
+
+        <TextView
+            android:id="@+id/source_blurb"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/derived_blurb"
+            android:layout_centerHorizontal="true"
+            android:gravity="center_horizontal"
+            android:text="@string/source_blurb"
+            android:textSize="@dimen/general_text_size" />
+
+        <View
+            android:id="@+id/link_strut"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/normal_separator_height"
+            android:layout_below="@id/source_blurb"
+            android:background="@color/android_green" />
+
+        <ImageView
+            android:id="@+id/perp_logo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/link_strut"
+            android:layout_centerHorizontal="true"
+            android:contentDescription="@string/none"
+            android:src="@drawable/perpendox_logo" >
+        </ImageView>
+
+        <TextView
+            android:id="@+id/perp_link"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/perp_logo"
+            android:layout_centerHorizontal="true"
+            android:text="@string/perpendox_link"
+            android:textSize="@dimen/general_text_size" >
+        </TextView>
+
+        <TextView
+            android:id="@+id/email_link"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/perp_link"
+            android:layout_centerHorizontal="true"
+            android:autoLink="email"
+            android:text="@string/support_email_addr"
+            android:textSize="@dimen/general_text_size" >
+        </TextView>
+
+        <View
+            android:id="@+id/rate_strut"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/normal_separator_height"
+            android:layout_below="@id/email_link"
+            android:background="@color/android_green"
+            android:visibility="gone" />
+
+        <Button
+            android:id="@+id/rate_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/rate_strut"
+            android:layout_centerHorizontal="true"
+            android:text="@string/rate_txt"
+            android:textSize="@dimen/general_text_size"
+            android:visibility="gone" />
+    </RelativeLayout>
+
+</ScrollView>

@@ -1,0 +1,88 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="horizontal"
+    android:splitMotionEvents="true"
+    android:background="@color/palm_green"
+    tools:context=".ButtonBarFragment" >
+
+    <!-- android:paddingBottom="@dimen/activity_vertical_margin" -->
+    <!-- android:paddingLeft="@dimen/activity_horizontal_margin" -->
+    <!-- android:paddingRight="@dimen/activity_horizontal_margin" -->
+    <!-- android:paddingTop="@dimen/activity_vertical_margin" -->
+    <!-- TODO: Update blank fragment layout -->
+
+    <ImageButton
+        android:contentDescription="@string/none"
+        android:id="@+id/action_datebook_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:src="@drawable/ab_dateb"
+        android:background="@drawable/pbutton_selector"
+        android:tag="0" />
+
+    <ImageButton
+        android:contentDescription="@string/none"
+        android:id="@+id/action_contact_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:src="@drawable/ab_contact"
+        android:background="@drawable/pbutton_selector"
+        android:tag="1" />
+
+    <LinearLayout
+        android:id="@+id/scroll_linlay"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:splitMotionEvents="true" >
+
+        <ImageButton
+            android:contentDescription="@string/none"
+            android:id="@+id/action_up_button"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="0dp"
+            android:layout_weight="0.5"
+            android:src="@drawable/ab_up"
+            android:background="@drawable/pbutton_selector"
+            android:tag="2" />
+
+        <ImageButton
+            android:contentDescription="@string/none"
+            android:id="@+id/action_down_button"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="0dp"
+            android:layout_weight="0.5"
+            android:src="@drawable/ab_down"
+            android:background="@drawable/pbutton_selector"
+            android:tag="3" />
+    </LinearLayout>
+
+    <ImageButton
+        android:contentDescription="@string/none"
+        android:id="@+id/action_todo_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:src="@drawable/ab_todo"
+        android:background="@drawable/pbutton_selector"
+        android:tag="4" />
+
+    <ImageButton
+        android:contentDescription="@string/none"
+        android:id="@+id/action_memo_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:src="@drawable/ab_memo"
+        android:background="@drawable/pbutton_selector"
+        android:tag="5" />
+
+</LinearLayout>

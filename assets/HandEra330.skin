@@ -1,0 +1,15 @@
+# This is a skin file for PHEM, the Palm Hardware Emulator M68k.
+# It is designed to maximize screen area.
+
+Name			= HandEra330
+File1x			= HandEra330_1x.jpg
+File2x			= HandEra330_2x.jpg
+#BackgroundColor	= 0x7B, 0x8C, 0x5A
+BackgroundColor	= 0x98, 0xA8, 0x7A
+HighlightColor	= 0x64, 0xF0, 0xDC
+Devices			= HandEra330
+
+#						  x    y    w    h
+#						---- ---- ---- ----
+Element1 		= Touchscreen,		  2,   2, 240, 320
+Element2 		= LCD,			  2,   2, 240, 320

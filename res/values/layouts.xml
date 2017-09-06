@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="main" type="layout">@layout/main_portrait</item>
+    <bool name="big_screen">false</bool>
+    <bool name="is_landscape">false</bool>
+    <string name="which_one">values</string>
+</resources>

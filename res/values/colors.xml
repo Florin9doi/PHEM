@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="white">#ffffffff</color>
+    <color name="palm_green">#ff8b9c6a</color>
+    <color name="palm_highlight">#ff64f0dc</color>
+    <color name="android_green">#ffa4c739</color>
+    <color name="warning_red">#ffff0000</color>
+</resources>

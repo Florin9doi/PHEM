@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin" >
+
+        <TextView
+            android:id="@+id/cardemulabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/card_emu_label"
+            android:textSize="@dimen/page_title_size"
+            android:textStyle="bold" />
+
+        <View
+            android:id="@+id/strut"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/top_separator_height"
+            android:background="@color/android_green" />
+
+        <TextView
+            android:id="@+id/installhostfslabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/install_hostfs_text"
+            android:textSize="@dimen/sub_heading_size"
+            android:visibility="gone" />
+
+        <Button
+            android:id="@+id/install_hostfs_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/install_hostfs_butn_txt"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/dirlabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/card_dir_label"
+            android:textSize="@dimen/sub_heading_size"
+            android:textStyle="bold"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/dirval"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/spintext"
+            android:textSize="@dimen/sub_heading_size"
+            android:visibility="gone" />
+
+        <View
+            android:id="@+id/val_strut"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/normal_separator_height"
+            android:background="@color/android_green"
+            android:visibility="gone" />
+
+        <CheckBox
+            android:id="@+id/chk_mounted"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/mount_cb_blurb"
+            android:textSize="@dimen/general_text_size"
+            android:visibility="gone" />
+
+        <View
+            android:id="@+id/mount_strut"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/normal_separator_height"
+            android:background="@color/android_green"
+            android:visibility="gone" />
+
+        <Button
+            android:id="@+id/card_done_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/donebutn_txt"
+            android:visibility="gone" />
+    </LinearLayout>
+
+</ScrollView>

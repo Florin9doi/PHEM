@@ -1,0 +1,116 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    tools:context=".StatusFragment" >
+
+    <TextView
+        android:id="@+id/status_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:text="@string/status_title"
+        android:textSize="@dimen/page_title_size"
+        android:textStyle="bold" />
+
+    <TableLayout
+        android:id="@+id/tableLayout1"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@id/status_title" >
+
+        <View
+            android:layout_height="@dimen/top_separator_height"
+            android:background="@color/android_green" />
+
+        <TableRow
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:padding="5dip" >
+
+            <TextView
+                android:id="@+id/status_session_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/status_session_label"
+                android:textSize="@dimen/general_text_size"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/status_session_field"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/none"
+                android:textSize="@dimen/general_text_size" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:padding="5dip" >
+
+            <TextView
+                android:id="@+id/status_rom_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/status_rom_label"
+                android:textSize="@dimen/general_text_size"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/status_rom_field"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/none"
+                android:textSize="@dimen/general_text_size" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:padding="5dip" >
+
+            <TextView
+                android:id="@+id/status_dev_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/status_dev_label"
+                android:textSize="@dimen/general_text_size"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/status_dev_field"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/none"
+                android:textSize="@dimen/general_text_size" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:padding="5dip" >
+
+            <TextView
+                android:id="@+id/status_ram_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/status_ram_label"
+                android:textSize="@dimen/general_text_size"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/status_ram_field"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/none"
+                android:textSize="@dimen/general_text_size" />
+        </TableRow>
+    </TableLayout>
+
+</RelativeLayout>

@@ -1,0 +1,327 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/settings_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="@string/settings_title"
+            android:textSize="@dimen/page_title_size"
+            android:textStyle="bold" />
+
+        <View
+            android:id="@+id/head_strut"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/top_separator_height"
+            android:layout_below="@id/settings_title"
+            android:background="@color/android_green" />
+
+        <TextView
+            android:id="@+id/sync_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/head_strut"
+            android:text="@string/sync_title"
+            android:textSize="@dimen/general_text_size" />
+
+        <EditText
+            android:id="@+id/hotsync_edittext"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_below="@id/head_strut"
+            android:layout_toRightOf="@id/sync_title"
+            android:inputType="textNoSuggestions"
+            android:maxLength="40"
+            android:singleLine="true"
+            android:textSize="@dimen/sub_heading_size" />
+
+        <View
+            android:id="@+id/sync_strut"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/normal_separator_height"
+            android:layout_below="@id/hotsync_edittext"
+            android:background="@color/android_green" />
+
+        <CheckBox
+            android:id="@+id/chk_double_scale"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/sync_strut"
+            android:text="@string/double_scale_blurb"
+            android:textSize="@dimen/general_text_size" />
+
+        <View
+            android:id="@+id/scale_strut"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/normal_separator_height"
+            android:layout_below="@id/chk_double_scale"
+            android:background="@color/android_green" />
+
+        <CheckBox
+            android:id="@+id/chk_enable_sound"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/scale_strut"
+            android:text="@string/enable_sound_blurb"
+            android:textSize="@dimen/general_text_size" />
+
+        <View
+            android:id="@+id/sound_strut"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/normal_separator_height"
+            android:layout_below="@id/chk_enable_sound"
+            android:background="@color/android_green" />
+
+        <CheckBox
+            android:id="@+id/chk_enable_net"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/sound_strut"
+            android:text="@string/enable_net_blurb"
+            android:textSize="@dimen/general_text_size" />
+
+        <View
+            android:id="@+id/net_strut"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/normal_separator_height"
+            android:layout_below="@id/chk_enable_net"
+            android:background="@color/android_green" />
+
+        <CheckBox
+            android:id="@+id/chk_enable_ab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/net_strut"
+            android:text="@string/enable_ab_blurb"
+            android:textSize="@dimen/general_text_size" />
+
+        <View
+            android:id="@+id/ab_strut"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/normal_separator_height"
+            android:layout_below="@id/chk_enable_ab"
+            android:background="@color/android_green" />
+
+        <CheckBox
+            android:id="@+id/chk_use_hwkeys"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/ab_strut"
+            android:text="@string/use_hwkeys_blurb"
+            android:textSize="@dimen/general_text_size" />
+
+        <View
+            android:id="@+id/hwkey_strut"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/normal_separator_height"
+            android:layout_below="@id/chk_use_hwkeys"
+            android:background="@color/android_green" />
+
+        <TextView
+            android:id="@+id/smooth_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/hwkey_strut"
+            android:layout_centerHorizontal="true"
+            android:text="@string/smooth_blurb"
+            android:textSize="@dimen/sub_heading_size"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/smooth_pixel_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/smooth_title"
+            android:text="@string/smooth_pixel_blurb"
+            android:textSize="@dimen/general_text_size" />
+
+        <TextView
+            android:id="@+id/smooth_pixel_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_below="@id/smooth_pixel_label"
+            android:background="@drawable/tv_border"
+            android:gravity="right"
+            android:minWidth="60dp"
+            android:textSize="@dimen/general_text_size" />
+
+        <SeekBar
+            android:id="@+id/smooth_pixel_sb"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignTop="@id/smooth_pixel_value"
+            android:layout_toLeftOf="@id/smooth_pixel_value"
+            android:max="9"
+            android:minWidth="100dp" />
+
+        <TextView
+            android:id="@+id/smooth_period_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/smooth_pixel_sb"
+            android:text="@string/smooth_period_blurb"
+            android:textSize="@dimen/general_text_size" />
+
+        <TextView
+            android:id="@+id/smooth_period_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_below="@id/smooth_period_label"
+            android:background="@drawable/tv_border"
+            android:gravity="right"
+            android:minWidth="60dp"
+            android:textSize="@dimen/general_text_size" />
+
+        <SeekBar
+            android:id="@+id/smooth_period_sb"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignTop="@id/smooth_period_value"
+            android:layout_toLeftOf="@id/smooth_period_value"
+            android:max="19"
+            android:minWidth="100dp" />
+
+        <View
+            android:id="@+id/spacer1_strut"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/top_separator_height"
+            android:layout_below="@id/smooth_period_value" />
+
+        <View
+            android:id="@+id/update_strut"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/normal_separator_height"
+            android:layout_below="@id/spacer1_strut"
+            android:background="@color/android_green" />
+
+        <TextView
+            android:id="@+id/update_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/update_strut"
+            android:layout_centerHorizontal="true"
+            android:text="@string/update_blurb"
+            android:textSize="@dimen/sub_heading_size"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/update_interval_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/update_title"
+            android:text="@string/update_interval_blurb"
+            android:textSize="@dimen/general_text_size" />
+
+        <TextView
+            android:id="@+id/update_interval_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_below="@id/update_interval_label"
+            android:background="@drawable/tv_border"
+            android:gravity="right"
+            android:minWidth="60dp"
+            android:textSize="@dimen/general_text_size" />
+
+        <SeekBar
+            android:id="@+id/update_interval_sb"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignTop="@id/update_interval_value"
+            android:layout_toLeftOf="@id/update_interval_value"
+            android:max="5"
+            android:minWidth="100dp" />
+
+        <View
+            android:id="@+id/spacer2_strut"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/top_separator_height"
+            android:layout_below="@id/update_interval_value" />
+
+
+        <View
+            android:id="@+id/serial_strut"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/normal_separator_height"
+            android:layout_below="@id/spacer2_strut"
+            android:background="@color/android_green" />
+
+        <TextView
+            android:id="@+id/serial_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/serial_strut"
+            android:layout_centerHorizontal="true"
+            android:text="@string/serial_blurb"
+            android:textSize="@dimen/sub_heading_size"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/serial_dev_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/serial_title"
+            android:text="@string/serial_dev_label"
+            android:textSize="@dimen/general_text_size" />
+
+        <EditText
+            android:id="@+id/serial_edittext"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_below="@id/serial_title"
+            android:layout_toRightOf="@id/serial_dev_label"
+            android:inputType="textNoSuggestions"
+            android:maxLength="40"
+            android:singleLine="true"
+            android:textSize="@dimen/sub_heading_size" />
+
+        <CheckBox
+            android:id="@+id/chk_gps_passthrough"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/serial_edittext"
+            android:text="@string/gps_pass_blurb"
+            android:textSize="@dimen/general_text_size" />
+
+        <CheckBox
+            android:id="@+id/chk_no_filter_gps"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/chk_gps_passthrough"
+            android:text="@string/gps_filter_blurb"
+            android:textSize="@dimen/general_text_size" />
+
+        <View
+            android:id="@+id/button_strut"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/normal_separator_height"
+            android:layout_below="@id/chk_no_filter_gps"
+            android:background="@color/android_green" />
+        
+        <Button
+            android:id="@+id/apply_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/button_strut"
+            android:layout_centerHorizontal="true"
+            android:text="@string/apply"
+            android:visibility="gone" />
+    </RelativeLayout>
+
+</ScrollView>
