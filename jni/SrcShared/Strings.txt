@@ -1,0 +1,7302 @@
+/* -*- mode: C++; tab-width: 4 -*- */
+/* ===================================================================== *\
+	Copyright (c) 1998-2001 Palm, Inc. or its subsidiaries.
+	All rights reserved.
+
+	This file is part of the Palm OS Emulator.
+
+	This program is free software; you can redistribute it and/or modify
+	it under the terms of the GNU General Public License as published by
+	the Free Software Foundation; either version 2 of the License, or
+	(at your option) any later version.
+\* ===================================================================== */
+
+//	1000 - 1999:		Message Templates
+//		1000 - 1199:		Error messages
+//		1200 - 1399:		Other messages
+//		1400 - 1499:		Menu strings
+//	2000 - 2999:		Template Parts
+//		2000 - 2199:		Misc parts
+//		2200 - 2399:		Operations descriptions
+//		2400 - 2599:		Error descriptions
+//			2400 - 2499:		OS Errors (e.g., "the file was not found")
+//			2500 - 2599:		User/app errors (e.g., "I don't understand that file")
+//		2600 - 2799:		Recovery strings (e.g., "Reboot and try again")
+//		2900 - 2964:		Exception descriptions (e.g., "bus error")
+//		3000 - 4999:		Palm OS system function names
+//		5000 - 6999:		Palm OS Library function names
+//		7000 - xxxx:		Palm OS Error descriptions
+
+#include "Strings.r.h"	// kStr_ values
+
+
+
+START
+
+// --------------------------------------------------------------------------------
+//	Message Templates -- Error messages
+// --------------------------------------------------------------------------------
+
+ID=kStr_OpError
+ENGLISH=Could not %operation because %reason.
+
+ID=kStr_OpErrorRecover
+ENGLISH=Could not %operation because %reason. %recovery.
+
+
+// Hardware Exceptions
+
+ID=kStr_ErrBusError
+ENGLISH=%App just %op memory location %mem, causing a bus error.\n\nA “bus error” means that the application accessed a memory location that is not in RAM or ROM, nor corresponds to a memory-mapped hardware register.
+
+ID=kStr_ErrAddressError
+ENGLISH=%App just %op memory location %mem, causing an address error.\n\nAn “address error” means that the application accessed a 2- or 4-byte value at an odd (i.e., not even) memory address.
+
+ID=kStr_ErrIllegalInstruction
+ENGLISH=%App just executed an illegal or unknown machine language instruction. The opcode executed was %ins.
+
+ID=kStr_ErrDivideByZero
+ENGLISH=%App just divided an integer by zero.
+
+ID=kStr_ErrCHKInstruction
+ENGLISH=%App just executed a CHK machine language instruction that failed. Invoking this instruction is not supported in Palm OS applications.
+
+ID=kStr_ErrTRAPVInstruction
+ENGLISH=%App just executed a TRAPV machine language instruction that failed. Invoking this instruction is not supported in Palm OS applications.
+
+ID=kStr_ErrPrivilegeViolation
+ENGLISH=%App just executed opcode %ins, a privileged machine language instruction.\n\nA “privileged machine language instruction” is one reserved for use by the operating system. Invoking such instructions is not supported in Palm OS applications.
+
+ID=kStr_ErrTrace
+ENGLISH=%App just executed an instruction with the CPU’s “trace” mode enabled. Normally, this mode is enabled by a debugger for the purpose of single-stepping through an application. However, no debugger is currently connected to handle trace mode.
+
+ID=kStr_ErrATrap
+ENGLISH=%App just executed an illegal or unknown machine language instruction. The opcode executed was %ins.
+
+ID=kStr_ErrFTrap
+ENGLISH=%App just executed an illegal or unknown machine language instruction. The opcode executed was %ins.
+
+ID=kStr_ErrTRAPx
+ENGLISH=%App just executed a “TRAP #%num” machine language instruction. Invoking such instructions is not supported in Palm OS applications.
+
+
+// Special cases to hardware exceptions
+
+ID=kStr_ErrStorageHeap
+ENGLISH=%App just %op memory location %mem, which is in the storage heap. In order to protect the integrity of the user’s data, such direct access is not allowed. Instead, applications should use special Palm OS functions for this purpose.
+
+ID=kStr_ErrNoDrawWindow
+ENGLISH=%App just %op memory location %mem. This access usually indicates that the application is calling a Window Manager function without first establishing a valid DrawWindow.
+
+ID=kStr_ErrNoGlobals
+ENGLISH=%App just %op memory location %mem. This access usually means that the application accessed a global variable after PilotMain was called with a launch code that does not support globals. The last launch code sent to the application was “%launch_code”.
+
+ID=kStr_ErrSANE
+ENGLISH=%App just performed a floating point operation using a calling sequence specific to the Mac OS. This indicates that the application was compiled with the incorrect Floating Point option in the development environment that created it.
+
+ID=kStr_ErrTRAP0
+ENGLISH=%App just executed a “TRAP #0” machine language instruction. This instruction is often used by debuggers to set breakpoints. However, no debugger is currently connected to handle the breakpoint.
+
+ID=kStr_ErrTRAP8
+ENGLISH=%App just executed a “TRAP #8” machine language instruction. This instruction is generated when calling the DbgBreak function as a method for breaking into an external debugger. However, no debugger is currently connected.
+
+
+// Fatal Poser-detected errors
+
+ID=kStr_ErrStackOverflow
+ENGLISH=%App has overflowed the stack. The functions currently using the stack are: %sc.
+
+ID=kStr_ErrUnimplementedTrap
+ENGLISH=%App called Palm OS routine #%trap_num (%trap_name). This routine does not exist in this version of the Palm OS.
+
+ID=kStr_ErrInvalidRefNum
+ENGLISH=%App called a function in a shared library using a reference number of %ref_num. This reference number does not correspond to any currently installed library and is invalid.
+
+ID=kStr_ErrCorruptedHeap
+ENGLISH=During a regular checkup, Palm OS Emulator determined that the dynamic heap chunk with header address %mem got corrupted. %corruption_type.
+
+ID=kStr_ErrInvalidPC1
+ENGLISH=%App just changed the emulated program counter to %mem. This address is invalid because %reason.
+
+ID=kStr_ErrInvalidPC2
+ENGLISH=%App just changed the emulated program counter to %mem. This address is invalid because %reason. The program counter was changed when %when.
+
+
+// Non-fatal Poser-detected errors
+
+ID=kStr_ErrLowMemory
+ENGLISH=%App just %op memory location %mem, which is in low memory.\n\n“Low memory” is defined as the first 256 bytes of memory. It should not be directly accessed by applications under any circumstances.
+
+ID=kStr_ErrSystemGlobals
+ENGLISH=%App just %op memory location %mem, which is in the Palm OS global variables.\n\n“Palm OS global variables” are memory locations reserved for the private use of the Palm OS. They should not be directly accessed by applications under any circumstances.
+
+ID=kStr_ErrScreen
+ENGLISH=%App just %op memory location %mem, which is in screen memory.\n\n“Screen memory” is the area of RAM containing the pixels appearing on the LCD display. It should not be directly accessed by applications under any circumstances. Instead, they should use the Window Manager functions for altering the contents of the display.
+
+ID=kStr_ErrHardwareRegisters
+ENGLISH=%App just %op memory location %mem, which is in the memory-mapped hardware registers.\n\n“Memory-mapped hardware registers” are memory locations that control the operation of your handheld device’s hardware. They should not be directly accessed by applications under any circumstances.
+
+ID=kStr_ErrROM
+ENGLISH=%App just %op memory location %mem, which is in the ROM.\n\nSuch an access has no effect, and usually indicates an error in the application.
+
+ID=kStr_ErrMemMgrStructures
+ENGLISH=%App just %op memory location %mem, which is in Memory Manager data structures.\n\nThese data structures include things like the headers preceding each block in a heap, as well as the heap header itself. Such an access usually means that an application allocated a buffer (possibly with MemPtrNew) that wasn’t large enough for its purpose. When the application then tries to write data to the buffer, it writes off the end of the buffer, accessing the start of the buffer following it in memory.
+
+ID=kStr_ErrMemMgrSemaphore
+ENGLISH=The Memory Manager semaphore has been held for longer than 1 minute. Palm recommends that applications not acquire the Memory Manager semaphore at all, but that if they do, they should not hold the semaphore any longer than that.
+
+ID=kStr_ErrFreeChunk
+ENGLISH=%App just %op memory location %mem, which is in an unallocated chunk of memory.\n\nAn “unallocated chunk of memory” is a chunk of memory that has not been reserved for use by the application through calling MemPtrNew or MemHandleNew. It should not be accessed by applications under any circumstances. Such an access usually means that an application is accessing a chunk that used to be allocated to the application but has since been returned with MemPtrFree or MemHandleFree.
+
+ID=kStr_ErrUnlockedChunk
+ENGLISH=%App just %op memory location %mem, which is in an unlocked chunk of memory.\n\nAn “unlocked chunk of memory” is one that has been allocated with MemHandleNew but that has not been locked with MemHandleLock. Such an access usually means that an application allocated a buffer with MemHandleNew, locked it with MemHandleLock, unlocked it with MemHandleUnlock, and then used the pointer that was returned by MemHandleLock.
+
+ID=kStr_ErrLowStack
+ENGLISH=%App just %op memory location %mem, which is in the unused portion of the stack. The stack range is %stack_low - %stack_high, and the stack pointer is %stack_pointer.\n\nThe “stack” is the area of RAM used to contain function parameters and local variables. The used portion of the stack is indicated by the stack pointer. Applications may access the area of the stack above the stack pointer, but not below it.
+
+ID=kStr_ErrStackFull
+ENGLISH=%App is close to overflowing the stack. The functions currently using the stack are: %sc.
+
+ID=kStr_ErrSizelessObject
+ENGLISH=Form object ID #%obj_id (left = %left, top = %top, right = %right, bottom = %bottom) from %app has a height or width of zero. Applications should hide objects by calling FrmHideObject instead of setting their dimensions to zero.\n\nAnother way to get this error message is to call FrmCopyTitle or FrmCopyLabel to change a title or label to a string larger than what was specified in the form resource. Doing this often corrupts other objects on the form.
+
+ID=kStr_ErrOffscreenObject
+ENGLISH=Form object ID #%obj_id (left = %left, top = %top, right = %right, bottom = %bottom) from %app is completely offscreen. Applications should hide objects by calling FrmHideObject instead of placing them completely offscreen.\n\nAnother way to get this error message is to call FrmCopyTitle or FrmCopyLabel to change a title or label to a string larger than what was specified in the form resource. Doing this often corrupts other objects on the form.
+
+ID=kStr_ErrFormAccess
+ENGLISH=%App just %op memory location %mem, which is in the “%field” field of the form starting at %form.\n\nThe data at this memory location is owned by the Form Manager. Applications should not access the data directly. Instead, they should make the appropriate Form Manager calls.
+
+ID=kStr_ErrFormObjectListAccess
+ENGLISH=%App just %op memory location %mem, which is in the “%field” field of the form object list entry with index #%index, which belongs to the form starting at %form.\n\nThe data at this memory location is owned by the Form Manager. Applications should not access the data directly. Instead, they should make the appropriate Form Manager calls.
+
+ID=kStr_ErrFormObjectAccess
+ENGLISH=%App just %op memory location %mem, which is in the “%field” field of the %type starting at %object, which belongs to the form starting at %form.\n\nThe data at this memory location is owned by the Form Manager. Applications should not access the data directly. Instead, they should make the appropriate Form Manager calls.
+
+ID=kStr_ErrWindowAccess
+ENGLISH=%App just %op memory location %mem, which is in the “%field” field of the window starting at %window.\n\nThe data at this memory location is owned by the Window Manager. Applications should not access the data directly. Instead, they should make the appropriate Window Manager calls.
+
+ID=kStr_ErrBitmapAccess
+ENGLISH=%App just %op memory location %mem, which is in the “%field” field of the bitmap starting at %bitmap.\n\nThe data at this memory location is owned by the Palm OS. Applications should not access the data directly. Instead, they should make the appropriate Palm OS calls.
+
+ID=kStr_ErrProscribedFunction
+ENGLISH=%App just called Palm OS routine “%function_name”.\n\nApplications should not call this function because %reason.
+
+ID=kStr_ErrStepSpy
+ENGLISH=%App just %op memory location %mem, changing it from %old_value to %new_value.
+
+ID=kStr_ErrWatchpoint
+ENGLISH=%App just %op memory location %mem, which is in the range from %watch_start to %watch_end specified in the Breakpoint dialog box.
+
+ID=kStr_ErrMemoryLeak
+ENGLISH=Found %num_leaks memory leak for %app. Information concerning the leak can be found in the log file.
+
+ID=kStr_ErrMemoryLeaks
+ENGLISH=Found %num_leaks memory leaks for %app. Information concerning the leaks can be found in the log file.
+
+
+// Palm OS-detected errors
+
+ID=kStr_ErrSysFatalAlert
+ENGLISH=%App called SysFatalAlert with the message: “%message”.
+
+ID=kStr_ErrDbgMessage
+ENGLISH=%App called DbgMessage with the message: “%message”.
+
+
+// Other errors
+
+ID=kStr_BadChecksum
+ENGLISH=The ROM you’ve chosen has an invalid checksum.\n
+	\n
+	The most common reason for an invalid checksum has been from the use of 
+	utility programs that modify the contents of the ROM without also updating 
+	its internal checksum.\n
+	\n
+	Palm, Inc. does not support the use of this ROM. Use it with caution.
+
+ID=kStr_UnknownDeviceWarning
+ENGLISH=Unable to determine an appropriate device to emulate for this ROM file.\n
+	\n
+	Palm, Inc. does not support the use of this ROM. Use it with caution, 
+	as the operation of a ROM with an incorrect device emulation will certainly 
+	cause the ROM to crash, and may crash the Palm OS Emulator.
+
+ID=kStr_UnknownDeviceError
+ENGLISH=This ROM is for a device not supported by this version of the emulator.\n
+	\n
+	Palm, Inc. does not support the use of this ROM.
+
+ID=kStr_MissingSkins
+ENGLISH=Palm OS Emulator needs “skin” files in order to correctly 
+	display the hardware devices it emulates. The Emulator looks 
+	for these skins in a directory called “Skins”. However, 
+	that directory was not found.\n
+	\n
+	Previous versions of the Emulator would look for any directory 
+	starting with the word “Skins” and search that directory for 
+	skin files. With the current Emulator, the directory must be 
+	named exactly “Skins”.\n
+	\n
+	If you don’t have any skin files at all, you can download them 
+	from the Emulator download Web page:\n
+	\n
+	     <http://www.palmos.com/dev/tech/tools/emulator>\n
+	\n
+	Follow the instructions included with that archive for installing 
+	the files.
+
+ID=kStr_InconsistentDatabaseDates
+ENGLISH=The creation date (%cr_date) in the database header inside “%database_name” is 
+	more recent than the modification date (%mod_date).\n
+	\n
+	The Emulator does not consider this to be a problem, and neither does the Palm 
+	OS. However, some versions of HotSync will test for this condition and report 
+	an error, so you may wish to fix the database before trying to install it on a 
+	device.
+
+ID=kStr_NULLDatabaseDate
+ENGLISH=The creation date in the database header inside “%database_name” is zero.\n
+	\n
+	The Emulator does not consider this to be a problem, and neither does the Palm 
+	OS. However, some versions of HotSync will test for this condition and report 
+	an error, so you may wish to fix the database before trying to install it on a 
+	device.
+
+ID=kStr_NeedHostFS
+ENGLISH=In order to make use of the information specified in this dialog, 
+	you need to have installed HostFS.prc. You can download this file from 
+	the Palm OS Emulator download Web page:\n
+	\n
+	     <http://www.palmos.com/dev/tech/tools/emulator/>
+
+ID=kStr_InvalidAddressNotEven
+ENGLISH=The address "%s" is invalid because it is not even.
+
+ID=kStr_InvalidAddressNotInROMOrRAM
+ENGLISH=The address "%s" is invalid because it is not in ROM or RAM.
+
+ID=kStr_CannotParseCondition
+ENGLISH=Can't parse the condition "%s".
+
+ID=kStr_UserNameTooLong
+ENGLISH=The name entered into the HotSync User Name field is too long. It needs 
+	to be 40 characters or less.
+
+
+// --------------------------------------------------------------------------------
+//	Message Templates -- Other messages
+// --------------------------------------------------------------------------------
+
+ID=kStr_SaveSessionAs
+ENGLISH=Save session as:
+
+ID=kStr_LoadSession
+ENGLISH=Load session:
+
+ID=kStr_LoadSessionForReplay
+ENGLISH=Load session for replay:
+
+ID=kStr_LoadSessionForMinimize
+ENGLISH=Load session for minimize:
+
+ID=kStr_SaveScreenAs
+ENGLISH=Save screen as:
+
+ID=kStr_ImportFile
+ENGLISH=Import file:
+
+ID=kStr_SaveBeforeClosing
+ENGLISH=Save changes to the %AppName document “%DocName” before closing?
+
+ID=kStr_SaveBeforeQuitting
+ENGLISH=Save changes to the %AppName document “%DocName” before quitting?
+
+
+ID=kStr_GremlinNumber
+ENGLISH=Gremlin #%gremlin_number
+
+ID=kStr_GremlinXofYEvents
+ENGLISH=Event %current_event of %last_event
+
+ID=kStr_GremlinXEvents
+ENGLISH=Event %current_event
+
+ID=kStr_GremlinElapsedTime
+ENGLISH=Elapsed Time: %elapsed_time
+
+
+ID=kStr_MinimizePassNumber
+ENGLISH=Pass #%pass_number
+
+ID=kStr_MinimizeXofYEvents
+ENGLISH=Event %current_event of %last_event
+
+ID=kStr_MinimizeElapsedTime
+ENGLISH=Elapsed Time: %elapsed_time
+
+ID=kStr_MinimizeRange
+ENGLISH=Excluding range %first_event to %last_event
+
+ID=kStr_MinimizeDiscarded
+ENGLISH=Discarded %num_discarded_events of %num_total_events events
+
+
+ID=kStr_AppAndVers
+ENGLISH=%application %version
+
+ID=kStr_XofYFiles
+ENGLISH=%d of %d files
+
+ID=kStr_GremlinStarted
+ENGLISH=Gremlin #%d started, %ld steps.\n
+
+ID=kStr_GremlinEnded
+ENGLISH=Gremlin #%d stopped at event %ld of %ld after %ld milliseconds.\n
+
+ID=kStr_EntireDevice
+ENGLISH=Entire Palm OS device
+
+ID=kStr_ErrDisplayMessage
+ENGLISH=%s, Line: %d, %s
+
+ID=kStr_UnknownFatalError
+ENGLISH=Unknown fatal error occurred!
+
+ID=kStr_EmulatorOff
+ENGLISH=The emulator is not ready to %s at this time.\n(Perhaps it is turned off?)
+
+ID=kStr_LogFileSize
+ENGLISH============================================================\n
+	This file contains only the last %ldK of generated text.\n
+	===========================================================\n\n
+
+ID=kStr_InternalErrorException
+ENGLISH=Hardware exception #%d occurred while the emulator was calling the Palm OS function “%s”.
+
+ID=kStr_InternalErrorMessage
+ENGLISH=%s\n\nThe error occurred while the emulator was calling the Palm OS function “%s”.
+
+ID=kStr_WillNowReset
+ENGLISH= The emulator is now in an unstable state and will reset.
+
+ID=kStr_CommPortError
+ENGLISH=The emulator could not open port %transport. Please make sure that it is not in use by another application, and that the emulated IR and Serial ports are not mapped to the same physical port, then reconfirm your port selection in Preferences….
+
+ID=kStr_SocketsError
+ENGLISH=The emulator could not open a sockets connection to %transport. Please check your TCP settings, and then reconfirm your host selection in Preferences….
+
+ID=kStr_MustTurnOnLogging
+ENGLISH=In order to utilize error handling options that don't display messages in a dialog box, the corresponding logging options must be turned on. Should those options be turned on now?
+
+ID=kStr_MustTurnOnShowDialog
+ENGLISH=In order to safely turn off logging options for errors and warnings, the corresponding error handling options must be set to "Show in dialog". Should those options be set now?
+
+
+ID=kStr_ROMTransferInstructions+0
+ENGLISH=1.  You should find a file named “ROM Transfer.prc” included\n
+	     with the Palm OS Emulator. This is a Palm OS application\n
+	     you should install on your Palm OS device before continuing.\n
+	\n
+
+ID=kStr_ROMTransferInstructions+1
+ENGLISH=2.  Choose an appropriate serial port and speed from the menus\n
+	     below. Faster speeds do not always work correctly. Choose\n
+	     a slower speed if you experience problems.\n
+	\n
+
+ID=kStr_ROMTransferInstructions+2
+ENGLISH=3.  Place your Palm OS device in its cradle and run the “ROM\n
+	     Transfer” application.\n
+	\n
+
+ID=kStr_ROMTransferInstructions+3
+ENGLISH=4.  Select the same speed from the menu in “ROM Transfer” as\n
+	     you chose below.\n
+	\n
+
+ID=kStr_ROMTransferInstructions+4
+ENGLISH=5.  Disable HotSync or any other application that may be using\n
+	     the selected serial port.\n
+	\n
+
+ID=kStr_ROMTransferInstructions+5
+ENGLISH=6.  Tap the “Begin Transfer” button in the “ROM Transfer”\n
+	     application on the Palm device.\n
+	\n
+
+ID=kStr_ROMTransferInstructions+6
+ENGLISH=7.  Click the “Begin” button in this dialog. The Palm OS\n
+	     Emulator will wait for your Palm device to respond.\n
+	\n
+
+ID=kStr_ROMTransferInstructions+7
+ENGLISH=8.  The transfer will take several minutes, so please be patient.\n
+	     If an error occurs during the transfer, the application may\n
+	     be unresponsive or may appear to hang. If this happens,\n
+	     wait for a few minutes to give the application a chance to\n
+	     time-out. It should then resume normal operation.\n
+	\n
+
+ID=kStr_ROMTransferInstructions+8
+ENGLISH=9.  After the ROM has been transferred to your desktop computer,\n
+	     you will be asked to save it to a file. Save it with an\n
+	     appropriate name (for example, “Palm III.rom”). Then\n
+	     create a a new emulator session using that ROM.
+
+
+// --------------------------------------------------------------------------------
+//	Message Templates -- Menu strings
+// --------------------------------------------------------------------------------
+
+ID=kStr_MenuSessionNew
+ENGLISH=&New…\tN
+
+ID=kStr_MenuSessionOpenOther
+ENGLISH=&Other…\tO
+
+ID=kStr_MenuSessionClose
+ENGLISH=&Close\tW
+
+ID=kStr_MenuSessionSave
+ENGLISH=&Save\tS
+
+ID=kStr_MenuSessionSaveAs
+ENGLISH=Save &As…
+
+ID=kStr_MenuSessionBound
+ENGLISH=Save &Bound Emulator…
+
+ID=kStr_MenuScreenSave
+ENGLISH=Sa&ve Screen…\tM
+
+ID=kStr_MenuSessionInfo
+ENGLISH=Session Info…
+
+ID=kStr_MenuImportOther
+ENGLISH=&Other…\tI
+
+ID=kStr_MenuExport
+ENGLISH=Export &Database…
+
+ID=kStr_MenuHotSync
+ENGLISH=&HotSync\tH
+
+ID=kStr_MenuReset
+ENGLISH=&Reset…\tR
+
+ID=kStr_MenuDownloadROM
+ENGLISH=&Transfer ROM…\tD
+
+ID=kStr_MenuUndo
+ENGLISH=&Undo\tZ
+
+ID=kStr_MenuCut
+ENGLISH=Cu&t\tX
+
+ID=kStr_MenuCopy
+ENGLISH=&Copy\tC
+
+ID=kStr_MenuPaste
+ENGLISH=&Paste\tV
+
+ID=kStr_MenuClear
+ENGLISH=Clea&r
+
+#if PLATFORM_WINDOWS
+
+ID=kStr_MenuPreferences
+ENGLISH=&Properties…\t/
+
+#else
+
+ID=kStr_MenuPreferences
+ENGLISH=&Preferences…\t/
+
+#endif
+
+ID=kStr_MenuLogging
+ENGLISH=&Logging…\tL
+
+ID=kStr_MenuDebugging
+ENGLISH=&Debugging…\t\\
+
+ID=kStr_MenuErrorHandling
+ENGLISH=&Error Handling…\tE
+
+ID=kStr_MenuTracing
+ENGLISH=&Tracing…\tT
+
+ID=kStr_MenuSkins
+ENGLISH=&Skins…\tK
+
+ID=kStr_MenuHostFS
+ENGLISH=&HostFS…
+
+ID=kStr_MenuBreakpoints
+ENGLISH=&Breakpoints…\tB
+
+ID=kStr_MenuGremlinsNew
+ENGLISH=&New…\tG
+
+ID=kStr_MenuGremlinsStep
+ENGLISH=&Step
+
+ID=kStr_MenuGremlinsResume
+ENGLISH=&Resume
+
+ID=kStr_MenuGremlinsStop
+ENGLISH=Sto&p
+
+ID=kStr_MenuEventReplay
+ENGLISH=Repla&y…
+
+ID=kStr_MenuEventMinimize
+ENGLISH=&Minimize…
+
+#if HAS_PROFILING
+
+ID=kStr_MenuProfileStart
+ENGLISH=&Start\t[
+
+ID=kStr_MenuProfileStop
+ENGLISH=Sto&p\t]
+
+ID=kStr_MenuProfileDump
+ENGLISH=&Dump
+
+#endif
+
+ID=kStr_MenuAbout
+ENGLISH=About Palm OS® Emulator
+
+#if PLATFORM_WINDOWS
+
+ID=kStr_MenuQuit
+ENGLISH=E&xit\tQ
+
+#else
+
+ID=kStr_MenuQuit
+ENGLISH=&Quit\tQ
+
+#endif
+
+ID=kStr_MenuFile
+ENGLISH=File
+
+ID=kStr_MenuEdit
+ENGLISH=Edit
+
+ID=kStr_MenuGremlins
+ENGLISH=Gremlins
+
+ID=kStr_MenuProfile
+ENGLISH=Profile
+
+ID=kStr_MenuOpen
+ENGLISH=&Open
+
+ID=kStr_MenuImport
+ENGLISH=&Install Application/Database
+
+ID=kStr_MenuSettings
+ENGLISH=S&ettings
+
+ID=kStr_MenuEmpty
+ENGLISH=(empty)
+
+ID=kStr_MenuBlank
+ENGLISH= 
+
+
+// --------------------------------------------------------------------------------
+//	Template Parts -- Misc parts
+// --------------------------------------------------------------------------------
+
+ID=kStr_AppName
+ENGLISH=Palm OS® Emulator
+
+ID=kStr_Untitled
+ENGLISH=untitled
+
+ID=kStr_DefaultROMName
+ENGLISH=Palm.ROM
+
+ID=kStr_ProfileResults
+ENGLISH=Profile Results
+
+ID=kStr_Autoload
+ENGLISH=Autoload
+
+ID=kStr_Autorun
+ENGLISH=Autorun
+
+ID=kStr_AutorunAndQuit
+ENGLISH=AutorunAndQuit
+
+ID=kStr_ReadFrom
+ENGLISH=read from
+
+ID=kStr_WroteTo
+ENGLISH=wrote to
+
+ID=kStr_WrittenTo
+ENGLISH=written directly to
+
+
+ID=kStr_CurrentAppUC
+ENGLISH=The current application
+
+ID=kStr_CurrentAppLC
+ENGLISH=the current application
+
+ID=kStr_UnknownVersion
+ENGLISH=unknown version
+
+
+ID=kStr_OK
+ENGLISH=OK
+
+ID=kStr_Cancel
+ENGLISH=Cancel
+
+ID=kStr_Yes
+ENGLISH=Yes
+
+ID=kStr_No
+ENGLISH=No
+
+ID=kStr_Continue
+ENGLISH=Continue
+
+ID=kStr_Debug
+ENGLISH=Debug
+
+ID=kStr_Reset
+ENGLISH=Reset…
+
+
+ID=kStr_Browse
+ENGLISH=Browse
+
+ID=kStr_EmptyMRU
+ENGLISH=(empty)
+
+ID=kStr_OtherMRU
+ENGLISH=Other…
+
+
+ID=kStr_ProfPartial
+ENGLISH=partial
+
+ID=kStr_ProfFunctions
+ENGLISH=functions
+
+ID=kStr_ProfInterrupts
+ENGLISH=interrupts
+
+ID=kStr_ProfOverflow
+ENGLISH=overflow
+
+ID=kStr_ProfInterruptX
+ENGLISH=interrupt $%02lX
+
+ID=kStr_ProfTrapNameAddress
+ENGLISH=%s  $%04lX.t
+
+ID=kStr_ProfROMNameAddress
+ENGLISH=%s  $%08lX.m
+
+ID=kStr_ProfDebugNameAddress
+ENGLISH=  $%08lX.d
+
+ID=kStr_ProfUnknownName
+ENGLISH=unknown  $%08lX
+
+
+ID=kStr_UnknownTrapNumber
+ENGLISH=unknown trap number
+
+ID=kStr_UnknownErrorCode
+ENGLISH=unknown error code
+
+
+ID=kStr_NoPort
+ENGLISH=None
+
+
+ID=kStr_ChunkNotInHeap
+ENGLISH=The chunk was not within the heap it was supposed to be
+
+ID=kStr_ChunkTooLarge
+ENGLISH=The size of the chunk (%chunk_size) was larger than the currently accepted maximum (%chunk_max)
+
+ID=kStr_InvalidFlags
+ENGLISH=Some unused flags were set to “1”
+
+ID=kStr_HOffsetNotInMPT
+ENGLISH=The “hOffset” field of the chunk header did not reference a memory location within a master pointer block
+
+ID=kStr_HOffsetNotBackPointing
+ENGLISH=The master pointer referenced by the “hOffset” field in the chunk header didn’t point back to the chunk
+
+ID=kStr_InvalidLockCount
+ENGLISH=The lock count for a fixed block was not 15
+
+
+ID=kStr_UnmappedAddress
+ENGLISH=it’s in neither ROM nor RAM
+
+ID=kStr_NotInCodeSegment
+ENGLISH=it’s not in a valid memory chunk
+
+ID=kStr_OddAddress
+ENGLISH=it’s not even
+
+
+ID=kStr_Waiting
+ENGLISH=Waiting…
+
+ID=kStr_Transferring
+ENGLISH=Transferring…
+
+// Reasons for why the PC was changed
+
+
+ID=kStr_WhenRTS
+ENGLISH=returning from a subroutine to the routine that called it, indicating that the return address on the stack was corrupted by a previous operation (possibly by writing past the end of an array local to the subroutine).
+
+ID=kStr_WhenRTE
+ENGLISH=returning processing an interrupt, indicating that the return address on the stack was corrupted by a previous operation (possibly by writing past the end of an array local to the interrupt service routine).
+
+ID=kStr_WhenJSR
+ENGLISH=attempting to perform an indirect jump operation, indicating that the function pointer being used is invalid.
+
+ID=kStr_WhenException
+ENGLISH=processing a hardware exception, indicating that the exception vector table has been overwritten.
+
+ID=kStr_WhenSysCall
+ENGLISH=invoking a Palm OS System function, indicating that the system dispatch table has been overwritten.
+
+
+ID=kStr_ShowInDialog
+ENGLISH=Show in dialog
+
+ID=kStr_AutomaticallyContinue
+ENGLISH=Automatically continue
+
+ID=kStr_AutomaticallyQuit
+ENGLISH=Automatically quit Emulator
+
+ID=kStr_NextGremlin
+ENGLISH=Switch to next Gremlin
+
+
+// --------------------------------------------------------------------------------
+//	Template Parts -- Operations descriptions
+// --------------------------------------------------------------------------------
+
+ID=kStr_GenericOperation
+ENGLISH=complete the operation
+
+
+ID=kStr_CmdAbout
+ENGLISH=show the About box
+
+
+ID=kStr_CmdNew
+ENGLISH=create a new session
+
+ID=kStr_CmdOpen
+ENGLISH=open the file “%filename”
+
+ID=kStr_CmdClose
+ENGLISH=close the window
+
+ID=kStr_CmdSave
+ENGLISH=save the file “%filename”
+
+ID=kStr_CmdSaveBound
+ENGLISH=save a bound emulator
+
+ID=kStr_CmdSaveScreen
+ENGLISH=save the screen
+
+ID=kStr_CmdSessionInfo
+ENGLISH=display session info
+
+ID=kStr_CmdInstall
+ENGLISH=install the Palm OS file “%filename”
+
+ID=kStr_CmdInstallMany
+ENGLISH=install the Palm OS files
+
+ID=kStr_CmdExportDatabase
+ENGLISH=export the database
+
+ID=kStr_CmdHotSync
+ENGLISH=start the HotSync
+
+ID=kStr_CmdReset
+ENGLISH=reset the device
+
+ID=kStr_CmdTransferROM
+ENGLISH=transfer the ROM
+
+ID=kStr_CmdQuit
+ENGLISH=quit the application
+
+
+ID=kStr_CmdPreferences
+ENGLISH=open the Preferences dialog box
+
+ID=kStr_CmdLoggingOptions
+ENGLISH=open the Logging Options dialog box
+
+ID=kStr_CmdDebugOptions
+ENGLISH=open the Debug Options dialog box
+
+ID=kStr_CmdErrorHandling
+ENGLISH=open the Error Handling dialog box
+
+ID=kStr_CmdTracingOptions
+ENGLISH=open the Trace Options dialog box
+
+ID=kStr_CmdSkins
+ENGLISH=open the Skins dialog box
+
+ID=kStr_CmdBreakpoints
+ENGLISH=open the Breakpoints dialog box
+
+
+ID=kStr_CmdGremlinNew
+ENGLISH=start the gremlin
+
+ID=kStr_CmdGremlinSuspend
+ENGLISH=suspend the gremlin
+
+ID=kStr_CmdGremlinStep
+ENGLISH=step the gremlin
+
+ID=kStr_CmdGremlinResume
+ENGLISH=resume the gremlin
+
+ID=kStr_CmdGremlinStop
+ENGLISH=stop the gremlin
+
+ID=kStr_CmdEventReplay
+ENGLISH=replay event file
+
+ID=kStr_CmdEventMinimize
+ENGLISH=start event Minimization
+
+
+#if HAS_PROFILING
+ID=kStr_CmdProfileStart
+ENGLISH=start profiling
+
+ID=kStr_CmdProfileStop
+ENGLISH=stop profiling
+
+ID=kStr_CmdProfileDump
+ENGLISH=dump the profiling results
+
+#endif
+
+
+ID=kStr_CmdTracingSuspend
+ENGLISH=suspend sending trace
+
+ID=kStr_CmdTracingResume
+ENGLISH=send trace again
+
+ID=kStr_CmdTracingReconnect
+ENGLISH=reconnect to Palm Reporter
+
+
+ID=kStr_ResizeWindow
+ENGLISH=resize the window
+
+ID=kStr_EnterKey
+ENGLISH=enter the key
+
+ID=kStr_EnterPen
+ENGLISH=enter the pen stroke
+
+ID=kStr_PressButton
+ENGLISH=press the hardware button
+
+ID=kStr_OpenFiles
+ENGLISH=open the selected files
+
+ID=kStr_LoadPreferences
+ENGLISH=load the application preferences
+
+ID=kStr_OpenTheSerialPort
+ENGLISH=open the serial port
+
+
+
+// --------------------------------------------------------------------------------
+//	Template Parts -- Error descriptions -- OS Errors
+// --------------------------------------------------------------------------------
+
+ID=kStr_GenericError
+ENGLISH=error %error occurred
+
+ID=kStr_UserCancel
+ENGLISH=the user cancelled
+
+ID=kStr_TimeoutError
+ENGLISH=the operation timed out
+
+
+// Disk errors
+ID=kStr_DirectoryFull
+ENGLISH=the directory is full
+
+ID=kStr_DiskFull
+ENGLISH=the disk is full
+
+ID=kStr_DiskMissing
+ENGLISH=the disk is not present
+
+ID=kStr_IOError
+ENGLISH=of a random I/O error
+
+ID=kStr_BadFileName
+ENGLISH=the file name is badly formed
+
+ID=kStr_TooManyFilesOpen
+ENGLISH=too many files are open
+
+ID=kStr_FileNotFound
+ENGLISH=the file wasn’t found
+
+ID=kStr_DiskWriteProtected
+ENGLISH=the disk is write protected
+
+ID=kStr_FileLocked
+ENGLISH=the file is locked
+
+ID=kStr_DiskLocked
+ENGLISH=the disk is locked
+
+ID=kStr_FileBusy
+ENGLISH=it is being used by another application
+
+ID=kStr_DuplicateFileName
+ENGLISH=a file with that name already exists
+
+
+// Memory errors
+ID=kStr_MemFull
+ENGLISH=the application ran out of memory
+
+
+// Communications errors
+ID=kStr_SerialPortBusy
+ENGLISH=it is being used by another application
+
+
+// PPC Toolbox errors
+
+// Apple event errors
+
+// Palm OS Errors
+
+ID=kStr_GenericPalmError
+ENGLISH=Palm OS error %error (%error_desc) occurred
+
+ID=kStr_DmErrDatabaseOpen
+ENGLISH=the database is currently open
+
+ID=kStr_MemErrNotEnoughSpace
+ENGLISH=the device is out of memory
+
+
+
+// --------------------------------------------------------------------------------
+//	Template Parts -- Error descriptions -- User/app errors
+// --------------------------------------------------------------------------------
+
+ID=kStr_OnlySameType
+ENGLISH=you can only drag files of the same type onto the Emulator window
+
+ID=kStr_OnlyOnePSF
+ENGLISH=you can only drag one Palm Session File onto the Emulator window at a time
+
+ID=kStr_OnlyOneROM
+ENGLISH=you can only drag one Palm ROM File onto the Emulator window at a time
+
+ID=kStr_UnknownType
+ENGLISH=the Emulator doesn’t support the file you just dragged onto its window
+
+
+// PSF file errors
+ID=kStr_OldFormat
+ENGLISH=the file appears to be in an old format
+
+ID=kStr_WrongROMForType
+ENGLISH=the chosen ROM file cannot be used with the specified hardware device
+
+
+// ROM file errors
+ID=kStr_BadROM
+ENGLISH=it doesn’t appear to be a valid ROM file
+
+ID=kStr_UnsupportedROM
+ENGLISH=this Debug 2.0 ROM is not supported
+
+ID=kStr_InvalidDevice
+ENGLISH=this version of the Palm OS Emulator does not support the device required 
+	by this session file
+
+ID=kStr_InvalidSession
+ENGLISH=the session file doesn't have the minimum information required to create a new session
+
+ID=kStr_InvalidConfiguration
+ENGLISH=the given configuration information is not supported by this version of the Palm OS Emulator
+
+
+// PRC, PDB, PQA file errors
+ID=kStr_NameNotNULLTerminated
+ENGLISH=the database name (“%database_name”) is too long
+
+ID=kStr_NameNotPrintable
+ENGLISH=the database name (“%database_name”) contains invalid characters. Only 
+	standard printable ASCII characters (that is, characters with values in 
+	the range 0x20 - 0x7E) are allowed.\n
+	\n
+	If you need to display a name in the Launcher with additional characters, 
+	you can specify that name in the application’s 'tAIN' resource. You can set 
+	this in the “Application Icon Name” field in the “Project Settings” section 
+	of “Constructor for Palm OS”, or in the “APPLICATIONICONNAME” field of “pilrc”
+
+ID=kStr_FileTooSmall
+ENGLISH=the file is too small to contain all the information it claims to have
+
+ID=kStr_nextRecordListIDNonZero
+ENGLISH=the internal header field nextRecordListID is non-zero
+
+ID=kStr_ResourceTooSmall
+ENGLISH=the size of resource '%res_type'(%res_id) is zero or negative
+
+ID=kStr_RecordTooSmall
+ENGLISH=the size of record #%record_number is negative
+
+ID=kStr_ResourceOutOfRange
+ENGLISH=the entry for resource '%res_type'(%res_id) indicates that the data for the resource is outside the range of the file
+
+ID=kStr_RecordOutOfRange
+ENGLISH=the entry for record #%record_number indicates that the data for the resource is outside the range of the file
+
+ID=kStr_OverlappingResource
+ENGLISH=the resource '%res_type'(%res_id) overlaps another resource
+
+ID=kStr_OverlappingRecord
+ENGLISH=record #%record_number overlaps another record
+
+ID=kStr_ResourceMemError
+ENGLISH=an out of memory error occurred while installing resource '%res_type'(%res_id). It’s possible that the reason for this error is because the size of this resource (%res_size) is larger than the currently allowed maximum of 65505
+
+ID=kStr_RecordMemError
+ENGLISH=an out of memory error occurred while installing record #%record_number. It’s possible that the reason for this error is because the size of this record (%res_size) is larger than the currently allowed maximum of 65505
+
+ID=kStr_AppInfoMemError
+ENGLISH=an out of memory error occurred while installing the app info block. It’s possible that the size of this record (%res_size) is larger than the currently allowed maximum of 65505
+
+ID=kStr_DuplicateResource
+ENGLISH=a duplicate '%res_type'(%res_id) resource was found
+
+
+ID=kStr_SystemUseOnly
+ENGLISH=it is reserved for system use only
+
+ID=kStr_Obsolete
+ENGLISH=it is obsolete and will be removed from a future version of the Palm OS
+
+
+// --------------------------------------------------------------------------------
+//	Template Parts -- Recovery strings
+// --------------------------------------------------------------------------------
+
+ID=kStr_DeleteSomeFiles
+ENGLISH=Delete some files and try again, or try saving to a different disk
+
+ID=kStr_UnlockTheDisk
+ENGLISH=Unlock the disk and try again
+
+ID=kStr_UnlockTheFile
+ENGLISH=Unlock the file and try again
+
+
+ID=kStr_NeedMoreRAM
+ENGLISH=Please give the application more memory
+
+
+ID=kStr_TransferAROM
+ENGLISH=To download the ROM from your Palm device, choose “Transfer ROM…” from the File menu
+
+ID=kStr_DownloadAROM
+ENGLISH=Please download the latest from http://www.palm.com
+
+
+
+// --------------------------------------------------------------------------------
+//	Template Parts -- Exception descriptions
+// --------------------------------------------------------------------------------
+
+ID=kStr_ExceptionBase + 0
+ENGLISH=<Nothing>
+
+ID=kStr_ExceptionBase + 1
+ENGLISH=<Nothing>
+
+ID=kStr_ExceptionBase + 2
+ENGLISH=bus error
+
+ID=kStr_ExceptionBase + 3
+ENGLISH=address error
+
+ID=kStr_ExceptionBase + 4
+ENGLISH=illegal instruction
+
+ID=kStr_ExceptionBase + 5
+ENGLISH=divide by zero
+
+ID=kStr_ExceptionBase + 6
+ENGLISH=CHK instruction
+
+ID=kStr_ExceptionBase + 7
+ENGLISH=TRAP instruction
+
+ID=kStr_ExceptionBase + 8
+ENGLISH=privilege violation
+
+ID=kStr_ExceptionBase + 9
+ENGLISH=trace
+
+ID=kStr_ExceptionBase + 10
+ENGLISH=line 1010 instruction
+
+ID=kStr_ExceptionBase + 11
+ENGLISH=line 1111 instruction
+
+ID=kStr_ExceptionBase + 12
+ENGLISH=reserved - 12
+
+ID=kStr_ExceptionBase + 13
+ENGLISH=coprocessor error
+
+ID=kStr_ExceptionBase + 14
+ENGLISH=format error
+
+ID=kStr_ExceptionBase + 15
+ENGLISH=uninitialized interrupt
+
+ID=kStr_ExceptionBase + 16
+ENGLISH=reserved - 0
+
+ID=kStr_ExceptionBase + 17
+ENGLISH=reserved - 1
+
+ID=kStr_ExceptionBase + 18
+ENGLISH=reserved - 2
+
+ID=kStr_ExceptionBase + 19
+ENGLISH=reserved - 3
+
+ID=kStr_ExceptionBase + 20
+ENGLISH=reserved - 4
+
+ID=kStr_ExceptionBase + 21
+ENGLISH=reserved - 5
+
+ID=kStr_ExceptionBase + 22
+ENGLISH=reserved - 6
+
+ID=kStr_ExceptionBase + 23
+ENGLISH=reserved - 7
+
+ID=kStr_ExceptionBase + 24
+ENGLISH=spurious interrupt
+
+ID=kStr_ExceptionBase + 25
+ENGLISH=interrupt - 1
+
+ID=kStr_ExceptionBase + 26
+ENGLISH=interrupt - 2
+
+ID=kStr_ExceptionBase + 27
+ENGLISH=interrupt - 3
+
+ID=kStr_ExceptionBase + 28
+ENGLISH=interrupt - 4
+
+ID=kStr_ExceptionBase + 29
+ENGLISH=interrupt - 5
+
+ID=kStr_ExceptionBase + 30
+ENGLISH=interrupt - 6
+
+ID=kStr_ExceptionBase + 31
+ENGLISH=interrupt - 7
+
+ID=kStr_ExceptionBase + 32
+ENGLISH=TRAP $0
+
+ID=kStr_ExceptionBase + 33
+ENGLISH=TRAP $1
+
+ID=kStr_ExceptionBase + 34
+ENGLISH=TRAP $2
+
+ID=kStr_ExceptionBase + 35
+ENGLISH=TRAP $3
+
+ID=kStr_ExceptionBase + 36
+ENGLISH=TRAP $4
+
+ID=kStr_ExceptionBase + 37
+ENGLISH=TRAP $5
+
+ID=kStr_ExceptionBase + 38
+ENGLISH=TRAP $6
+
+ID=kStr_ExceptionBase + 39
+ENGLISH=TRAP $7
+
+ID=kStr_ExceptionBase + 40
+ENGLISH=TRAP $8
+
+ID=kStr_ExceptionBase + 41
+ENGLISH=TRAP $9
+
+ID=kStr_ExceptionBase + 42
+ENGLISH=TRAP $A
+
+ID=kStr_ExceptionBase + 43
+ENGLISH=TRAP $B
+
+ID=kStr_ExceptionBase + 44
+ENGLISH=TRAP $C
+
+ID=kStr_ExceptionBase + 45
+ENGLISH=TRAP $D
+
+ID=kStr_ExceptionBase + 46
+ENGLISH=TRAP $E
+
+ID=kStr_ExceptionBase + 47
+ENGLISH=TRAP $F
+
+ID=kStr_ExceptionBase + 48
+ENGLISH=unassigned - 0
+
+ID=kStr_ExceptionBase + 49
+ENGLISH=unassigned - 1
+
+ID=kStr_ExceptionBase + 50
+ENGLISH=unassigned - 2
+
+ID=kStr_ExceptionBase + 51
+ENGLISH=unassigned - 3
+
+ID=kStr_ExceptionBase + 52
+ENGLISH=unassigned - 4
+
+ID=kStr_ExceptionBase + 53
+ENGLISH=unassigned - 5
+
+ID=kStr_ExceptionBase + 54
+ENGLISH=unassigned - 6
+
+ID=kStr_ExceptionBase + 55
+ENGLISH=unassigned - 7
+
+ID=kStr_ExceptionBase + 56
+ENGLISH=unassigned - 8
+
+ID=kStr_ExceptionBase + 57
+ENGLISH=unassigned - 9
+
+ID=kStr_ExceptionBase + 58
+ENGLISH=unassigned - 10
+
+ID=kStr_ExceptionBase + 59
+ENGLISH=unassigned - 11
+
+ID=kStr_ExceptionBase + 60
+ENGLISH=unassigned - 12
+
+ID=kStr_ExceptionBase + 61
+ENGLISH=unassigned - 13
+
+ID=kStr_ExceptionBase + 62
+ENGLISH=unassigned - 14
+
+ID=kStr_ExceptionBase + 63
+ENGLISH=unassigned - 15
+
+
+// --------------------------------------------------------------------------------
+//	Template Parts -- System function names
+// --------------------------------------------------------------------------------
+
+/*
+	The following strings were generated with the following MPW script:
+
+		#######################################################################
+		# Setup Variables
+		#######################################################################
+		set TrapNum 1
+		set Space '[ ∂t]+'
+		
+		Set Src "Phantom:Palm:Projects:Palm:Viewer:dev:4.0:primary:Incs:Core:CoreTraps.h"
+		set Dest "{DesktopFolder}SystemTrapNames"
+		
+		#######################################################################
+		# Copy the System Header File to a temporary file
+		#######################################################################
+		duplicate -y -d "{Src}" "{Dest}"
+		setfile -a l "{Dest}"
+		open "{Dest}"
+		Target "{Dest}"
+		
+		#######################################################################
+		# Delete everything except the trap table enumerated type
+		#######################################################################
+		replace  •:/sysTrapBase≈/ ""
+		replace /∂#define[ ∂t]+sysTrapLastTrapNumber/:∞ ""
+		
+		#######################################################################
+		# Get rid of Comments
+		#######################################################################
+		find •
+		replace -c ∞ /∂/∂/≈/ ""
+		
+		#######################################################################
+		# Go through and replace each line with a debugger script command
+		#######################################################################
+		Set Exit 0
+		Set TrapNum 0
+		Find •
+		Loop
+			replace /•#define[ ∂t]+sysTrap([a-zA-Z0-9]+)®1≈∞/  "ID=kStr_SysTrapBase+{TrapNum}∂nENGLISH=®1∂n"
+			Break If {Status} != 0
+			Set TrapNum `Evaluate {TrapNum}+1`
+		End
+		
+		#######################################################################
+		# Strip trailing spaces.  Collapse multiple blank lines.
+		#######################################################################
+		Find •
+		Replace -c ∞ /[∂t∂f ]+∞/ ""
+		
+		Find •
+		Replace -c ∞ /∂n[∂n]+/ "∂n∂n"
+		
+		Close -y "{Dest}"
+*/
+
+ID=kStr_SysTrapBase+0
+ENGLISH=MemInit
+
+ID=kStr_SysTrapBase+1
+ENGLISH=MemInitHeapTable
+
+ID=kStr_SysTrapBase+2
+ENGLISH=MemStoreInit
+
+ID=kStr_SysTrapBase+3
+ENGLISH=MemCardFormat
+
+ID=kStr_SysTrapBase+4
+ENGLISH=MemCardInfo
+
+ID=kStr_SysTrapBase+5
+ENGLISH=MemStoreInfo
+
+ID=kStr_SysTrapBase+6
+ENGLISH=MemStoreSetInfo
+
+ID=kStr_SysTrapBase+7
+ENGLISH=MemNumHeaps
+
+ID=kStr_SysTrapBase+8
+ENGLISH=MemNumRAMHeaps
+
+ID=kStr_SysTrapBase+9
+ENGLISH=MemHeapID
+
+ID=kStr_SysTrapBase+10
+ENGLISH=MemHeapPtr
+
+ID=kStr_SysTrapBase+11
+ENGLISH=MemHeapFreeBytes
+
+ID=kStr_SysTrapBase+12
+ENGLISH=MemHeapSize
+
+ID=kStr_SysTrapBase+13
+ENGLISH=MemHeapFlags
+
+ID=kStr_SysTrapBase+14
+ENGLISH=MemHeapCompact
+
+ID=kStr_SysTrapBase+15
+ENGLISH=MemHeapInit
+
+ID=kStr_SysTrapBase+16
+ENGLISH=MemHeapFreeByOwnerID
+
+ID=kStr_SysTrapBase+17
+ENGLISH=MemChunkNew
+
+ID=kStr_SysTrapBase+18
+ENGLISH=MemChunkFree
+
+ID=kStr_SysTrapBase+19
+ENGLISH=MemPtrNew
+
+ID=kStr_SysTrapBase+20
+ENGLISH=MemPtrRecoverHandle
+
+ID=kStr_SysTrapBase+21
+ENGLISH=MemPtrFlags
+
+ID=kStr_SysTrapBase+22
+ENGLISH=MemPtrSize
+
+ID=kStr_SysTrapBase+23
+ENGLISH=MemPtrOwner
+
+ID=kStr_SysTrapBase+24
+ENGLISH=MemPtrHeapID
+
+ID=kStr_SysTrapBase+25
+ENGLISH=MemPtrCardNo
+
+ID=kStr_SysTrapBase+26
+ENGLISH=MemPtrToLocalID
+
+ID=kStr_SysTrapBase+27
+ENGLISH=MemPtrSetOwner
+
+ID=kStr_SysTrapBase+28
+ENGLISH=MemPtrResize
+
+ID=kStr_SysTrapBase+29
+ENGLISH=MemPtrResetLock
+
+ID=kStr_SysTrapBase+30
+ENGLISH=MemHandleNew
+
+ID=kStr_SysTrapBase+31
+ENGLISH=MemHandleLockCount
+
+ID=kStr_SysTrapBase+32
+ENGLISH=MemHandleToLocalID
+
+ID=kStr_SysTrapBase+33
+ENGLISH=MemHandleLock
+
+ID=kStr_SysTrapBase+34
+ENGLISH=MemHandleUnlock
+
+ID=kStr_SysTrapBase+35
+ENGLISH=MemLocalIDToGlobal
+
+ID=kStr_SysTrapBase+36
+ENGLISH=MemLocalIDKind
+
+ID=kStr_SysTrapBase+37
+ENGLISH=MemLocalIDToPtr
+
+ID=kStr_SysTrapBase+38
+ENGLISH=MemMove
+
+ID=kStr_SysTrapBase+39
+ENGLISH=MemSet
+
+ID=kStr_SysTrapBase+40
+ENGLISH=MemStoreSearch
+
+ID=kStr_SysTrapBase+41
+ENGLISH=SysReserved10Trap1
+
+ID=kStr_SysTrapBase+42
+ENGLISH=MemKernelInit
+
+ID=kStr_SysTrapBase+43
+ENGLISH=MemHandleFree
+
+ID=kStr_SysTrapBase+44
+ENGLISH=MemHandleFlags
+
+ID=kStr_SysTrapBase+45
+ENGLISH=MemHandleSize
+
+ID=kStr_SysTrapBase+46
+ENGLISH=MemHandleOwner
+
+ID=kStr_SysTrapBase+47
+ENGLISH=MemHandleHeapID
+
+ID=kStr_SysTrapBase+48
+ENGLISH=MemHandleDataStorage
+
+ID=kStr_SysTrapBase+49
+ENGLISH=MemHandleCardNo
+
+ID=kStr_SysTrapBase+50
+ENGLISH=MemHandleSetOwner
+
+ID=kStr_SysTrapBase+51
+ENGLISH=MemHandleResize
+
+ID=kStr_SysTrapBase+52
+ENGLISH=MemHandleResetLock
+
+ID=kStr_SysTrapBase+53
+ENGLISH=MemPtrUnlock
+
+ID=kStr_SysTrapBase+54
+ENGLISH=MemLocalIDToLockedPtr
+
+ID=kStr_SysTrapBase+55
+ENGLISH=MemSetDebugMode
+
+ID=kStr_SysTrapBase+56
+ENGLISH=MemHeapScramble
+
+ID=kStr_SysTrapBase+57
+ENGLISH=MemHeapCheck
+
+ID=kStr_SysTrapBase+58
+ENGLISH=MemNumCards
+
+ID=kStr_SysTrapBase+59
+ENGLISH=MemDebugMode
+
+ID=kStr_SysTrapBase+60
+ENGLISH=MemSemaphoreReserve
+
+ID=kStr_SysTrapBase+61
+ENGLISH=MemSemaphoreRelease
+
+ID=kStr_SysTrapBase+62
+ENGLISH=MemHeapDynamic
+
+ID=kStr_SysTrapBase+63
+ENGLISH=MemNVParams
+
+ID=kStr_SysTrapBase+64
+ENGLISH=DmInit
+
+ID=kStr_SysTrapBase+65
+ENGLISH=DmCreateDatabase
+
+ID=kStr_SysTrapBase+66
+ENGLISH=DmDeleteDatabase
+
+ID=kStr_SysTrapBase+67
+ENGLISH=DmNumDatabases
+
+ID=kStr_SysTrapBase+68
+ENGLISH=DmGetDatabase
+
+ID=kStr_SysTrapBase+69
+ENGLISH=DmFindDatabase
+
+ID=kStr_SysTrapBase+70
+ENGLISH=DmDatabaseInfo
+
+ID=kStr_SysTrapBase+71
+ENGLISH=DmSetDatabaseInfo
+
+ID=kStr_SysTrapBase+72
+ENGLISH=DmDatabaseSize
+
+ID=kStr_SysTrapBase+73
+ENGLISH=DmOpenDatabase
+
+ID=kStr_SysTrapBase+74
+ENGLISH=DmCloseDatabase
+
+ID=kStr_SysTrapBase+75
+ENGLISH=DmNextOpenDatabase
+
+ID=kStr_SysTrapBase+76
+ENGLISH=DmOpenDatabaseInfo
+
+ID=kStr_SysTrapBase+77
+ENGLISH=DmResetRecordStates
+
+ID=kStr_SysTrapBase+78
+ENGLISH=DmGetLastErr
+
+ID=kStr_SysTrapBase+79
+ENGLISH=DmNumRecords
+
+ID=kStr_SysTrapBase+80
+ENGLISH=DmRecordInfo
+
+ID=kStr_SysTrapBase+81
+ENGLISH=DmSetRecordInfo
+
+ID=kStr_SysTrapBase+82
+ENGLISH=DmAttachRecord
+
+ID=kStr_SysTrapBase+83
+ENGLISH=DmDetachRecord
+
+ID=kStr_SysTrapBase+84
+ENGLISH=DmMoveRecord
+
+ID=kStr_SysTrapBase+85
+ENGLISH=DmNewRecord
+
+ID=kStr_SysTrapBase+86
+ENGLISH=DmRemoveRecord
+
+ID=kStr_SysTrapBase+87
+ENGLISH=DmDeleteRecord
+
+ID=kStr_SysTrapBase+88
+ENGLISH=DmArchiveRecord
+
+ID=kStr_SysTrapBase+89
+ENGLISH=DmNewHandle
+
+ID=kStr_SysTrapBase+90
+ENGLISH=DmRemoveSecretRecords
+
+ID=kStr_SysTrapBase+91
+ENGLISH=DmQueryRecord
+
+ID=kStr_SysTrapBase+92
+ENGLISH=DmGetRecord
+
+ID=kStr_SysTrapBase+93
+ENGLISH=DmResizeRecord
+
+ID=kStr_SysTrapBase+94
+ENGLISH=DmReleaseRecord
+
+ID=kStr_SysTrapBase+95
+ENGLISH=DmGetResource
+
+ID=kStr_SysTrapBase+96
+ENGLISH=DmGet1Resource
+
+ID=kStr_SysTrapBase+97
+ENGLISH=DmReleaseResource
+
+ID=kStr_SysTrapBase+98
+ENGLISH=DmResizeResource
+
+ID=kStr_SysTrapBase+99
+ENGLISH=DmNextOpenResDatabase
+
+ID=kStr_SysTrapBase+100
+ENGLISH=DmFindResourceType
+
+ID=kStr_SysTrapBase+101
+ENGLISH=DmFindResource
+
+ID=kStr_SysTrapBase+102
+ENGLISH=DmSearchResource
+
+ID=kStr_SysTrapBase+103
+ENGLISH=DmNumResources
+
+ID=kStr_SysTrapBase+104
+ENGLISH=DmResourceInfo
+
+ID=kStr_SysTrapBase+105
+ENGLISH=DmSetResourceInfo
+
+ID=kStr_SysTrapBase+106
+ENGLISH=DmAttachResource
+
+ID=kStr_SysTrapBase+107
+ENGLISH=DmDetachResource
+
+ID=kStr_SysTrapBase+108
+ENGLISH=DmNewResource
+
+ID=kStr_SysTrapBase+109
+ENGLISH=DmRemoveResource
+
+ID=kStr_SysTrapBase+110
+ENGLISH=DmGetResourceIndex
+
+ID=kStr_SysTrapBase+111
+ENGLISH=DmQuickSort
+
+ID=kStr_SysTrapBase+112
+ENGLISH=DmQueryNextInCategory
+
+ID=kStr_SysTrapBase+113
+ENGLISH=DmNumRecordsInCategory
+
+ID=kStr_SysTrapBase+114
+ENGLISH=DmPositionInCategory
+
+ID=kStr_SysTrapBase+115
+ENGLISH=DmSeekRecordInCategory
+
+ID=kStr_SysTrapBase+116
+ENGLISH=DmMoveCategory
+
+ID=kStr_SysTrapBase+117
+ENGLISH=DmOpenDatabaseByTypeCreator
+
+ID=kStr_SysTrapBase+118
+ENGLISH=DmWrite
+
+ID=kStr_SysTrapBase+119
+ENGLISH=DmStrCopy
+
+ID=kStr_SysTrapBase+120
+ENGLISH=DmGetNextDatabaseByTypeCreator
+
+ID=kStr_SysTrapBase+121
+ENGLISH=DmWriteCheck
+
+ID=kStr_SysTrapBase+122
+ENGLISH=DmMoveOpenDBContext
+
+ID=kStr_SysTrapBase+123
+ENGLISH=DmFindRecordByID
+
+ID=kStr_SysTrapBase+124
+ENGLISH=DmGetAppInfoID
+
+ID=kStr_SysTrapBase+125
+ENGLISH=DmFindSortPositionV10
+
+ID=kStr_SysTrapBase+126
+ENGLISH=DmSet
+
+ID=kStr_SysTrapBase+127
+ENGLISH=DmCreateDatabaseFromImage
+
+ID=kStr_SysTrapBase+128
+ENGLISH=DbgSrcMessage
+
+ID=kStr_SysTrapBase+129
+ENGLISH=DbgMessage
+
+ID=kStr_SysTrapBase+130
+ENGLISH=DbgGetMessage
+
+ID=kStr_SysTrapBase+131
+ENGLISH=DbgCommSettings
+
+ID=kStr_SysTrapBase+132
+ENGLISH=ErrDisplayFileLineMsg
+
+ID=kStr_SysTrapBase+133
+ENGLISH=ErrSetJump
+
+ID=kStr_SysTrapBase+134
+ENGLISH=ErrLongJump
+
+ID=kStr_SysTrapBase+135
+ENGLISH=ErrThrow
+
+ID=kStr_SysTrapBase+136
+ENGLISH=ErrExceptionList
+
+ID=kStr_SysTrapBase+137
+ENGLISH=SysBroadcastActionCode
+
+ID=kStr_SysTrapBase+138
+ENGLISH=SysUnimplemented
+
+ID=kStr_SysTrapBase+139
+ENGLISH=SysColdBoot
+
+ID=kStr_SysTrapBase+140
+ENGLISH=SysReset
+
+ID=kStr_SysTrapBase+141
+ENGLISH=SysDoze
+
+ID=kStr_SysTrapBase+142
+ENGLISH=SysAppLaunch
+
+ID=kStr_SysTrapBase+143
+ENGLISH=SysAppStartup
+
+ID=kStr_SysTrapBase+144
+ENGLISH=SysAppExit
+
+ID=kStr_SysTrapBase+145
+ENGLISH=SysSetA5
+
+ID=kStr_SysTrapBase+146
+ENGLISH=SysSetTrapAddress
+
+ID=kStr_SysTrapBase+147
+ENGLISH=SysGetTrapAddress
+
+ID=kStr_SysTrapBase+148
+ENGLISH=SysTranslateKernelErr
+
+ID=kStr_SysTrapBase+149
+ENGLISH=SysSemaphoreCreate
+
+ID=kStr_SysTrapBase+150
+ENGLISH=SysSemaphoreDelete
+
+ID=kStr_SysTrapBase+151
+ENGLISH=SysSemaphoreWait
+
+ID=kStr_SysTrapBase+152
+ENGLISH=SysSemaphoreSignal
+
+ID=kStr_SysTrapBase+153
+ENGLISH=SysTimerCreate
+
+ID=kStr_SysTrapBase+154
+ENGLISH=SysTimerWrite
+
+ID=kStr_SysTrapBase+155
+ENGLISH=SysTaskCreate
+
+ID=kStr_SysTrapBase+156
+ENGLISH=SysTaskDelete
+
+ID=kStr_SysTrapBase+157
+ENGLISH=SysTaskTrigger
+
+ID=kStr_SysTrapBase+158
+ENGLISH=SysTaskID
+
+ID=kStr_SysTrapBase+159
+ENGLISH=SysTaskUserInfoPtr
+
+ID=kStr_SysTrapBase+160
+ENGLISH=SysTaskDelay
+
+ID=kStr_SysTrapBase+161
+ENGLISH=SysTaskSetTermProc
+
+ID=kStr_SysTrapBase+162
+ENGLISH=SysUILaunch
+
+ID=kStr_SysTrapBase+163
+ENGLISH=SysNewOwnerID
+
+ID=kStr_SysTrapBase+164
+ENGLISH=SysSemaphoreSet
+
+ID=kStr_SysTrapBase+165
+ENGLISH=SysDisableInts
+
+ID=kStr_SysTrapBase+166
+ENGLISH=SysRestoreStatus
+
+ID=kStr_SysTrapBase+167
+ENGLISH=SysUIAppSwitch
+
+ID=kStr_SysTrapBase+168
+ENGLISH=SysCurAppInfoPV20
+
+ID=kStr_SysTrapBase+169
+ENGLISH=SysHandleEvent
+
+ID=kStr_SysTrapBase+170
+ENGLISH=SysInit
+
+ID=kStr_SysTrapBase+171
+ENGLISH=SysQSort
+
+ID=kStr_SysTrapBase+172
+ENGLISH=SysCurAppDatabase
+
+ID=kStr_SysTrapBase+173
+ENGLISH=SysFatalAlert
+
+ID=kStr_SysTrapBase+174
+ENGLISH=SysResSemaphoreCreate
+
+ID=kStr_SysTrapBase+175
+ENGLISH=SysResSemaphoreDelete
+
+ID=kStr_SysTrapBase+176
+ENGLISH=SysResSemaphoreReserve
+
+ID=kStr_SysTrapBase+177
+ENGLISH=SysResSemaphoreRelease
+
+ID=kStr_SysTrapBase+178
+ENGLISH=SysSleep
+
+ID=kStr_SysTrapBase+179
+ENGLISH=SysKeyboardDialogV10
+
+ID=kStr_SysTrapBase+180
+ENGLISH=SysAppLauncherDialog
+
+ID=kStr_SysTrapBase+181
+ENGLISH=SysSetPerformance
+
+ID=kStr_SysTrapBase+182
+ENGLISH=SysBatteryInfoV20
+
+ID=kStr_SysTrapBase+183
+ENGLISH=SysLibInstall
+
+ID=kStr_SysTrapBase+184
+ENGLISH=SysLibRemove
+
+ID=kStr_SysTrapBase+185
+ENGLISH=SysLibTblEntry
+
+ID=kStr_SysTrapBase+186
+ENGLISH=SysLibFind
+
+ID=kStr_SysTrapBase+187
+ENGLISH=SysBatteryDialog
+
+ID=kStr_SysTrapBase+188
+ENGLISH=SysCopyStringResource
+
+ID=kStr_SysTrapBase+189
+ENGLISH=SysKernelInfo
+
+ID=kStr_SysTrapBase+190
+ENGLISH=SysLaunchConsole
+
+ID=kStr_SysTrapBase+191
+ENGLISH=SysTimerDelete
+
+ID=kStr_SysTrapBase+192
+ENGLISH=SysSetAutoOffTime
+
+ID=kStr_SysTrapBase+193
+ENGLISH=SysFormPointerArrayToStrings
+
+ID=kStr_SysTrapBase+194
+ENGLISH=SysRandom
+
+ID=kStr_SysTrapBase+195
+ENGLISH=SysTaskSwitching
+
+ID=kStr_SysTrapBase+196
+ENGLISH=SysTimerRead
+
+ID=kStr_SysTrapBase+197
+ENGLISH=StrCopy
+
+ID=kStr_SysTrapBase+198
+ENGLISH=StrCat
+
+ID=kStr_SysTrapBase+199
+ENGLISH=StrLen
+
+ID=kStr_SysTrapBase+200
+ENGLISH=StrCompare
+
+ID=kStr_SysTrapBase+201
+ENGLISH=StrIToA
+
+ID=kStr_SysTrapBase+202
+ENGLISH=StrCaselessCompare
+
+ID=kStr_SysTrapBase+203
+ENGLISH=StrIToH
+
+ID=kStr_SysTrapBase+204
+ENGLISH=StrChr
+
+ID=kStr_SysTrapBase+205
+ENGLISH=StrStr
+
+ID=kStr_SysTrapBase+206
+ENGLISH=StrAToI
+
+ID=kStr_SysTrapBase+207
+ENGLISH=StrToLower
+
+ID=kStr_SysTrapBase+208
+ENGLISH=SerReceiveISP
+
+ID=kStr_SysTrapBase+209
+ENGLISH=SlkOpen
+
+ID=kStr_SysTrapBase+210
+ENGLISH=SlkClose
+
+ID=kStr_SysTrapBase+211
+ENGLISH=SlkOpenSocket
+
+ID=kStr_SysTrapBase+212
+ENGLISH=SlkCloseSocket
+
+ID=kStr_SysTrapBase+213
+ENGLISH=SlkSocketRefNum
+
+ID=kStr_SysTrapBase+214
+ENGLISH=SlkSocketSetTimeout
+
+ID=kStr_SysTrapBase+215
+ENGLISH=SlkFlushSocket
+
+ID=kStr_SysTrapBase+216
+ENGLISH=SlkSetSocketListener
+
+ID=kStr_SysTrapBase+217
+ENGLISH=SlkSendPacket
+
+ID=kStr_SysTrapBase+218
+ENGLISH=SlkReceivePacket
+
+ID=kStr_SysTrapBase+219
+ENGLISH=SlkSysPktDefaultResponse
+
+ID=kStr_SysTrapBase+220
+ENGLISH=SlkProcessRPC
+
+ID=kStr_SysTrapBase+221
+ENGLISH=ConPutS
+
+ID=kStr_SysTrapBase+222
+ENGLISH=ConGetS
+
+ID=kStr_SysTrapBase+223
+ENGLISH=FplInit
+
+ID=kStr_SysTrapBase+224
+ENGLISH=FplFree
+
+ID=kStr_SysTrapBase+225
+ENGLISH=FplFToA
+
+ID=kStr_SysTrapBase+226
+ENGLISH=FplAToF
+
+ID=kStr_SysTrapBase+227
+ENGLISH=FplBase10Info
+
+ID=kStr_SysTrapBase+228
+ENGLISH=FplLongToFloat
+
+ID=kStr_SysTrapBase+229
+ENGLISH=FplFloatToLong
+
+ID=kStr_SysTrapBase+230
+ENGLISH=FplFloatToULong
+
+ID=kStr_SysTrapBase+231
+ENGLISH=FplMul
+
+ID=kStr_SysTrapBase+232
+ENGLISH=FplAdd
+
+ID=kStr_SysTrapBase+233
+ENGLISH=FplSub
+
+ID=kStr_SysTrapBase+234
+ENGLISH=FplDiv
+
+ID=kStr_SysTrapBase+235
+ENGLISH=WinScreenInit
+
+ID=kStr_SysTrapBase+236
+ENGLISH=ScrCopyRectangle
+
+ID=kStr_SysTrapBase+237
+ENGLISH=ScrDrawChars
+
+ID=kStr_SysTrapBase+238
+ENGLISH=ScrLineRoutine
+
+ID=kStr_SysTrapBase+239
+ENGLISH=ScrRectangleRoutine
+
+ID=kStr_SysTrapBase+240
+ENGLISH=ScrScreenInfo
+
+ID=kStr_SysTrapBase+241
+ENGLISH=ScrDrawNotify
+
+ID=kStr_SysTrapBase+242
+ENGLISH=ScrSendUpdateArea
+
+ID=kStr_SysTrapBase+243
+ENGLISH=ScrCompressScanLine
+
+ID=kStr_SysTrapBase+244
+ENGLISH=ScrDeCompressScanLine
+
+ID=kStr_SysTrapBase+245
+ENGLISH=TimGetSeconds
+
+ID=kStr_SysTrapBase+246
+ENGLISH=TimSetSeconds
+
+ID=kStr_SysTrapBase+247
+ENGLISH=TimGetTicks
+
+ID=kStr_SysTrapBase+248
+ENGLISH=TimInit
+
+ID=kStr_SysTrapBase+249
+ENGLISH=TimSetAlarm
+
+ID=kStr_SysTrapBase+250
+ENGLISH=TimGetAlarm
+
+ID=kStr_SysTrapBase+251
+ENGLISH=TimHandleInterrupt
+
+ID=kStr_SysTrapBase+252
+ENGLISH=TimSecondsToDateTime
+
+ID=kStr_SysTrapBase+253
+ENGLISH=TimDateTimeToSeconds
+
+ID=kStr_SysTrapBase+254
+ENGLISH=TimAdjust
+
+ID=kStr_SysTrapBase+255
+ENGLISH=TimSleep
+
+ID=kStr_SysTrapBase+256
+ENGLISH=TimWake
+
+ID=kStr_SysTrapBase+257
+ENGLISH=CategoryCreateListV10
+
+ID=kStr_SysTrapBase+258
+ENGLISH=CategoryFreeListV10
+
+ID=kStr_SysTrapBase+259
+ENGLISH=CategoryFind
+
+ID=kStr_SysTrapBase+260
+ENGLISH=CategoryGetName
+
+ID=kStr_SysTrapBase+261
+ENGLISH=CategoryEditV10
+
+ID=kStr_SysTrapBase+262
+ENGLISH=CategorySelectV10
+
+ID=kStr_SysTrapBase+263
+ENGLISH=CategoryGetNext
+
+ID=kStr_SysTrapBase+264
+ENGLISH=CategorySetTriggerLabel
+
+ID=kStr_SysTrapBase+265
+ENGLISH=CategoryTruncateName
+
+ID=kStr_SysTrapBase+266
+ENGLISH=ClipboardAddItem
+
+ID=kStr_SysTrapBase+267
+ENGLISH=ClipboardCheckIfItemExist
+
+ID=kStr_SysTrapBase+268
+ENGLISH=ClipboardGetItem
+
+ID=kStr_SysTrapBase+269
+ENGLISH=CtlDrawControl
+
+ID=kStr_SysTrapBase+270
+ENGLISH=CtlEraseControl
+
+ID=kStr_SysTrapBase+271
+ENGLISH=CtlHideControl
+
+ID=kStr_SysTrapBase+272
+ENGLISH=CtlShowControl
+
+ID=kStr_SysTrapBase+273
+ENGLISH=CtlGetValue
+
+ID=kStr_SysTrapBase+274
+ENGLISH=CtlSetValue
+
+ID=kStr_SysTrapBase+275
+ENGLISH=CtlGetLabel
+
+ID=kStr_SysTrapBase+276
+ENGLISH=CtlSetLabel
+
+ID=kStr_SysTrapBase+277
+ENGLISH=CtlHandleEvent
+
+ID=kStr_SysTrapBase+278
+ENGLISH=CtlHitControl
+
+ID=kStr_SysTrapBase+279
+ENGLISH=CtlSetEnabled
+
+ID=kStr_SysTrapBase+280
+ENGLISH=CtlSetUsable
+
+ID=kStr_SysTrapBase+281
+ENGLISH=CtlEnabled
+
+ID=kStr_SysTrapBase+282
+ENGLISH=EvtInitialize
+
+ID=kStr_SysTrapBase+283
+ENGLISH=EvtAddEventToQueue
+
+ID=kStr_SysTrapBase+284
+ENGLISH=EvtCopyEvent
+
+ID=kStr_SysTrapBase+285
+ENGLISH=EvtGetEvent
+
+ID=kStr_SysTrapBase+286
+ENGLISH=EvtGetPen
+
+ID=kStr_SysTrapBase+287
+ENGLISH=EvtSysInit
+
+ID=kStr_SysTrapBase+288
+ENGLISH=EvtGetSysEvent
+
+ID=kStr_SysTrapBase+289
+ENGLISH=EvtProcessSoftKeyStroke
+
+ID=kStr_SysTrapBase+290
+ENGLISH=EvtGetPenBtnList
+
+ID=kStr_SysTrapBase+291
+ENGLISH=EvtSetPenQueuePtr
+
+ID=kStr_SysTrapBase+292
+ENGLISH=EvtPenQueueSize
+
+ID=kStr_SysTrapBase+293
+ENGLISH=EvtFlushPenQueue
+
+ID=kStr_SysTrapBase+294
+ENGLISH=EvtEnqueuePenPoint
+
+ID=kStr_SysTrapBase+295
+ENGLISH=EvtDequeuePenStrokeInfo
+
+ID=kStr_SysTrapBase+296
+ENGLISH=EvtDequeuePenPoint
+
+ID=kStr_SysTrapBase+297
+ENGLISH=EvtFlushNextPenStroke
+
+ID=kStr_SysTrapBase+298
+ENGLISH=EvtSetKeyQueuePtr
+
+ID=kStr_SysTrapBase+299
+ENGLISH=EvtKeyQueueSize
+
+ID=kStr_SysTrapBase+300
+ENGLISH=EvtFlushKeyQueue
+
+ID=kStr_SysTrapBase+301
+ENGLISH=EvtEnqueueKey
+
+ID=kStr_SysTrapBase+302
+ENGLISH=EvtDequeueKeyEvent
+
+ID=kStr_SysTrapBase+303
+ENGLISH=EvtWakeup
+
+ID=kStr_SysTrapBase+304
+ENGLISH=EvtResetAutoOffTimer
+
+ID=kStr_SysTrapBase+305
+ENGLISH=EvtKeyQueueEmpty
+
+ID=kStr_SysTrapBase+306
+ENGLISH=EvtEnableGraffiti
+
+ID=kStr_SysTrapBase+307
+ENGLISH=FldCopy
+
+ID=kStr_SysTrapBase+308
+ENGLISH=FldCut
+
+ID=kStr_SysTrapBase+309
+ENGLISH=FldDrawField
+
+ID=kStr_SysTrapBase+310
+ENGLISH=FldEraseField
+
+ID=kStr_SysTrapBase+311
+ENGLISH=FldFreeMemory
+
+ID=kStr_SysTrapBase+312
+ENGLISH=FldGetBounds
+
+ID=kStr_SysTrapBase+313
+ENGLISH=FldGetTextPtr
+
+ID=kStr_SysTrapBase+314
+ENGLISH=FldGetSelection
+
+ID=kStr_SysTrapBase+315
+ENGLISH=FldHandleEvent
+
+ID=kStr_SysTrapBase+316
+ENGLISH=FldPaste
+
+ID=kStr_SysTrapBase+317
+ENGLISH=FldRecalculateField
+
+ID=kStr_SysTrapBase+318
+ENGLISH=FldSetBounds
+
+ID=kStr_SysTrapBase+319
+ENGLISH=FldSetText
+
+ID=kStr_SysTrapBase+320
+ENGLISH=FldGetFont
+
+ID=kStr_SysTrapBase+321
+ENGLISH=FldSetFont
+
+ID=kStr_SysTrapBase+322
+ENGLISH=FldSetSelection
+
+ID=kStr_SysTrapBase+323
+ENGLISH=FldGrabFocus
+
+ID=kStr_SysTrapBase+324
+ENGLISH=FldReleaseFocus
+
+ID=kStr_SysTrapBase+325
+ENGLISH=FldGetInsPtPosition
+
+ID=kStr_SysTrapBase+326
+ENGLISH=FldSetInsPtPosition
+
+ID=kStr_SysTrapBase+327
+ENGLISH=FldSetScrollPosition
+
+ID=kStr_SysTrapBase+328
+ENGLISH=FldGetScrollPosition
+
+ID=kStr_SysTrapBase+329
+ENGLISH=FldGetTextHeight
+
+ID=kStr_SysTrapBase+330
+ENGLISH=FldGetTextAllocatedSize
+
+ID=kStr_SysTrapBase+331
+ENGLISH=FldGetTextLength
+
+ID=kStr_SysTrapBase+332
+ENGLISH=FldScrollField
+
+ID=kStr_SysTrapBase+333
+ENGLISH=FldScrollable
+
+ID=kStr_SysTrapBase+334
+ENGLISH=FldGetVisibleLines
+
+ID=kStr_SysTrapBase+335
+ENGLISH=FldGetAttributes
+
+ID=kStr_SysTrapBase+336
+ENGLISH=FldSetAttributes
+
+ID=kStr_SysTrapBase+337
+ENGLISH=FldSendChangeNotification
+
+ID=kStr_SysTrapBase+338
+ENGLISH=FldCalcFieldHeight
+
+ID=kStr_SysTrapBase+339
+ENGLISH=FldGetTextHandle
+
+ID=kStr_SysTrapBase+340
+ENGLISH=FldCompactText
+
+ID=kStr_SysTrapBase+341
+ENGLISH=FldDirty
+
+ID=kStr_SysTrapBase+342
+ENGLISH=FldWordWrap
+
+ID=kStr_SysTrapBase+343
+ENGLISH=FldSetTextAllocatedSize
+
+ID=kStr_SysTrapBase+344
+ENGLISH=FldSetTextHandle
+
+ID=kStr_SysTrapBase+345
+ENGLISH=FldSetTextPtr
+
+ID=kStr_SysTrapBase+346
+ENGLISH=FldGetMaxChars
+
+ID=kStr_SysTrapBase+347
+ENGLISH=FldSetMaxChars
+
+ID=kStr_SysTrapBase+348
+ENGLISH=FldSetUsable
+
+ID=kStr_SysTrapBase+349
+ENGLISH=FldInsert
+
+ID=kStr_SysTrapBase+350
+ENGLISH=FldDelete
+
+ID=kStr_SysTrapBase+351
+ENGLISH=FldUndo
+
+ID=kStr_SysTrapBase+352
+ENGLISH=FldSetDirty
+
+ID=kStr_SysTrapBase+353
+ENGLISH=FldSendHeightChangeNotification
+
+ID=kStr_SysTrapBase+354
+ENGLISH=FldMakeFullyVisible
+
+ID=kStr_SysTrapBase+355
+ENGLISH=FntGetFont
+
+ID=kStr_SysTrapBase+356
+ENGLISH=FntSetFont
+
+ID=kStr_SysTrapBase+357
+ENGLISH=FntGetFontPtr
+
+ID=kStr_SysTrapBase+358
+ENGLISH=FntBaseLine
+
+ID=kStr_SysTrapBase+359
+ENGLISH=FntCharHeight
+
+ID=kStr_SysTrapBase+360
+ENGLISH=FntLineHeight
+
+ID=kStr_SysTrapBase+361
+ENGLISH=FntAverageCharWidth
+
+ID=kStr_SysTrapBase+362
+ENGLISH=FntCharWidth
+
+ID=kStr_SysTrapBase+363
+ENGLISH=FntCharsWidth
+
+ID=kStr_SysTrapBase+364
+ENGLISH=FntDescenderHeight
+
+ID=kStr_SysTrapBase+365
+ENGLISH=FntCharsInWidth
+
+ID=kStr_SysTrapBase+366
+ENGLISH=FntLineWidth
+
+ID=kStr_SysTrapBase+367
+ENGLISH=FrmInitForm
+
+ID=kStr_SysTrapBase+368
+ENGLISH=FrmDeleteForm
+
+ID=kStr_SysTrapBase+369
+ENGLISH=FrmDrawForm
+
+ID=kStr_SysTrapBase+370
+ENGLISH=FrmEraseForm
+
+ID=kStr_SysTrapBase+371
+ENGLISH=FrmGetActiveForm
+
+ID=kStr_SysTrapBase+372
+ENGLISH=FrmSetActiveForm
+
+ID=kStr_SysTrapBase+373
+ENGLISH=FrmGetActiveFormID
+
+ID=kStr_SysTrapBase+374
+ENGLISH=FrmGetUserModifiedState
+
+ID=kStr_SysTrapBase+375
+ENGLISH=FrmSetNotUserModified
+
+ID=kStr_SysTrapBase+376
+ENGLISH=FrmGetFocus
+
+ID=kStr_SysTrapBase+377
+ENGLISH=FrmSetFocus
+
+ID=kStr_SysTrapBase+378
+ENGLISH=FrmHandleEvent
+
+ID=kStr_SysTrapBase+379
+ENGLISH=FrmGetFormBounds
+
+ID=kStr_SysTrapBase+380
+ENGLISH=FrmGetWindowHandle
+
+ID=kStr_SysTrapBase+381
+ENGLISH=FrmGetFormId
+
+ID=kStr_SysTrapBase+382
+ENGLISH=FrmGetFormPtr
+
+ID=kStr_SysTrapBase+383
+ENGLISH=FrmGetNumberOfObjects
+
+ID=kStr_SysTrapBase+384
+ENGLISH=FrmGetObjectIndex
+
+ID=kStr_SysTrapBase+385
+ENGLISH=FrmGetObjectId
+
+ID=kStr_SysTrapBase+386
+ENGLISH=FrmGetObjectType
+
+ID=kStr_SysTrapBase+387
+ENGLISH=FrmGetObjectPtr
+
+ID=kStr_SysTrapBase+388
+ENGLISH=FrmHideObject
+
+ID=kStr_SysTrapBase+389
+ENGLISH=FrmShowObject
+
+ID=kStr_SysTrapBase+390
+ENGLISH=FrmGetObjectPosition
+
+ID=kStr_SysTrapBase+391
+ENGLISH=FrmSetObjectPosition
+
+ID=kStr_SysTrapBase+392
+ENGLISH=FrmGetControlValue
+
+ID=kStr_SysTrapBase+393
+ENGLISH=FrmSetControlValue
+
+ID=kStr_SysTrapBase+394
+ENGLISH=FrmGetControlGroupSelection
+
+ID=kStr_SysTrapBase+395
+ENGLISH=FrmSetControlGroupSelection
+
+ID=kStr_SysTrapBase+396
+ENGLISH=FrmCopyLabel
+
+ID=kStr_SysTrapBase+397
+ENGLISH=FrmSetLabel
+
+ID=kStr_SysTrapBase+398
+ENGLISH=FrmGetLabel
+
+ID=kStr_SysTrapBase+399
+ENGLISH=FrmSetCategoryLabel
+
+ID=kStr_SysTrapBase+400
+ENGLISH=FrmGetTitle
+
+ID=kStr_SysTrapBase+401
+ENGLISH=FrmSetTitle
+
+ID=kStr_SysTrapBase+402
+ENGLISH=FrmAlert
+
+ID=kStr_SysTrapBase+403
+ENGLISH=FrmDoDialog
+
+ID=kStr_SysTrapBase+404
+ENGLISH=FrmCustomAlert
+
+ID=kStr_SysTrapBase+405
+ENGLISH=FrmHelp
+
+ID=kStr_SysTrapBase+406
+ENGLISH=FrmUpdateScrollers
+
+ID=kStr_SysTrapBase+407
+ENGLISH=FrmGetFirstForm
+
+ID=kStr_SysTrapBase+408
+ENGLISH=FrmVisible
+
+ID=kStr_SysTrapBase+409
+ENGLISH=FrmGetObjectBounds
+
+ID=kStr_SysTrapBase+410
+ENGLISH=FrmCopyTitle
+
+ID=kStr_SysTrapBase+411
+ENGLISH=FrmGotoForm
+
+ID=kStr_SysTrapBase+412
+ENGLISH=FrmPopupForm
+
+ID=kStr_SysTrapBase+413
+ENGLISH=FrmUpdateForm
+
+ID=kStr_SysTrapBase+414
+ENGLISH=FrmReturnToForm
+
+ID=kStr_SysTrapBase+415
+ENGLISH=FrmSetEventHandler
+
+ID=kStr_SysTrapBase+416
+ENGLISH=FrmDispatchEvent
+
+ID=kStr_SysTrapBase+417
+ENGLISH=FrmCloseAllForms
+
+ID=kStr_SysTrapBase+418
+ENGLISH=FrmSaveAllForms
+
+ID=kStr_SysTrapBase+419
+ENGLISH=FrmGetGadgetData
+
+ID=kStr_SysTrapBase+420
+ENGLISH=FrmSetGadgetData
+
+ID=kStr_SysTrapBase+421
+ENGLISH=FrmSetCategoryTrigger
+
+ID=kStr_SysTrapBase+422
+ENGLISH=UIInitialize
+
+ID=kStr_SysTrapBase+423
+ENGLISH=UIReset
+
+ID=kStr_SysTrapBase+424
+ENGLISH=InsPtInitialize
+
+ID=kStr_SysTrapBase+425
+ENGLISH=InsPtSetLocation
+
+ID=kStr_SysTrapBase+426
+ENGLISH=InsPtGetLocation
+
+ID=kStr_SysTrapBase+427
+ENGLISH=InsPtEnable
+
+ID=kStr_SysTrapBase+428
+ENGLISH=InsPtEnabled
+
+ID=kStr_SysTrapBase+429
+ENGLISH=InsPtSetHeight
+
+ID=kStr_SysTrapBase+430
+ENGLISH=InsPtGetHeight
+
+ID=kStr_SysTrapBase+431
+ENGLISH=InsPtCheckBlink
+
+ID=kStr_SysTrapBase+432
+ENGLISH=LstSetDrawFunction
+
+ID=kStr_SysTrapBase+433
+ENGLISH=LstDrawList
+
+ID=kStr_SysTrapBase+434
+ENGLISH=LstEraseList
+
+ID=kStr_SysTrapBase+435
+ENGLISH=LstGetSelection
+
+ID=kStr_SysTrapBase+436
+ENGLISH=LstGetSelectionText
+
+ID=kStr_SysTrapBase+437
+ENGLISH=LstHandleEvent
+
+ID=kStr_SysTrapBase+438
+ENGLISH=LstSetHeight
+
+ID=kStr_SysTrapBase+439
+ENGLISH=LstSetSelection
+
+ID=kStr_SysTrapBase+440
+ENGLISH=LstSetListChoices
+
+ID=kStr_SysTrapBase+441
+ENGLISH=LstMakeItemVisible
+
+ID=kStr_SysTrapBase+442
+ENGLISH=LstGetNumberOfItems
+
+ID=kStr_SysTrapBase+443
+ENGLISH=LstPopupList
+
+ID=kStr_SysTrapBase+444
+ENGLISH=LstSetPosition
+
+ID=kStr_SysTrapBase+445
+ENGLISH=MenuInit
+
+ID=kStr_SysTrapBase+446
+ENGLISH=MenuDispose
+
+ID=kStr_SysTrapBase+447
+ENGLISH=MenuHandleEvent
+
+ID=kStr_SysTrapBase+448
+ENGLISH=MenuDrawMenu
+
+ID=kStr_SysTrapBase+449
+ENGLISH=MenuEraseStatus
+
+ID=kStr_SysTrapBase+450
+ENGLISH=MenuGetActiveMenu
+
+ID=kStr_SysTrapBase+451
+ENGLISH=MenuSetActiveMenu
+
+ID=kStr_SysTrapBase+452
+ENGLISH=RctSetRectangle
+
+ID=kStr_SysTrapBase+453
+ENGLISH=RctCopyRectangle
+
+ID=kStr_SysTrapBase+454
+ENGLISH=RctInsetRectangle
+
+ID=kStr_SysTrapBase+455
+ENGLISH=RctOffsetRectangle
+
+ID=kStr_SysTrapBase+456
+ENGLISH=RctPtInRectangle
+
+ID=kStr_SysTrapBase+457
+ENGLISH=RctGetIntersection
+
+ID=kStr_SysTrapBase+458
+ENGLISH=TblDrawTable
+
+ID=kStr_SysTrapBase+459
+ENGLISH=TblEraseTable
+
+ID=kStr_SysTrapBase+460
+ENGLISH=TblHandleEvent
+
+ID=kStr_SysTrapBase+461
+ENGLISH=TblGetItemBounds
+
+ID=kStr_SysTrapBase+462
+ENGLISH=TblSelectItem
+
+ID=kStr_SysTrapBase+463
+ENGLISH=TblGetItemInt
+
+ID=kStr_SysTrapBase+464
+ENGLISH=TblSetItemInt
+
+ID=kStr_SysTrapBase+465
+ENGLISH=TblSetItemStyle
+
+ID=kStr_SysTrapBase+466
+ENGLISH=TblUnhighlightSelection
+
+ID=kStr_SysTrapBase+467
+ENGLISH=TblSetRowUsable
+
+ID=kStr_SysTrapBase+468
+ENGLISH=TblGetNumberOfRows
+
+ID=kStr_SysTrapBase+469
+ENGLISH=TblSetCustomDrawProcedure
+
+ID=kStr_SysTrapBase+470
+ENGLISH=TblSetRowSelectable
+
+ID=kStr_SysTrapBase+471
+ENGLISH=TblRowSelectable
+
+ID=kStr_SysTrapBase+472
+ENGLISH=TblSetLoadDataProcedure
+
+ID=kStr_SysTrapBase+473
+ENGLISH=TblSetSaveDataProcedure
+
+ID=kStr_SysTrapBase+474
+ENGLISH=TblGetBounds
+
+ID=kStr_SysTrapBase+475
+ENGLISH=TblSetRowHeight
+
+ID=kStr_SysTrapBase+476
+ENGLISH=TblGetColumnWidth
+
+ID=kStr_SysTrapBase+477
+ENGLISH=TblGetRowID
+
+ID=kStr_SysTrapBase+478
+ENGLISH=TblSetRowID
+
+ID=kStr_SysTrapBase+479
+ENGLISH=TblMarkRowInvalid
+
+ID=kStr_SysTrapBase+480
+ENGLISH=TblMarkTableInvalid
+
+ID=kStr_SysTrapBase+481
+ENGLISH=TblGetSelection
+
+ID=kStr_SysTrapBase+482
+ENGLISH=TblInsertRow
+
+ID=kStr_SysTrapBase+483
+ENGLISH=TblRemoveRow
+
+ID=kStr_SysTrapBase+484
+ENGLISH=TblRowInvalid
+
+ID=kStr_SysTrapBase+485
+ENGLISH=TblRedrawTable
+
+ID=kStr_SysTrapBase+486
+ENGLISH=TblRowUsable
+
+ID=kStr_SysTrapBase+487
+ENGLISH=TblReleaseFocus
+
+ID=kStr_SysTrapBase+488
+ENGLISH=TblEditing
+
+ID=kStr_SysTrapBase+489
+ENGLISH=TblGetCurrentField
+
+ID=kStr_SysTrapBase+490
+ENGLISH=TblSetColumnUsable
+
+ID=kStr_SysTrapBase+491
+ENGLISH=TblGetRowHeight
+
+ID=kStr_SysTrapBase+492
+ENGLISH=TblSetColumnWidth
+
+ID=kStr_SysTrapBase+493
+ENGLISH=TblGrabFocus
+
+ID=kStr_SysTrapBase+494
+ENGLISH=TblSetItemPtr
+
+ID=kStr_SysTrapBase+495
+ENGLISH=TblFindRowID
+
+ID=kStr_SysTrapBase+496
+ENGLISH=TblGetLastUsableRow
+
+ID=kStr_SysTrapBase+497
+ENGLISH=TblGetColumnSpacing
+
+ID=kStr_SysTrapBase+498
+ENGLISH=TblFindRowData
+
+ID=kStr_SysTrapBase+499
+ENGLISH=TblGetRowData
+
+ID=kStr_SysTrapBase+500
+ENGLISH=TblSetRowData
+
+ID=kStr_SysTrapBase+501
+ENGLISH=TblSetColumnSpacing
+
+ID=kStr_SysTrapBase+502
+ENGLISH=WinCreateWindow
+
+ID=kStr_SysTrapBase+503
+ENGLISH=WinCreateOffscreenWindow
+
+ID=kStr_SysTrapBase+504
+ENGLISH=WinDeleteWindow
+
+ID=kStr_SysTrapBase+505
+ENGLISH=WinInitializeWindow
+
+ID=kStr_SysTrapBase+506
+ENGLISH=WinAddWindow
+
+ID=kStr_SysTrapBase+507
+ENGLISH=WinRemoveWindow
+
+ID=kStr_SysTrapBase+508
+ENGLISH=WinSetActiveWindow
+
+ID=kStr_SysTrapBase+509
+ENGLISH=WinSetDrawWindow
+
+ID=kStr_SysTrapBase+510
+ENGLISH=WinGetDrawWindow
+
+ID=kStr_SysTrapBase+511
+ENGLISH=WinGetActiveWindow
+
+ID=kStr_SysTrapBase+512
+ENGLISH=WinGetDisplayWindow
+
+ID=kStr_SysTrapBase+513
+ENGLISH=WinGetFirstWindow
+
+ID=kStr_SysTrapBase+514
+ENGLISH=WinEnableWindow
+
+ID=kStr_SysTrapBase+515
+ENGLISH=WinDisableWindow
+
+ID=kStr_SysTrapBase+516
+ENGLISH=WinGetWindowFrameRect
+
+ID=kStr_SysTrapBase+517
+ENGLISH=WinDrawWindowFrame
+
+ID=kStr_SysTrapBase+518
+ENGLISH=WinEraseWindow
+
+ID=kStr_SysTrapBase+519
+ENGLISH=WinSaveBits
+
+ID=kStr_SysTrapBase+520
+ENGLISH=WinRestoreBits
+
+ID=kStr_SysTrapBase+521
+ENGLISH=WinCopyRectangle
+
+ID=kStr_SysTrapBase+522
+ENGLISH=WinScrollRectangle
+
+ID=kStr_SysTrapBase+523
+ENGLISH=WinGetDisplayExtent
+
+ID=kStr_SysTrapBase+524
+ENGLISH=WinGetWindowExtent
+
+ID=kStr_SysTrapBase+525
+ENGLISH=WinDisplayToWindowPt
+
+ID=kStr_SysTrapBase+526
+ENGLISH=WinWindowToDisplayPt
+
+ID=kStr_SysTrapBase+527
+ENGLISH=WinGetClip
+
+ID=kStr_SysTrapBase+528
+ENGLISH=WinSetClip
+
+ID=kStr_SysTrapBase+529
+ENGLISH=WinResetClip
+
+ID=kStr_SysTrapBase+530
+ENGLISH=WinClipRectangle
+
+ID=kStr_SysTrapBase+531
+ENGLISH=WinDrawLine
+
+ID=kStr_SysTrapBase+532
+ENGLISH=WinDrawGrayLine
+
+ID=kStr_SysTrapBase+533
+ENGLISH=WinEraseLine
+
+ID=kStr_SysTrapBase+534
+ENGLISH=WinInvertLine
+
+ID=kStr_SysTrapBase+535
+ENGLISH=WinFillLine
+
+ID=kStr_SysTrapBase+536
+ENGLISH=WinDrawRectangle
+
+ID=kStr_SysTrapBase+537
+ENGLISH=WinEraseRectangle
+
+ID=kStr_SysTrapBase+538
+ENGLISH=WinInvertRectangle
+
+ID=kStr_SysTrapBase+539
+ENGLISH=WinDrawRectangleFrame
+
+ID=kStr_SysTrapBase+540
+ENGLISH=WinDrawGrayRectangleFrame
+
+ID=kStr_SysTrapBase+541
+ENGLISH=WinEraseRectangleFrame
+
+ID=kStr_SysTrapBase+542
+ENGLISH=WinInvertRectangleFrame
+
+ID=kStr_SysTrapBase+543
+ENGLISH=WinGetFramesRectangle
+
+ID=kStr_SysTrapBase+544
+ENGLISH=WinDrawChars
+
+ID=kStr_SysTrapBase+545
+ENGLISH=WinEraseChars
+
+ID=kStr_SysTrapBase+546
+ENGLISH=WinInvertChars
+
+ID=kStr_SysTrapBase+547
+ENGLISH=WinGetPattern
+
+ID=kStr_SysTrapBase+548
+ENGLISH=WinSetPattern
+
+ID=kStr_SysTrapBase+549
+ENGLISH=WinSetUnderlineMode
+
+ID=kStr_SysTrapBase+550
+ENGLISH=WinDrawBitmap
+
+ID=kStr_SysTrapBase+551
+ENGLISH=WinModal
+
+ID=kStr_SysTrapBase+552
+ENGLISH=WinGetDrawWindowBounds
+
+ID=kStr_SysTrapBase+553
+ENGLISH=WinFillRectangle
+
+ID=kStr_SysTrapBase+554
+ENGLISH=WinDrawInvertedChars
+
+ID=kStr_SysTrapBase+555
+ENGLISH=PrefOpenPreferenceDBV10
+
+ID=kStr_SysTrapBase+556
+ENGLISH=PrefGetPreferences
+
+ID=kStr_SysTrapBase+557
+ENGLISH=PrefSetPreferences
+
+ID=kStr_SysTrapBase+558
+ENGLISH=PrefGetAppPreferencesV10
+
+ID=kStr_SysTrapBase+559
+ENGLISH=PrefSetAppPreferencesV10
+
+ID=kStr_SysTrapBase+560
+ENGLISH=SndInit
+
+ID=kStr_SysTrapBase+561
+ENGLISH=SndSetDefaultVolume
+
+ID=kStr_SysTrapBase+562
+ENGLISH=SndGetDefaultVolume
+
+ID=kStr_SysTrapBase+563
+ENGLISH=SndDoCmd
+
+ID=kStr_SysTrapBase+564
+ENGLISH=SndPlaySystemSound
+
+ID=kStr_SysTrapBase+565
+ENGLISH=AlmInit
+
+ID=kStr_SysTrapBase+566
+ENGLISH=AlmCancelAll
+
+ID=kStr_SysTrapBase+567
+ENGLISH=AlmAlarmCallback
+
+ID=kStr_SysTrapBase+568
+ENGLISH=AlmSetAlarm
+
+ID=kStr_SysTrapBase+569
+ENGLISH=AlmGetAlarm
+
+ID=kStr_SysTrapBase+570
+ENGLISH=AlmDisplayAlarm
+
+ID=kStr_SysTrapBase+571
+ENGLISH=AlmEnableNotification
+
+ID=kStr_SysTrapBase+572
+ENGLISH=HwrGetRAMMapping
+
+ID=kStr_SysTrapBase+573
+ENGLISH=HwrMemWritable
+
+ID=kStr_SysTrapBase+574
+ENGLISH=HwrMemReadable
+
+ID=kStr_SysTrapBase+575
+ENGLISH=HwrDoze
+
+ID=kStr_SysTrapBase+576
+ENGLISH=HwrSleep
+
+ID=kStr_SysTrapBase+577
+ENGLISH=HwrWake
+
+ID=kStr_SysTrapBase+578
+ENGLISH=HwrSetSystemClock
+
+ID=kStr_SysTrapBase+579
+ENGLISH=HwrSetCPUDutyCycle
+
+ID=kStr_SysTrapBase+580
+ENGLISH=HwrDisplayInit
+
+ID=kStr_SysTrapBase+581
+ENGLISH=HwrDisplaySleep
+
+ID=kStr_SysTrapBase+582
+ENGLISH=HwrTimerInit
+
+ID=kStr_SysTrapBase+583
+ENGLISH=HwrCursorV33
+
+ID=kStr_SysTrapBase+584
+ENGLISH=HwrBatteryLevel
+
+ID=kStr_SysTrapBase+585
+ENGLISH=HwrDelay
+
+ID=kStr_SysTrapBase+586
+ENGLISH=HwrEnableDataWrites
+
+ID=kStr_SysTrapBase+587
+ENGLISH=HwrDisableDataWrites
+
+ID=kStr_SysTrapBase+588
+ENGLISH=HwrLCDBaseAddrV33
+
+ID=kStr_SysTrapBase+589
+ENGLISH=HwrDisplayDrawBootScreen
+
+ID=kStr_SysTrapBase+590
+ENGLISH=HwrTimerSleep
+
+ID=kStr_SysTrapBase+591
+ENGLISH=HwrTimerWake
+
+ID=kStr_SysTrapBase+592
+ENGLISH=HwrDisplayWake
+
+ID=kStr_SysTrapBase+593
+ENGLISH=HwrIRQ1Handler
+
+ID=kStr_SysTrapBase+594
+ENGLISH=HwrIRQ2Handler
+
+ID=kStr_SysTrapBase+595
+ENGLISH=HwrIRQ3Handler
+
+ID=kStr_SysTrapBase+596
+ENGLISH=HwrIRQ4Handler
+
+ID=kStr_SysTrapBase+597
+ENGLISH=HwrIRQ5Handler
+
+ID=kStr_SysTrapBase+598
+ENGLISH=HwrIRQ6Handler
+
+ID=kStr_SysTrapBase+599
+ENGLISH=HwrDockSignals
+
+ID=kStr_SysTrapBase+600
+ENGLISH=HwrPluggedIn
+
+ID=kStr_SysTrapBase+601
+ENGLISH=Crc16CalcBlock
+
+ID=kStr_SysTrapBase+602
+ENGLISH=SelectDayV10
+
+ID=kStr_SysTrapBase+603
+ENGLISH=SelectTimeV33
+
+ID=kStr_SysTrapBase+604
+ENGLISH=DayDrawDaySelector
+
+ID=kStr_SysTrapBase+605
+ENGLISH=DayHandleEvent
+
+ID=kStr_SysTrapBase+606
+ENGLISH=DayDrawDays
+
+ID=kStr_SysTrapBase+607
+ENGLISH=DayOfWeek
+
+ID=kStr_SysTrapBase+608
+ENGLISH=DaysInMonth
+
+ID=kStr_SysTrapBase+609
+ENGLISH=DayOfMonth
+
+ID=kStr_SysTrapBase+610
+ENGLISH=DateDaysToDate
+
+ID=kStr_SysTrapBase+611
+ENGLISH=DateToDays
+
+ID=kStr_SysTrapBase+612
+ENGLISH=DateAdjust
+
+ID=kStr_SysTrapBase+613
+ENGLISH=DateSecondsToDate
+
+ID=kStr_SysTrapBase+614
+ENGLISH=DateToAscii
+
+ID=kStr_SysTrapBase+615
+ENGLISH=DateToDOWDMFormat
+
+ID=kStr_SysTrapBase+616
+ENGLISH=TimeToAscii
+
+ID=kStr_SysTrapBase+617
+ENGLISH=Find
+
+ID=kStr_SysTrapBase+618
+ENGLISH=FindStrInStr
+
+ID=kStr_SysTrapBase+619
+ENGLISH=FindSaveMatch
+
+ID=kStr_SysTrapBase+620
+ENGLISH=FindGetLineBounds
+
+ID=kStr_SysTrapBase+621
+ENGLISH=FindDrawHeader
+
+ID=kStr_SysTrapBase+622
+ENGLISH=PenOpen
+
+ID=kStr_SysTrapBase+623
+ENGLISH=PenClose
+
+ID=kStr_SysTrapBase+624
+ENGLISH=PenGetRawPen
+
+ID=kStr_SysTrapBase+625
+ENGLISH=PenCalibrate
+
+ID=kStr_SysTrapBase+626
+ENGLISH=PenRawToScreen
+
+ID=kStr_SysTrapBase+627
+ENGLISH=PenScreenToRaw
+
+ID=kStr_SysTrapBase+628
+ENGLISH=PenResetCalibration
+
+ID=kStr_SysTrapBase+629
+ENGLISH=PenSleep
+
+ID=kStr_SysTrapBase+630
+ENGLISH=PenWake
+
+ID=kStr_SysTrapBase+631
+ENGLISH=ResLoadForm
+
+ID=kStr_SysTrapBase+632
+ENGLISH=ResLoadMenu
+
+ID=kStr_SysTrapBase+633
+ENGLISH=FtrInit
+
+ID=kStr_SysTrapBase+634
+ENGLISH=FtrUnregister
+
+ID=kStr_SysTrapBase+635
+ENGLISH=FtrGet
+
+ID=kStr_SysTrapBase+636
+ENGLISH=FtrSet
+
+ID=kStr_SysTrapBase+637
+ENGLISH=FtrGetByIndex
+
+ID=kStr_SysTrapBase+638
+ENGLISH=GrfInit
+
+ID=kStr_SysTrapBase+639
+ENGLISH=GrfFree
+
+ID=kStr_SysTrapBase+640
+ENGLISH=GrfGetState
+
+ID=kStr_SysTrapBase+641
+ENGLISH=GrfSetState
+
+ID=kStr_SysTrapBase+642
+ENGLISH=GrfFlushPoints
+
+ID=kStr_SysTrapBase+643
+ENGLISH=GrfAddPoint
+
+ID=kStr_SysTrapBase+644
+ENGLISH=GrfInitState
+
+ID=kStr_SysTrapBase+645
+ENGLISH=GrfCleanState
+
+ID=kStr_SysTrapBase+646
+ENGLISH=GrfMatch
+
+ID=kStr_SysTrapBase+647
+ENGLISH=GrfGetMacro
+
+ID=kStr_SysTrapBase+648
+ENGLISH=GrfFilterPoints
+
+ID=kStr_SysTrapBase+649
+ENGLISH=GrfGetNumPoints
+
+ID=kStr_SysTrapBase+650
+ENGLISH=GrfGetPoint
+
+ID=kStr_SysTrapBase+651
+ENGLISH=GrfFindBranch
+
+ID=kStr_SysTrapBase+652
+ENGLISH=GrfMatchGlyph
+
+ID=kStr_SysTrapBase+653
+ENGLISH=GrfGetGlyphMapping
+
+ID=kStr_SysTrapBase+654
+ENGLISH=GrfGetMacroName
+
+ID=kStr_SysTrapBase+655
+ENGLISH=GrfDeleteMacro
+
+ID=kStr_SysTrapBase+656
+ENGLISH=GrfAddMacro
+
+ID=kStr_SysTrapBase+657
+ENGLISH=GrfGetAndExpandMacro
+
+ID=kStr_SysTrapBase+658
+ENGLISH=GrfProcessStroke
+
+ID=kStr_SysTrapBase+659
+ENGLISH=GrfFieldChange
+
+ID=kStr_SysTrapBase+660
+ENGLISH=GetCharSortValue
+
+ID=kStr_SysTrapBase+661
+ENGLISH=GetCharAttr
+
+ID=kStr_SysTrapBase+662
+ENGLISH=GetCharCaselessValue
+
+ID=kStr_SysTrapBase+663
+ENGLISH=PwdExists
+
+ID=kStr_SysTrapBase+664
+ENGLISH=PwdVerify
+
+ID=kStr_SysTrapBase+665
+ENGLISH=PwdSet
+
+ID=kStr_SysTrapBase+666
+ENGLISH=PwdRemove
+
+ID=kStr_SysTrapBase+667
+ENGLISH=GsiInitialize
+
+ID=kStr_SysTrapBase+668
+ENGLISH=GsiSetLocation
+
+ID=kStr_SysTrapBase+669
+ENGLISH=GsiEnable
+
+ID=kStr_SysTrapBase+670
+ENGLISH=GsiEnabled
+
+ID=kStr_SysTrapBase+671
+ENGLISH=GsiSetShiftState
+
+ID=kStr_SysTrapBase+672
+ENGLISH=KeyInit
+
+ID=kStr_SysTrapBase+673
+ENGLISH=KeyHandleInterrupt
+
+ID=kStr_SysTrapBase+674
+ENGLISH=KeyCurrentState
+
+ID=kStr_SysTrapBase+675
+ENGLISH=KeyResetDoubleTap
+
+ID=kStr_SysTrapBase+676
+ENGLISH=KeyRates
+
+ID=kStr_SysTrapBase+677
+ENGLISH=KeySleep
+
+ID=kStr_SysTrapBase+678
+ENGLISH=KeyWake
+
+ID=kStr_SysTrapBase+679
+ENGLISH=DlkControl
+
+ID=kStr_SysTrapBase+680
+ENGLISH=DlkStartServer
+
+ID=kStr_SysTrapBase+681
+ENGLISH=DlkGetSyncInfo
+
+ID=kStr_SysTrapBase+682
+ENGLISH=DlkSetLogEntry
+
+ID=kStr_SysTrapBase+683
+ENGLISH=IntlDispatch
+
+ID=kStr_SysTrapBase+684
+ENGLISH=SysLibLoad
+
+ID=kStr_SysTrapBase+685
+ENGLISH=SndPlaySmf
+
+ID=kStr_SysTrapBase+686
+ENGLISH=SndCreateMidiList
+
+ID=kStr_SysTrapBase+687
+ENGLISH=AbtShowAbout
+
+ID=kStr_SysTrapBase+688
+ENGLISH=MdmDial
+
+ID=kStr_SysTrapBase+689
+ENGLISH=MdmHangUp
+
+ID=kStr_SysTrapBase+690
+ENGLISH=DmSearchRecord
+
+ID=kStr_SysTrapBase+691
+ENGLISH=SysInsertionSort
+
+ID=kStr_SysTrapBase+692
+ENGLISH=DmInsertionSort
+
+ID=kStr_SysTrapBase+693
+ENGLISH=LstSetTopItem
+
+ID=kStr_SysTrapBase+694
+ENGLISH=SclSetScrollBar
+
+ID=kStr_SysTrapBase+695
+ENGLISH=SclDrawScrollBar
+
+ID=kStr_SysTrapBase+696
+ENGLISH=SclHandleEvent
+
+ID=kStr_SysTrapBase+697
+ENGLISH=SysMailboxCreate
+
+ID=kStr_SysTrapBase+698
+ENGLISH=SysMailboxDelete
+
+ID=kStr_SysTrapBase+699
+ENGLISH=SysMailboxFlush
+
+ID=kStr_SysTrapBase+700
+ENGLISH=SysMailboxSend
+
+ID=kStr_SysTrapBase+701
+ENGLISH=SysMailboxWait
+
+ID=kStr_SysTrapBase+702
+ENGLISH=SysTaskWait
+
+ID=kStr_SysTrapBase+703
+ENGLISH=SysTaskWake
+
+ID=kStr_SysTrapBase+704
+ENGLISH=SysTaskWaitClr
+
+ID=kStr_SysTrapBase+705
+ENGLISH=SysTaskSuspend
+
+ID=kStr_SysTrapBase+706
+ENGLISH=SysTaskResume
+
+ID=kStr_SysTrapBase+707
+ENGLISH=CategoryCreateList
+
+ID=kStr_SysTrapBase+708
+ENGLISH=CategoryFreeList
+
+ID=kStr_SysTrapBase+709
+ENGLISH=CategoryEditV20
+
+ID=kStr_SysTrapBase+710
+ENGLISH=CategorySelect
+
+ID=kStr_SysTrapBase+711
+ENGLISH=DmDeleteCategory
+
+ID=kStr_SysTrapBase+712
+ENGLISH=SysEvGroupCreate
+
+ID=kStr_SysTrapBase+713
+ENGLISH=SysEvGroupSignal
+
+ID=kStr_SysTrapBase+714
+ENGLISH=SysEvGroupRead
+
+ID=kStr_SysTrapBase+715
+ENGLISH=SysEvGroupWait
+
+ID=kStr_SysTrapBase+716
+ENGLISH=EvtEventAvail
+
+ID=kStr_SysTrapBase+717
+ENGLISH=EvtSysEventAvail
+
+ID=kStr_SysTrapBase+718
+ENGLISH=StrNCopy
+
+ID=kStr_SysTrapBase+719
+ENGLISH=KeySetMask
+
+ID=kStr_SysTrapBase+720
+ENGLISH=SelectDay
+
+ID=kStr_SysTrapBase+721
+ENGLISH=PrefGetPreference
+
+ID=kStr_SysTrapBase+722
+ENGLISH=PrefSetPreference
+
+ID=kStr_SysTrapBase+723
+ENGLISH=PrefGetAppPreferences
+
+ID=kStr_SysTrapBase+724
+ENGLISH=PrefSetAppPreferences
+
+ID=kStr_SysTrapBase+725
+ENGLISH=FrmPointInTitle
+
+ID=kStr_SysTrapBase+726
+ENGLISH=StrNCat
+
+ID=kStr_SysTrapBase+727
+ENGLISH=MemCmp
+
+ID=kStr_SysTrapBase+728
+ENGLISH=TblSetColumnEditIndicator
+
+ID=kStr_SysTrapBase+729
+ENGLISH=FntWordWrap
+
+ID=kStr_SysTrapBase+730
+ENGLISH=FldGetScrollValues
+
+ID=kStr_SysTrapBase+731
+ENGLISH=SysCreateDataBaseList
+
+ID=kStr_SysTrapBase+732
+ENGLISH=SysCreatePanelList
+
+ID=kStr_SysTrapBase+733
+ENGLISH=DlkDispatchRequest
+
+ID=kStr_SysTrapBase+734
+ENGLISH=StrPrintF
+
+ID=kStr_SysTrapBase+735
+ENGLISH=StrVPrintF
+
+ID=kStr_SysTrapBase+736
+ENGLISH=PrefOpenPreferenceDB
+
+ID=kStr_SysTrapBase+737
+ENGLISH=SysGraffitiReferenceDialog
+
+ID=kStr_SysTrapBase+738
+ENGLISH=SysKeyboardDialog
+
+ID=kStr_SysTrapBase+739
+ENGLISH=FntWordWrapReverseNLines
+
+ID=kStr_SysTrapBase+740
+ENGLISH=FntGetScrollValues
+
+ID=kStr_SysTrapBase+741
+ENGLISH=TblSetRowStaticHeight
+
+ID=kStr_SysTrapBase+742
+ENGLISH=TblHasScrollBar
+
+ID=kStr_SysTrapBase+743
+ENGLISH=SclGetScrollBar
+
+ID=kStr_SysTrapBase+744
+ENGLISH=FldGetNumberOfBlankLines
+
+ID=kStr_SysTrapBase+745
+ENGLISH=SysTicksPerSecond
+
+ID=kStr_SysTrapBase+746
+ENGLISH=HwrBacklightV33
+
+ID=kStr_SysTrapBase+747
+ENGLISH=DmDatabaseProtect
+
+ID=kStr_SysTrapBase+748
+ENGLISH=TblSetBounds
+
+ID=kStr_SysTrapBase+749
+ENGLISH=StrNCompare
+
+ID=kStr_SysTrapBase+750
+ENGLISH=StrNCaselessCompare
+
+ID=kStr_SysTrapBase+751
+ENGLISH=PhoneNumberLookup
+
+ID=kStr_SysTrapBase+752
+ENGLISH=FrmSetMenu
+
+ID=kStr_SysTrapBase+753
+ENGLISH=EncDigestMD5
+
+ID=kStr_SysTrapBase+754
+ENGLISH=DmFindSortPosition
+
+ID=kStr_SysTrapBase+755
+ENGLISH=SysBinarySearch
+
+ID=kStr_SysTrapBase+756
+ENGLISH=SysErrString
+
+ID=kStr_SysTrapBase+757
+ENGLISH=SysStringByIndex
+
+ID=kStr_SysTrapBase+758
+ENGLISH=EvtAddUniqueEventToQueue
+
+ID=kStr_SysTrapBase+759
+ENGLISH=StrLocalizeNumber
+
+ID=kStr_SysTrapBase+760
+ENGLISH=StrDelocalizeNumber
+
+ID=kStr_SysTrapBase+761
+ENGLISH=LocGetNumberSeparators
+
+ID=kStr_SysTrapBase+762
+ENGLISH=MenuSetActiveMenuRscID
+
+ID=kStr_SysTrapBase+763
+ENGLISH=LstScrollList
+
+ID=kStr_SysTrapBase+764
+ENGLISH=CategoryInitialize
+
+ID=kStr_SysTrapBase+765
+ENGLISH=EncDigestMD4
+
+ID=kStr_SysTrapBase+766
+ENGLISH=EncDES
+
+ID=kStr_SysTrapBase+767
+ENGLISH=LstGetVisibleItems
+
+ID=kStr_SysTrapBase+768
+ENGLISH=WinSetBounds
+
+ID=kStr_SysTrapBase+769
+ENGLISH=CategorySetName
+
+ID=kStr_SysTrapBase+770
+ENGLISH=FldSetInsertionPoint
+
+ID=kStr_SysTrapBase+771
+ENGLISH=FrmSetObjectBounds
+
+ID=kStr_SysTrapBase+772
+ENGLISH=WinSetColors
+
+ID=kStr_SysTrapBase+773
+ENGLISH=FlpDispatch
+
+ID=kStr_SysTrapBase+774
+ENGLISH=FlpEmDispatch
+
+ID=kStr_SysTrapBase+775
+ENGLISH=ExgInit
+
+ID=kStr_SysTrapBase+776
+ENGLISH=ExgConnect
+
+ID=kStr_SysTrapBase+777
+ENGLISH=ExgPut
+
+ID=kStr_SysTrapBase+778
+ENGLISH=ExgGet
+
+ID=kStr_SysTrapBase+779
+ENGLISH=ExgAccept
+
+ID=kStr_SysTrapBase+780
+ENGLISH=ExgDisconnect
+
+ID=kStr_SysTrapBase+781
+ENGLISH=ExgSend
+
+ID=kStr_SysTrapBase+782
+ENGLISH=ExgReceive
+
+ID=kStr_SysTrapBase+783
+ENGLISH=ExgRegisterData
+
+ID=kStr_SysTrapBase+784
+ENGLISH=ExgNotifyReceiveV35
+
+ID=kStr_SysTrapBase+785
+ENGLISH=SysReserved30Trap2
+
+ID=kStr_SysTrapBase+786
+ENGLISH=PrgStartDialogV31
+
+ID=kStr_SysTrapBase+787
+ENGLISH=PrgStopDialog
+
+ID=kStr_SysTrapBase+788
+ENGLISH=PrgUpdateDialog
+
+ID=kStr_SysTrapBase+789
+ENGLISH=PrgHandleEvent
+
+ID=kStr_SysTrapBase+790
+ENGLISH=ImcReadFieldNoSemicolon
+
+ID=kStr_SysTrapBase+791
+ENGLISH=ImcReadFieldQuotablePrintable
+
+ID=kStr_SysTrapBase+792
+ENGLISH=ImcReadPropertyParameter
+
+ID=kStr_SysTrapBase+793
+ENGLISH=ImcSkipAllPropertyParameters
+
+ID=kStr_SysTrapBase+794
+ENGLISH=ImcReadWhiteSpace
+
+ID=kStr_SysTrapBase+795
+ENGLISH=ImcWriteQuotedPrintable
+
+ID=kStr_SysTrapBase+796
+ENGLISH=ImcWriteNoSemicolon
+
+ID=kStr_SysTrapBase+797
+ENGLISH=ImcStringIsAscii
+
+ID=kStr_SysTrapBase+798
+ENGLISH=TblGetItemFont
+
+ID=kStr_SysTrapBase+799
+ENGLISH=TblSetItemFont
+
+ID=kStr_SysTrapBase+800
+ENGLISH=FontSelect
+
+ID=kStr_SysTrapBase+801
+ENGLISH=FntDefineFont
+
+ID=kStr_SysTrapBase+802
+ENGLISH=CategoryEdit
+
+ID=kStr_SysTrapBase+803
+ENGLISH=SysGetOSVersionString
+
+ID=kStr_SysTrapBase+804
+ENGLISH=SysBatteryInfo
+
+ID=kStr_SysTrapBase+805
+ENGLISH=SysUIBusy
+
+ID=kStr_SysTrapBase+806
+ENGLISH=WinValidateHandle
+
+ID=kStr_SysTrapBase+807
+ENGLISH=FrmValidatePtr
+
+ID=kStr_SysTrapBase+808
+ENGLISH=CtlValidatePointer
+
+ID=kStr_SysTrapBase+809
+ENGLISH=WinMoveWindowAddr
+
+ID=kStr_SysTrapBase+810
+ENGLISH=FrmAddSpaceForObject
+
+ID=kStr_SysTrapBase+811
+ENGLISH=FrmNewForm
+
+ID=kStr_SysTrapBase+812
+ENGLISH=CtlNewControl
+
+ID=kStr_SysTrapBase+813
+ENGLISH=FldNewField
+
+ID=kStr_SysTrapBase+814
+ENGLISH=LstNewList
+
+ID=kStr_SysTrapBase+815
+ENGLISH=FrmNewLabel
+
+ID=kStr_SysTrapBase+816
+ENGLISH=FrmNewBitmap
+
+ID=kStr_SysTrapBase+817
+ENGLISH=FrmNewGadget
+
+ID=kStr_SysTrapBase+818
+ENGLISH=FileOpen
+
+ID=kStr_SysTrapBase+819
+ENGLISH=FileClose
+
+ID=kStr_SysTrapBase+820
+ENGLISH=FileDelete
+
+ID=kStr_SysTrapBase+821
+ENGLISH=FileReadLow
+
+ID=kStr_SysTrapBase+822
+ENGLISH=FileWrite
+
+ID=kStr_SysTrapBase+823
+ENGLISH=FileSeek
+
+ID=kStr_SysTrapBase+824
+ENGLISH=FileTell
+
+ID=kStr_SysTrapBase+825
+ENGLISH=FileTruncate
+
+ID=kStr_SysTrapBase+826
+ENGLISH=FileControl
+
+ID=kStr_SysTrapBase+827
+ENGLISH=FrmActiveState
+
+ID=kStr_SysTrapBase+828
+ENGLISH=SysGetAppInfo
+
+ID=kStr_SysTrapBase+829
+ENGLISH=SysGetStackInfo
+
+ID=kStr_SysTrapBase+830
+ENGLISH=WinScreenMode
+
+ID=kStr_SysTrapBase+831
+ENGLISH=HwrLCDGetDepthV33
+
+ID=kStr_SysTrapBase+832
+ENGLISH=HwrGetROMToken
+
+ID=kStr_SysTrapBase+833
+ENGLISH=DbgControl
+
+ID=kStr_SysTrapBase+834
+ENGLISH=ExgDBRead
+
+ID=kStr_SysTrapBase+835
+ENGLISH=ExgDBWrite
+
+ID=kStr_SysTrapBase+836
+ENGLISH=HostControl
+
+ID=kStr_SysTrapBase+837
+ENGLISH=FrmRemoveObject
+
+ID=kStr_SysTrapBase+838
+ENGLISH=SysReserved30Trap1
+
+ID=kStr_SysTrapBase+839
+ENGLISH=ExpansionDispatch
+
+ID=kStr_SysTrapBase+840
+ENGLISH=FileSystemDispatch
+
+ID=kStr_SysTrapBase+841
+ENGLISH=OEMDispatch
+
+ID=kStr_SysTrapBase+842
+ENGLISH=HwrLCDContrastV33
+
+ID=kStr_SysTrapBase+843
+ENGLISH=SysLCDContrast
+
+ID=kStr_SysTrapBase+844
+ENGLISH=UIContrastAdjust
+
+ID=kStr_SysTrapBase+845
+ENGLISH=HwrDockStatus
+
+ID=kStr_SysTrapBase+846
+ENGLISH=FntWidthToOffset
+
+ID=kStr_SysTrapBase+847
+ENGLISH=SelectOneTime
+
+ID=kStr_SysTrapBase+848
+ENGLISH=WinDrawChar
+
+ID=kStr_SysTrapBase+849
+ENGLISH=WinDrawTruncChars
+
+ID=kStr_SysTrapBase+850
+ENGLISH=SysNotifyInit
+
+ID=kStr_SysTrapBase+851
+ENGLISH=SysNotifyRegister
+
+ID=kStr_SysTrapBase+852
+ENGLISH=SysNotifyUnregister
+
+ID=kStr_SysTrapBase+853
+ENGLISH=SysNotifyBroadcast
+
+ID=kStr_SysTrapBase+854
+ENGLISH=SysNotifyBroadcastDeferred
+
+ID=kStr_SysTrapBase+855
+ENGLISH=SysNotifyDatabaseAdded
+
+ID=kStr_SysTrapBase+856
+ENGLISH=SysNotifyDatabaseRemoved
+
+ID=kStr_SysTrapBase+857
+ENGLISH=SysWantEvent
+
+ID=kStr_SysTrapBase+858
+ENGLISH=FtrPtrNew
+
+ID=kStr_SysTrapBase+859
+ENGLISH=FtrPtrFree
+
+ID=kStr_SysTrapBase+860
+ENGLISH=FtrPtrResize
+
+ID=kStr_SysTrapBase+861
+ENGLISH=SysReserved31Trap1
+
+ID=kStr_SysTrapBase+862
+ENGLISH=HwrNVPrefSet
+
+ID=kStr_SysTrapBase+863
+ENGLISH=HwrNVPrefGet
+
+ID=kStr_SysTrapBase+864
+ENGLISH=FlashInit
+
+ID=kStr_SysTrapBase+865
+ENGLISH=FlashCompress
+
+ID=kStr_SysTrapBase+866
+ENGLISH=FlashErase
+
+ID=kStr_SysTrapBase+867
+ENGLISH=FlashProgram
+
+ID=kStr_SysTrapBase+868
+ENGLISH=AlmTimeChange
+
+ID=kStr_SysTrapBase+869
+ENGLISH=ErrAlertCustom
+
+ID=kStr_SysTrapBase+870
+ENGLISH=PrgStartDialog
+
+ID=kStr_SysTrapBase+871
+ENGLISH=SerialDispatch
+
+ID=kStr_SysTrapBase+872
+ENGLISH=HwrBattery
+
+ID=kStr_SysTrapBase+873
+ENGLISH=DmGetDatabaseLockState
+
+ID=kStr_SysTrapBase+874
+ENGLISH=CncGetProfileList
+
+ID=kStr_SysTrapBase+875
+ENGLISH=CncGetProfileInfo
+
+ID=kStr_SysTrapBase+876
+ENGLISH=CncAddProfile
+
+ID=kStr_SysTrapBase+877
+ENGLISH=CncDeleteProfile
+
+ID=kStr_SysTrapBase+878
+ENGLISH=SndPlaySmfResource
+
+ID=kStr_SysTrapBase+879
+ENGLISH=MemPtrDataStorage
+
+ID=kStr_SysTrapBase+880
+ENGLISH=ClipboardAppendItem
+
+ID=kStr_SysTrapBase+881
+ENGLISH=WiCmdV32
+
+ID=kStr_SysTrapBase+882
+ENGLISH=HwrDisplayAttributes
+
+ID=kStr_SysTrapBase+883
+ENGLISH=HwrDisplayDoze
+
+ID=kStr_SysTrapBase+884
+ENGLISH=HwrDisplayPalette
+
+ID=kStr_SysTrapBase+885
+ENGLISH=BltFindIndexes
+
+ID=kStr_SysTrapBase+886
+ENGLISH=BmpGetBits
+
+ID=kStr_SysTrapBase+887
+ENGLISH=BltCopyRectangle
+
+ID=kStr_SysTrapBase+888
+ENGLISH=BltDrawChars
+
+ID=kStr_SysTrapBase+889
+ENGLISH=BltLineRoutine
+
+ID=kStr_SysTrapBase+890
+ENGLISH=BltRectangleRoutine
+
+ID=kStr_SysTrapBase+891
+ENGLISH=ScrCompress
+
+ID=kStr_SysTrapBase+892
+ENGLISH=ScrDecompress
+
+ID=kStr_SysTrapBase+893
+ENGLISH=SysLCDBrightness
+
+ID=kStr_SysTrapBase+894
+ENGLISH=WinPaintChar
+
+ID=kStr_SysTrapBase+895
+ENGLISH=WinPaintChars
+
+ID=kStr_SysTrapBase+896
+ENGLISH=WinPaintBitmap
+
+ID=kStr_SysTrapBase+897
+ENGLISH=WinGetPixel
+
+ID=kStr_SysTrapBase+898
+ENGLISH=WinPaintPixel
+
+ID=kStr_SysTrapBase+899
+ENGLISH=WinDrawPixel
+
+ID=kStr_SysTrapBase+900
+ENGLISH=WinErasePixel
+
+ID=kStr_SysTrapBase+901
+ENGLISH=WinInvertPixel
+
+ID=kStr_SysTrapBase+902
+ENGLISH=WinPaintPixels
+
+ID=kStr_SysTrapBase+903
+ENGLISH=WinPaintLines
+
+ID=kStr_SysTrapBase+904
+ENGLISH=WinPaintLine
+
+ID=kStr_SysTrapBase+905
+ENGLISH=WinPaintRectangle
+
+ID=kStr_SysTrapBase+906
+ENGLISH=WinPaintRectangleFrame
+
+ID=kStr_SysTrapBase+907
+ENGLISH=WinPaintPolygon
+
+ID=kStr_SysTrapBase+908
+ENGLISH=WinDrawPolygon
+
+ID=kStr_SysTrapBase+909
+ENGLISH=WinErasePolygon
+
+ID=kStr_SysTrapBase+910
+ENGLISH=WinInvertPolygon
+
+ID=kStr_SysTrapBase+911
+ENGLISH=WinFillPolygon
+
+ID=kStr_SysTrapBase+912
+ENGLISH=WinPaintArc
+
+ID=kStr_SysTrapBase+913
+ENGLISH=WinDrawArc
+
+ID=kStr_SysTrapBase+914
+ENGLISH=WinEraseArc
+
+ID=kStr_SysTrapBase+915
+ENGLISH=WinInvertArc
+
+ID=kStr_SysTrapBase+916
+ENGLISH=WinFillArc
+
+ID=kStr_SysTrapBase+917
+ENGLISH=WinPushDrawState
+
+ID=kStr_SysTrapBase+918
+ENGLISH=WinPopDrawState
+
+ID=kStr_SysTrapBase+919
+ENGLISH=WinSetDrawMode
+
+ID=kStr_SysTrapBase+920
+ENGLISH=WinSetForeColor
+
+ID=kStr_SysTrapBase+921
+ENGLISH=WinSetBackColor
+
+ID=kStr_SysTrapBase+922
+ENGLISH=WinSetTextColor
+
+ID=kStr_SysTrapBase+923
+ENGLISH=WinGetPatternType
+
+ID=kStr_SysTrapBase+924
+ENGLISH=WinSetPatternType
+
+ID=kStr_SysTrapBase+925
+ENGLISH=WinPalette
+
+ID=kStr_SysTrapBase+926
+ENGLISH=WinRGBToIndex
+
+ID=kStr_SysTrapBase+927
+ENGLISH=WinIndexToRGB
+
+ID=kStr_SysTrapBase+928
+ENGLISH=WinScreenLock
+
+ID=kStr_SysTrapBase+929
+ENGLISH=WinScreenUnlock
+
+ID=kStr_SysTrapBase+930
+ENGLISH=WinGetBitmap
+
+ID=kStr_SysTrapBase+931
+ENGLISH=UIColorInit
+
+ID=kStr_SysTrapBase+932
+ENGLISH=UIColorGetTableEntryIndex
+
+ID=kStr_SysTrapBase+933
+ENGLISH=UIColorGetTableEntryRGB
+
+ID=kStr_SysTrapBase+934
+ENGLISH=UIColorSetTableEntry
+
+ID=kStr_SysTrapBase+935
+ENGLISH=UIColorPushTable
+
+ID=kStr_SysTrapBase+936
+ENGLISH=UIColorPopTable
+
+ID=kStr_SysTrapBase+937
+ENGLISH=CtlNewGraphicControl
+
+ID=kStr_SysTrapBase+938
+ENGLISH=TblGetItemPtr
+
+ID=kStr_SysTrapBase+939
+ENGLISH=UIBrightnessAdjust
+
+ID=kStr_SysTrapBase+940
+ENGLISH=UIPickColor
+
+ID=kStr_SysTrapBase+941
+ENGLISH=EvtSetAutoOffTimer
+
+ID=kStr_SysTrapBase+942
+ENGLISH=TsmDispatch
+
+ID=kStr_SysTrapBase+943
+ENGLISH=OmDispatch
+
+ID=kStr_SysTrapBase+944
+ENGLISH=DmOpenDBNoOverlay
+
+ID=kStr_SysTrapBase+945
+ENGLISH=DmOpenDBWithLocale
+
+ID=kStr_SysTrapBase+946
+ENGLISH=ResLoadConstant
+
+ID=kStr_SysTrapBase+947
+ENGLISH=HwrPreDebugInit
+
+ID=kStr_SysTrapBase+948
+ENGLISH=HwrResetNMI
+
+ID=kStr_SysTrapBase+949
+ENGLISH=HwrResetPWM
+
+ID=kStr_SysTrapBase+950
+ENGLISH=KeyBootKeys
+
+ID=kStr_SysTrapBase+951
+ENGLISH=DbgSerDrvOpen
+
+ID=kStr_SysTrapBase+952
+ENGLISH=DbgSerDrvClose
+
+ID=kStr_SysTrapBase+953
+ENGLISH=DbgSerDrvControl
+
+ID=kStr_SysTrapBase+954
+ENGLISH=DbgSerDrvStatus
+
+ID=kStr_SysTrapBase+955
+ENGLISH=DbgSerDrvWriteChar
+
+ID=kStr_SysTrapBase+956
+ENGLISH=DbgSerDrvReadChar
+
+ID=kStr_SysTrapBase+957
+ENGLISH=HwrPostDebugInit
+
+ID=kStr_SysTrapBase+958
+ENGLISH=HwrIdentifyFeatures
+
+ID=kStr_SysTrapBase+959
+ENGLISH=HwrModelSpecificInit
+
+ID=kStr_SysTrapBase+960
+ENGLISH=HwrModelInitStage2
+
+ID=kStr_SysTrapBase+961
+ENGLISH=HwrInterruptsInit
+
+ID=kStr_SysTrapBase+962
+ENGLISH=HwrSoundOn
+
+ID=kStr_SysTrapBase+963
+ENGLISH=HwrSoundOff
+
+ID=kStr_SysTrapBase+964
+ENGLISH=SysKernelClockTick
+
+ID=kStr_SysTrapBase+965
+ENGLISH=MenuEraseMenu
+
+ID=kStr_SysTrapBase+966
+ENGLISH=SelectTime
+
+ID=kStr_SysTrapBase+967
+ENGLISH=MenuCmdBarAddButton
+
+ID=kStr_SysTrapBase+968
+ENGLISH=MenuCmdBarGetButtonData
+
+ID=kStr_SysTrapBase+969
+ENGLISH=MenuCmdBarDisplay
+
+ID=kStr_SysTrapBase+970
+ENGLISH=HwrGetSilkscreenID
+
+ID=kStr_SysTrapBase+971
+ENGLISH=EvtGetSilkscreenAreaList
+
+ID=kStr_SysTrapBase+972
+ENGLISH=SysFatalAlertInit
+
+ID=kStr_SysTrapBase+973
+ENGLISH=DateTemplateToAscii
+
+ID=kStr_SysTrapBase+974
+ENGLISH=SecVerifyPW
+
+ID=kStr_SysTrapBase+975
+ENGLISH=SecSelectViewStatus
+
+ID=kStr_SysTrapBase+976
+ENGLISH=TblSetColumnMasked
+
+ID=kStr_SysTrapBase+977
+ENGLISH=TblSetRowMasked
+
+ID=kStr_SysTrapBase+978
+ENGLISH=TblRowMasked
+
+ID=kStr_SysTrapBase+979
+ENGLISH=FrmCustomResponseAlert
+
+ID=kStr_SysTrapBase+980
+ENGLISH=FrmNewGsi
+
+ID=kStr_SysTrapBase+981
+ENGLISH=MenuShowItem
+
+ID=kStr_SysTrapBase+982
+ENGLISH=MenuHideItem
+
+ID=kStr_SysTrapBase+983
+ENGLISH=MenuAddItem
+
+ID=kStr_SysTrapBase+984
+ENGLISH=FrmSetGadgetHandler
+
+ID=kStr_SysTrapBase+985
+ENGLISH=CtlSetGraphics
+
+ID=kStr_SysTrapBase+986
+ENGLISH=CtlGetSliderValues
+
+ID=kStr_SysTrapBase+987
+ENGLISH=CtlSetSliderValues
+
+ID=kStr_SysTrapBase+988
+ENGLISH=CtlNewSliderControl
+
+ID=kStr_SysTrapBase+989
+ENGLISH=BmpCreate
+
+ID=kStr_SysTrapBase+990
+ENGLISH=BmpDelete
+
+ID=kStr_SysTrapBase+991
+ENGLISH=BmpCompress
+
+ID=kStr_SysTrapBase+992
+ENGLISH=BmpGetColortable
+
+ID=kStr_SysTrapBase+993
+ENGLISH=BmpSize
+
+ID=kStr_SysTrapBase+994
+ENGLISH=BmpBitsSize
+
+ID=kStr_SysTrapBase+995
+ENGLISH=BmpColortableSize
+
+ID=kStr_SysTrapBase+996
+ENGLISH=WinCreateBitmapWindow
+
+ID=kStr_SysTrapBase+997
+ENGLISH=EvtSetNullEventTick
+
+ID=kStr_SysTrapBase+998
+ENGLISH=ExgDoDialog
+
+ID=kStr_SysTrapBase+999
+ENGLISH=SysUICleanup
+
+ID=kStr_SysTrapBase+1000
+ENGLISH=WinSetForeColorRGB
+
+ID=kStr_SysTrapBase+1001
+ENGLISH=WinSetBackColorRGB
+
+ID=kStr_SysTrapBase+1002
+ENGLISH=WinSetTextColorRGB
+
+ID=kStr_SysTrapBase+1003
+ENGLISH=WinGetPixelRGB
+
+ID=kStr_SysTrapBase+1004
+ENGLISH=SysReserved40Trap1
+
+ID=kStr_SysTrapBase+1005
+ENGLISH=SysReserved40Trap2
+
+ID=kStr_SysTrapBase+1006
+ENGLISH=SysReserved40Trap3
+
+ID=kStr_SysTrapBase+1007
+ENGLISH=SysReserved40Trap4
+
+ID=kStr_SysTrapBase+1008
+ENGLISH=CncMgrDispatch
+
+ID=kStr_SysTrapBase+1009
+ENGLISH=SysNotifyBroadcastFromInterrupt
+
+ID=kStr_SysTrapBase+1010
+ENGLISH=EvtWakeupWithoutNilEvent
+
+ID=kStr_SysTrapBase+1011
+ENGLISH=StrCompareAscii
+
+ID=kStr_SysTrapBase+1012
+ENGLISH=AccessorDispatch
+
+ID=kStr_SysTrapBase+1013
+ENGLISH=BltGetPixel
+
+ID=kStr_SysTrapBase+1014
+ENGLISH=BltPaintPixel
+
+ID=kStr_SysTrapBase+1015
+ENGLISH=ScrScreenInit
+
+ID=kStr_SysTrapBase+1016
+ENGLISH=ScrUpdateScreenBitmap
+
+ID=kStr_SysTrapBase+1017
+ENGLISH=ScrPalette
+
+ID=kStr_SysTrapBase+1018
+ENGLISH=ScrGetColortable
+
+ID=kStr_SysTrapBase+1019
+ENGLISH=ScrGetGrayPat
+
+ID=kStr_SysTrapBase+1020
+ENGLISH=ScrScreenLock
+
+ID=kStr_SysTrapBase+1021
+ENGLISH=ScrScreenUnlock
+
+ID=kStr_SysTrapBase+1022
+ENGLISH=FntPrvGetFontList
+
+ID=kStr_SysTrapBase+1023
+ENGLISH=ExgRegisterDatatype
+
+ID=kStr_SysTrapBase+1024
+ENGLISH=ExgNotifyReceive
+
+ID=kStr_SysTrapBase+1025
+ENGLISH=ExgNotifyGoto
+
+ID=kStr_SysTrapBase+1026
+ENGLISH=ExgRequest
+
+ID=kStr_SysTrapBase+1027
+ENGLISH=ExgSetDefaultApplication
+
+ID=kStr_SysTrapBase+1028
+ENGLISH=ExgGetDefaultApplication
+
+ID=kStr_SysTrapBase+1029
+ENGLISH=ExgGetTargetApplication
+
+ID=kStr_SysTrapBase+1030
+ENGLISH=ExgGetRegisteredApplications
+
+ID=kStr_SysTrapBase+1031
+ENGLISH=ExgGetRegisteredTypes
+
+ID=kStr_SysTrapBase+1032
+ENGLISH=ExgNotifyPreview
+
+ID=kStr_SysTrapBase+1033
+ENGLISH=ExgControl
+
+ID=kStr_SysTrapBase+1034
+ENGLISH=LmDispatch
+
+ID=kStr_SysTrapBase+1035
+ENGLISH=MemGetRomNVParams
+
+ID=kStr_SysTrapBase+1036
+ENGLISH=FntWCharWidth
+
+ID=kStr_SysTrapBase+1037
+ENGLISH=DmFindDatabaseWithTypeCreator
+
+ID=kStr_SysTrapBase+1038
+ENGLISH=SelectTimeZone
+
+ID=kStr_SysTrapBase+1039
+ENGLISH=TimeZoneToAscii
+
+ID=kStr_SysTrapBase+1040
+ENGLISH=StrNCompareAscii
+
+ID=kStr_SysTrapBase+1041
+ENGLISH=TimTimeZoneToUTC
+
+ID=kStr_SysTrapBase+1042
+ENGLISH=TimUTCToTimeZone
+
+ID=kStr_SysTrapBase+1043
+ENGLISH=PhoneNumberLookupCustom
+
+ID=kStr_SysTrapBase+1044
+ENGLISH=HwrDebugSelect
+
+ID=kStr_SysTrapBase+1045
+ENGLISH=BltRoundedRectangle
+
+ID=kStr_SysTrapBase+1046
+ENGLISH=BltRoundedRectangleFill
+
+ID=kStr_SysTrapBase+1047
+ENGLISH=WinPrvInitCanvas
+
+ID=kStr_SysTrapBase+1048
+ENGLISH=HwrCalcDynamicHeapSize
+
+ID=kStr_SysTrapBase+1049
+ENGLISH=HwrDebuggerEnter
+
+ID=kStr_SysTrapBase+1050
+ENGLISH=HwrDebuggerExit
+
+ID=kStr_SysTrapBase+1051
+ENGLISH=LstGetTopItem
+
+ID=kStr_SysTrapBase+1052
+ENGLISH=HwrModelInitStage3
+
+ID=kStr_SysTrapBase+1053
+ENGLISH=AttnIndicatorAllow
+
+ID=kStr_SysTrapBase+1054
+ENGLISH=AttnIndicatorAllowed
+
+ID=kStr_SysTrapBase+1055
+ENGLISH=AttnIndicatorEnable
+
+ID=kStr_SysTrapBase+1056
+ENGLISH=AttnIndicatorEnabled
+
+ID=kStr_SysTrapBase+1057
+ENGLISH=AttnIndicatorSetBlinkPattern
+
+ID=kStr_SysTrapBase+1058
+ENGLISH=AttnIndicatorGetBlinkPattern
+
+ID=kStr_SysTrapBase+1059
+ENGLISH=AttnIndicatorTicksTillNextBlink
+
+ID=kStr_SysTrapBase+1060
+ENGLISH=AttnIndicatorCheckBlink
+
+ID=kStr_SysTrapBase+1061
+ENGLISH=AttnInitialize
+
+ID=kStr_SysTrapBase+1062
+ENGLISH=AttnGetAttention
+
+ID=kStr_SysTrapBase+1063
+ENGLISH=AttnUpdate
+
+ID=kStr_SysTrapBase+1064
+ENGLISH=AttnForgetIt
+
+ID=kStr_SysTrapBase+1065
+ENGLISH=AttnGetCounts
+
+ID=kStr_SysTrapBase+1066
+ENGLISH=AttnListOpen
+
+ID=kStr_SysTrapBase+1067
+ENGLISH=AttnHandleEvent
+
+ID=kStr_SysTrapBase+1068
+ENGLISH=AttnEffectOfEvent
+
+ID=kStr_SysTrapBase+1069
+ENGLISH=AttnIterate
+
+ID=kStr_SysTrapBase+1070
+ENGLISH=AttnDoSpecialEffects
+
+ID=kStr_SysTrapBase+1071
+ENGLISH=AttnDoEmergencySpecialEffects
+
+ID=kStr_SysTrapBase+1072
+ENGLISH=AttnAllowClose
+
+ID=kStr_SysTrapBase+1073
+ENGLISH=AttnReopen
+
+ID=kStr_SysTrapBase+1074
+ENGLISH=AttnEnableNotification
+
+ID=kStr_SysTrapBase+1075
+ENGLISH=HwrLEDAttributes
+
+ID=kStr_SysTrapBase+1076
+ENGLISH=HwrVibrateAttributes
+
+ID=kStr_SysTrapBase+1077
+ENGLISH=SecGetPwdHint
+
+ID=kStr_SysTrapBase+1078
+ENGLISH=SecSetPwdHint
+
+ID=kStr_SysTrapBase+1079
+ENGLISH=HwrFlashWrite
+
+ID=kStr_SysTrapBase+1080
+ENGLISH=KeyboardStatusNew
+
+ID=kStr_SysTrapBase+1081
+ENGLISH=KeyboardStatusFree
+
+ID=kStr_SysTrapBase+1082
+ENGLISH=KbdSetLayout
+
+ID=kStr_SysTrapBase+1083
+ENGLISH=KbdGetLayout
+
+ID=kStr_SysTrapBase+1084
+ENGLISH=KbdSetPosition
+
+ID=kStr_SysTrapBase+1085
+ENGLISH=KbdGetPosition
+
+ID=kStr_SysTrapBase+1086
+ENGLISH=KbdSetShiftState
+
+ID=kStr_SysTrapBase+1087
+ENGLISH=KbdGetShiftState
+
+ID=kStr_SysTrapBase+1088
+ENGLISH=KbdDraw
+
+ID=kStr_SysTrapBase+1089
+ENGLISH=KbdErase
+
+ID=kStr_SysTrapBase+1090
+ENGLISH=KbdHandleEvent
+
+ID=kStr_SysTrapBase+1091
+ENGLISH=OEMDispatch2
+
+ID=kStr_SysTrapBase+1092
+ENGLISH=HwrCustom
+
+ID=kStr_SysTrapBase+1093
+ENGLISH=FrmGetActiveField
+
+ID=kStr_SysTrapBase+1094
+ENGLISH=SndPlaySmfIrregardless
+
+ID=kStr_SysTrapBase+1095
+ENGLISH=SndPlaySmfResourceIrregardless
+
+ID=kStr_SysTrapBase+1096
+ENGLISH=SndInterruptSmfIrregardless
+
+ID=kStr_SysTrapBase+1097
+ENGLISH=UdaMgrDispatch
+
+ID=kStr_SysTrapBase+1098
+ENGLISH=PalmPrivate1
+
+ID=kStr_SysTrapBase+1099
+ENGLISH=PalmPrivate2
+
+ID=kStr_SysTrapBase+1100
+ENGLISH=PalmPrivate3
+
+ID=kStr_SysTrapBase+1101
+ENGLISH=PalmPrivate4
+
+ID=kStr_SysTrapBase+1102
+ENGLISH=BmpGetDimensions
+
+ID=kStr_SysTrapBase+1103
+ENGLISH=BmpGetBitDepth
+
+ID=kStr_SysTrapBase+1104
+ENGLISH=BmpGetNextBitmap
+
+ID=kStr_SysTrapBase+1105
+ENGLISH=TblGetNumberOfColumns
+
+ID=kStr_SysTrapBase+1106
+ENGLISH=TblGetTopRow
+
+ID=kStr_SysTrapBase+1107
+ENGLISH=TblSetSelection
+
+ID=kStr_SysTrapBase+1108
+ENGLISH=FrmGetObjectIndexFromPtr
+
+ID=kStr_SysTrapBase+1109
+ENGLISH=BmpGetSizes
+
+ID=kStr_SysTrapBase+1110
+ENGLISH=WinGetBounds
+
+ID=kStr_SysTrapBase+1111
+ENGLISH=BltPaintPixels
+
+ID=kStr_SysTrapBase+1112
+ENGLISH=FldSetMaxVisibleLines
+
+
+// --------------------------------------------------------------------------------
+//	Template Parts -- Library function names
+// --------------------------------------------------------------------------------
+
+// --------------------
+// Common Library functions
+// --------------------
+
+ID=kStr_LibTrapBase+0
+ENGLISH=SysLibName
+
+ID=kStr_LibTrapBase+1
+ENGLISH=SysLibOpen
+
+ID=kStr_LibTrapBase+2
+ENGLISH=SysLibClose
+
+ID=kStr_LibTrapBase+3
+ENGLISH=SysLibSleep
+
+ID=kStr_LibTrapBase+4
+ENGLISH=SysLibWake
+
+
+// --------------------
+// HTAL Library
+// --------------------
+
+ID=kStr_HTALLibTrapBase+1
+ENGLISH=HtalLibOpen
+
+ID=kStr_HTALLibTrapBase+2
+ENGLISH=HtalLibClose
+
+ID=kStr_HTALLibTrapBase+3
+ENGLISH=HtalLibSleep
+
+ID=kStr_HTALLibTrapBase+4
+ENGLISH=HtalLibWake
+
+ID=kStr_HTALLibTrapBase+5
+ENGLISH=HtalLibSetOption
+
+ID=kStr_HTALLibTrapBase+6
+ENGLISH=HtalLibGetOption
+
+ID=kStr_HTALLibTrapBase+7
+ENGLISH=HtalLibControl
+
+ID=kStr_HTALLibTrapBase+8
+ENGLISH=HtalLibConnectPhase1
+
+ID=kStr_HTALLibTrapBase+9
+ENGLISH=HtalLibDisconnect
+
+ID=kStr_HTALLibTrapBase+10
+ENGLISH=HtalLibGetCommand
+
+ID=kStr_HTALLibTrapBase+11
+ENGLISH=HtalLibSendReply
+
+ID=kStr_HTALLibTrapBase+12
+ENGLISH=HtalLibCancel
+
+ID=kStr_HTALLibTrapBase+13
+ENGLISH=HtalLibMaxBlockSize
+
+ID=kStr_HTALLibTrapBase+14
+ENGLISH=HtalLibVersion
+
+ID=kStr_HTALLibTrapBase+15
+ENGLISH=HtalLibAddSegmentSizes
+
+ID=kStr_HTALLibTrapBase+16
+ENGLISH=HtalLibConnectPhase2
+
+
+// --------------------
+// INet Library
+// --------------------
+
+ID=kStr_INetLibTrapBase+1
+ENGLISH=INetLibOpen
+
+ID=kStr_INetLibTrapBase+2
+ENGLISH=INetLibClose
+
+ID=kStr_INetLibTrapBase+3
+ENGLISH=INetLibSleep
+
+ID=kStr_INetLibTrapBase+4
+ENGLISH=INetLibWake
+
+ID=kStr_INetLibTrapBase+5
+ENGLISH=INetLibSettingGet
+
+ID=kStr_INetLibTrapBase+6
+ENGLISH=INetLibSettingSet
+
+ID=kStr_INetLibTrapBase+7
+ENGLISH=INetLibGetEvent
+
+ID=kStr_INetLibTrapBase+8
+ENGLISH=INetLibURLOpen
+
+ID=kStr_INetLibTrapBase+9
+ENGLISH=INetLibSockRead
+
+ID=kStr_INetLibTrapBase+10
+ENGLISH=INetLibSockWrite
+
+ID=kStr_INetLibTrapBase+11
+ENGLISH=INetLibSockOpen
+
+ID=kStr_INetLibTrapBase+12
+ENGLISH=INetLibSockClose
+
+ID=kStr_INetLibTrapBase+13
+ENGLISH=INetLibSockStatus
+
+ID=kStr_INetLibTrapBase+14
+ENGLISH=INetLibSockSettingGet
+
+ID=kStr_INetLibTrapBase+15
+ENGLISH=INetLibSockSettingSet
+
+ID=kStr_INetLibTrapBase+16
+ENGLISH=INetLibSockConnect
+
+ID=kStr_INetLibTrapBase+17
+ENGLISH=INetLibURLCrack
+
+ID=kStr_INetLibTrapBase+18
+ENGLISH=INetLibURLsAdd
+
+ID=kStr_INetLibTrapBase+19
+ENGLISH=INetLibURLsCompare
+
+ID=kStr_INetLibTrapBase+20
+ENGLISH=INetLibURLGetInfo
+
+ID=kStr_INetLibTrapBase+21
+ENGLISH=INetLibSockHTTPReqCreate
+
+ID=kStr_INetLibTrapBase+22
+ENGLISH=INetLibSockHTTPAttrSet
+
+ID=kStr_INetLibTrapBase+23
+ENGLISH=INetLibSockHTTPReqSend
+
+ID=kStr_INetLibTrapBase+24
+ENGLISH=INetLibSockHTTPAttrGet
+
+ID=kStr_INetLibTrapBase+25
+ENGLISH=INetLibSockMailReqCreate
+
+ID=kStr_INetLibTrapBase+26
+ENGLISH=INetLibSockMailAttrSet
+
+ID=kStr_INetLibTrapBase+27
+ENGLISH=INetLibSockMailReqAdd
+
+ID=kStr_INetLibTrapBase+28
+ENGLISH=INetLibSockMailReqSend
+
+ID=kStr_INetLibTrapBase+29
+ENGLISH=INetLibSockMailAttrGet
+
+ID=kStr_INetLibTrapBase+30
+ENGLISH=inetLibTrapSockMailQueryProgress
+
+ID=kStr_INetLibTrapBase+31
+ENGLISH=INetLibCacheList
+
+ID=kStr_INetLibTrapBase+32
+ENGLISH=INetLibCacheGetObject
+
+ID=kStr_INetLibTrapBase+33
+ENGLISH=INetLibConfigMakeActive
+
+ID=kStr_INetLibTrapBase+34
+ENGLISH=INetLibConfigList
+
+ID=kStr_INetLibTrapBase+35
+ENGLISH=INetLibConfigIndexFromName
+
+ID=kStr_INetLibTrapBase+36
+ENGLISH=INetLibConfigDelete
+
+ID=kStr_INetLibTrapBase+37
+ENGLISH=INetLibConfigSaveAs
+
+ID=kStr_INetLibTrapBase+38
+ENGLISH=INetLibConfigRename
+
+ID=kStr_INetLibTrapBase+39
+ENGLISH=INetLibConfigAliasSet
+
+ID=kStr_INetLibTrapBase+40
+ENGLISH=INetLibConfigAliasGet
+
+
+// --------------------
+// IR Library
+// --------------------
+
+ID=kStr_IrLibTrapBase+1
+ENGLISH=ExgLibOpen
+
+ID=kStr_IrLibTrapBase+2
+ENGLISH=ExgLibCLose
+
+ID=kStr_IrLibTrapBase+3
+ENGLISH=ExgLibSleep
+
+ID=kStr_IrLibTrapBase+4
+ENGLISH=ExgLibWake
+
+ID=kStr_IrLibTrapBase+5
+ENGLISH=ExgLibHandleEvent
+
+ID=kStr_IrLibTrapBase+6
+ENGLISH=ExgLibConnect
+
+ID=kStr_IrLibTrapBase+7
+ENGLISH=ExgLibAccept
+
+ID=kStr_IrLibTrapBase+8
+ENGLISH=ExgLibDisconnect
+
+ID=kStr_IrLibTrapBase+9
+ENGLISH=ExgLibPut
+
+ID=kStr_IrLibTrapBase+10
+ENGLISH=ExgLibGet
+
+ID=kStr_IrLibTrapBase+11
+ENGLISH=ExgLibSend
+
+ID=kStr_IrLibTrapBase+12
+ENGLISH=ExgLibReceive
+
+ID=kStr_IrLibTrapBase+13
+ENGLISH=ExgLibControl
+
+ID=kStr_IrLibTrapBase+14
+ENGLISH=ExgLibReserved1
+
+ID=kStr_IrLibTrapBase+15
+ENGLISH=IrBind
+
+ID=kStr_IrLibTrapBase+16
+ENGLISH=IrUnBind
+
+ID=kStr_IrLibTrapBase+17
+ENGLISH=IrDiscoverReq
+
+ID=kStr_IrLibTrapBase+18
+ENGLISH=IrConnectIrLap
+
+ID=kStr_IrLibTrapBase+19
+ENGLISH=IrDisconnectIrLap
+
+ID=kStr_IrLibTrapBase+20
+ENGLISH=IrConnectReq
+
+ID=kStr_IrLibTrapBase+21
+ENGLISH=IrConnectRsp
+
+ID=kStr_IrLibTrapBase+22
+ENGLISH=IrDataReq
+
+ID=kStr_IrLibTrapBase+23
+ENGLISH=IrLocalBusy
+
+ID=kStr_IrLibTrapBase+24
+ENGLISH=IrMaxTxSize
+
+ID=kStr_IrLibTrapBase+25
+ENGLISH=IrMaxRxSize
+
+ID=kStr_IrLibTrapBase+26
+ENGLISH=IrSetDeviceInfo
+
+ID=kStr_IrLibTrapBase+27
+ENGLISH=IrIsNoProgress
+
+ID=kStr_IrLibTrapBase+28
+ENGLISH=IrIsRemoteBusy
+
+ID=kStr_IrLibTrapBase+29
+ENGLISH=IrIsMediaBusy
+
+ID=kStr_IrLibTrapBase+30
+ENGLISH=IrIsIrLapConnected
+
+ID=kStr_IrLibTrapBase+31
+ENGLISH=IrTestReq
+
+ID=kStr_IrLibTrapBase+32
+ENGLISH=IrIAS_Add
+
+ID=kStr_IrLibTrapBase+33
+ENGLISH=IrIAS_Query
+
+ID=kStr_IrLibTrapBase+34
+ENGLISH=IrIAS_SetDeviceName
+
+ID=kStr_IrLibTrapBase+35
+ENGLISH=IrIAS_Next
+
+ID=kStr_IrLibTrapBase+36
+ENGLISH=IrIrOpen
+
+ID=kStr_IrLibTrapBase+37
+ENGLISH=IrHandleEvent
+
+ID=kStr_IrLibTrapBase+38
+ENGLISH=IrWaitForEvent
+
+
+// --------------------
+// Net Library
+// --------------------
+
+ID=kStr_NetLibTrapBase+1
+ENGLISH=NetLibOpen
+
+ID=kStr_NetLibTrapBase+2
+ENGLISH=NetLibCLose
+
+ID=kStr_NetLibTrapBase+3
+ENGLISH=NetLibSleep
+
+ID=kStr_NetLibTrapBase+4
+ENGLISH=NetLibWake
+
+ID=kStr_NetLibTrapBase+5
+ENGLISH=NetLibAddrINToA
+
+ID=kStr_NetLibTrapBase+6
+ENGLISH=NetLibAddrAToIN
+
+ID=kStr_NetLibTrapBase+7
+ENGLISH=NetLibSocketOpen
+
+ID=kStr_NetLibTrapBase+8
+ENGLISH=NetLibSocketClose
+
+ID=kStr_NetLibTrapBase+9
+ENGLISH=NetLibSocketOptionSet
+
+ID=kStr_NetLibTrapBase+10
+ENGLISH=NetLibSocketOptionGet
+
+ID=kStr_NetLibTrapBase+11
+ENGLISH=NetLibSocketBind
+
+ID=kStr_NetLibTrapBase+12
+ENGLISH=NetLibSocketConnect
+
+ID=kStr_NetLibTrapBase+13
+ENGLISH=NetLibSocketListen
+
+ID=kStr_NetLibTrapBase+14
+ENGLISH=NetLibSocketAccept
+
+ID=kStr_NetLibTrapBase+15
+ENGLISH=NetLibSocketShutdown
+
+ID=kStr_NetLibTrapBase+16
+ENGLISH=NetLibSendPB
+
+ID=kStr_NetLibTrapBase+17
+ENGLISH=NetLibSend
+
+ID=kStr_NetLibTrapBase+18
+ENGLISH=NetLibReceivePB
+
+ID=kStr_NetLibTrapBase+19
+ENGLISH=NetLibReceive
+
+ID=kStr_NetLibTrapBase+20
+ENGLISH=NetLibDmReceive
+
+ID=kStr_NetLibTrapBase+21
+ENGLISH=NetLibSelect
+
+ID=kStr_NetLibTrapBase+22
+ENGLISH=*NetLibPrefsGet*
+
+ID=kStr_NetLibTrapBase+23
+ENGLISH=*NetLibPrefsSet*
+
+ID=kStr_NetLibTrapBase+24
+ENGLISH=*NetLibDrvrWake*
+
+ID=kStr_NetLibTrapBase+25
+ENGLISH=*NetLibInterfacePtr*
+
+ID=kStr_NetLibTrapBase+26
+ENGLISH=NetLibMaster
+
+ID=kStr_NetLibTrapBase+27
+ENGLISH=NetLibGetHostByName
+
+ID=kStr_NetLibTrapBase+28
+ENGLISH=NetLibSettingGet
+
+ID=kStr_NetLibTrapBase+29
+ENGLISH=NetLibSettingSet
+
+ID=kStr_NetLibTrapBase+30
+ENGLISH=NetLibIFAttach
+
+ID=kStr_NetLibTrapBase+31
+ENGLISH=NetLibIFDetach
+
+ID=kStr_NetLibTrapBase+32
+ENGLISH=NetLibIFGet
+
+ID=kStr_NetLibTrapBase+33
+ENGLISH=NetLibIFSettingGet
+
+ID=kStr_NetLibTrapBase+34
+ENGLISH=NetLibIFSettingSet
+
+ID=kStr_NetLibTrapBase+35
+ENGLISH=NetLibIFUp
+
+ID=kStr_NetLibTrapBase+36
+ENGLISH=NetLibIFDown
+
+ID=kStr_NetLibTrapBase+37
+ENGLISH=NetLibIFMediaUp
+
+ID=kStr_NetLibTrapBase+38
+ENGLISH=*NetLibScriptExecute*
+
+ID=kStr_NetLibTrapBase+39
+ENGLISH=NetLibGetHostByAddr
+
+ID=kStr_NetLibTrapBase+40
+ENGLISH=NetLibGetServByName
+
+ID=kStr_NetLibTrapBase+41
+ENGLISH=NetLibGetHostByAddr
+
+ID=kStr_NetLibTrapBase+42
+ENGLISH=NetLibFinishCloseWait
+
+ID=kStr_NetLibTrapBase+43
+ENGLISH=NetLibGetMailExchangeByName
+
+ID=kStr_NetLibTrapBase+44
+ENGLISH=*NetLibPrefsAppend*
+
+ID=kStr_NetLibTrapBase+45
+ENGLISH=*NetLibIFMediaDown*
+
+ID=kStr_NetLibTrapBase+46
+ENGLISH=NetLibOpenCount
+
+ID=kStr_NetLibTrapBase+47
+ENGLISH=NetLibTracePrintF
+
+ID=kStr_NetLibTrapBase+48
+ENGLISH=NetLibTracePutS
+
+ID=kStr_NetLibTrapBase+49
+ENGLISH=NetLibOpenIfCloseWait
+
+ID=kStr_NetLibTrapBase+50
+ENGLISH=NetLibHandlePowerOff
+
+ID=kStr_NetLibTrapBase+51
+ENGLISH=NetLibConnectionRefresh
+
+ID=kStr_NetLibTrapBase+52
+ENGLISH=NetLibBitMove
+
+ID=kStr_NetLibTrapBase+53
+ENGLISH=NetLibBitPutFixed
+
+ID=kStr_NetLibTrapBase+54
+ENGLISH=NetLibBitGetFixed
+
+ID=kStr_NetLibTrapBase+55
+ENGLISH=NetLibBitPutUIntV
+
+ID=kStr_NetLibTrapBase+56
+ENGLISH=NetLibBitGetUIntV
+
+ID=kStr_NetLibTrapBase+57
+ENGLISH=NetLibBitPutIntV
+
+ID=kStr_NetLibTrapBase+58
+ENGLISH=NetLibBitGetIntV
+
+ID=kStr_NetLibTrapBase+59
+ENGLISH=NetLibOpenConfig
+
+ID=kStr_NetLibTrapBase+60
+ENGLISH=NetLibConfigMakeActive
+
+ID=kStr_NetLibTrapBase+61
+ENGLISH=NetLibConfigList
+
+ID=kStr_NetLibTrapBase+62
+ENGLISH=NetLibConfigIndexFromName
+
+ID=kStr_NetLibTrapBase+63
+ENGLISH=NetLibConfigDelete
+
+ID=kStr_NetLibTrapBase+64
+ENGLISH=NetLibConfigSaveAs
+
+ID=kStr_NetLibTrapBase+65
+ENGLISH=NetLibConfigRename
+
+ID=kStr_NetLibTrapBase+66
+ENGLISH=NetLibConfigAliasSet
+
+ID=kStr_NetLibTrapBase+67
+ENGLISH=NetLibConfigAliasGet
+
+
+// --------------------
+// NetPlugIn Library
+// --------------------
+
+ID=kStr_NPILibTrapBase+1
+ENGLISH=NPILibOpen
+
+ID=kStr_NPILibTrapBase+2
+ENGLISH=NPILibClose
+
+ID=kStr_NPILibTrapBase+3
+ENGLISH=NPILibSleep
+
+ID=kStr_NPILibTrapBase+4
+ENGLISH=NPILibWake
+
+ID=kStr_NPILibTrapBase+5
+ENGLISH=NPILibInfo
+
+ID=kStr_NPILibTrapBase+6
+ENGLISH=NPILibSocketOpen
+
+ID=kStr_NPILibTrapBase+7
+ENGLISH=NPILibSocketClose
+
+ID=kStr_NPILibTrapBase+8
+ENGLISH=NPILibSocketOptionSet
+
+ID=kStr_NPILibTrapBase+9
+ENGLISH=NPILibSocketOptionGet
+
+ID=kStr_NPILibTrapBase+10
+ENGLISH=NPILibSocketBind
+
+ID=kStr_NPILibTrapBase+11
+ENGLISH=NPILibSocketConnect
+
+ID=kStr_NPILibTrapBase+12
+ENGLISH=NPILibSocketListen
+
+ID=kStr_NPILibTrapBase+13
+ENGLISH=NPILibSocketAccept
+
+ID=kStr_NPILibTrapBase+14
+ENGLISH=NPILibSocketShutdown
+
+ID=kStr_NPILibTrapBase+15
+ENGLISH=NPILibSocketAddr
+
+ID=kStr_NPILibTrapBase+16
+ENGLISH=NPILibSocketNativeRefnum
+
+ID=kStr_NPILibTrapBase+17
+ENGLISH=NPILibSocketReady
+
+ID=kStr_NPILibTrapBase+18
+ENGLISH=NPILibSocketReceivePB
+
+ID=kStr_NPILibTrapBase+19
+ENGLISH=NPILibSocketSendPB
+
+
+// --------------------
+// Rail Library
+// --------------------
+
+ID=kStr_RailLibTrapBase+1
+ENGLISH=RailLibOpen
+
+ID=kStr_RailLibTrapBase+2
+ENGLISH=RailLibClose
+
+ID=kStr_RailLibTrapBase+3
+ENGLISH=RailLibSleep
+
+ID=kStr_RailLibTrapBase+4
+ENGLISH=RailLibWake
+
+
+// --------------------
+// Security Library
+// --------------------
+
+ID=kStr_SecLibTrapBase+1
+ENGLISH=SecLibOpen
+
+ID=kStr_SecLibTrapBase+2
+ENGLISH=SecLibClose
+
+ID=kStr_SecLibTrapBase+3
+ENGLISH=SecLibSleep
+
+ID=kStr_SecLibTrapBase+4
+ENGLISH=SecLibWake
+
+ID=kStr_SecLibTrapBase+5
+ENGLISH=SecLibGetContextSize
+
+ID=kStr_SecLibTrapBase+6
+ENGLISH=SecLibResetSeqNum
+
+ID=kStr_SecLibTrapBase+7
+ENGLISH=SecLibGetSignedPublicKey
+
+ID=kStr_SecLibTrapBase+8
+ENGLISH=SecLibProcessSignedKey
+
+ID=kStr_SecLibTrapBase+9
+ENGLISH=SecLibEncryptBegin
+
+ID=kStr_SecLibTrapBase+10
+ENGLISH=SecLibEncrypt
+
+ID=kStr_SecLibTrapBase+11
+ENGLISH=SecLibEncryptEnd
+
+ID=kStr_SecLibTrapBase+12
+ENGLISH=SecLibDecryptBegin
+
+ID=kStr_SecLibTrapBase+13
+ENGLISH=SecLibDecrypt
+
+ID=kStr_SecLibTrapBase+14
+ENGLISH=SecLibDecryptEnd
+
+ID=kStr_SecLibTrapBase+15
+ENGLISH=SecLibDebug
+
+ID=kStr_SecLibTrapBase+16
+ENGLISH=SecRamEncrypt
+
+ID=kStr_SecLibTrapBase+17
+ENGLISH=SecRamDecrypt
+
+ID=kStr_SecLibTrapBase+18
+ENGLISH=SecLibSetKeyPath
+
+
+// --------------------
+// Serial Library
+// --------------------
+
+ID=kStr_SerLibTrapBase+1
+ENGLISH=SerLibOpen
+
+ID=kStr_SerLibTrapBase+2
+ENGLISH=SerLibClose
+
+ID=kStr_SerLibTrapBase+3
+ENGLISH=SerLibSleep
+
+ID=kStr_SerLibTrapBase+4
+ENGLISH=SerLibWake
+
+ID=kStr_SerLibTrapBase+5
+ENGLISH=SerGetSettings
+
+ID=kStr_SerLibTrapBase+6
+ENGLISH=SerSetSettings
+
+ID=kStr_SerLibTrapBase+7
+ENGLISH=SerGetStatus
+
+ID=kStr_SerLibTrapBase+8
+ENGLISH=SerClearErr
+
+ID=kStr_SerLibTrapBase+9
+ENGLISH=SerSend10
+
+ID=kStr_SerLibTrapBase+10
+ENGLISH=SerSendWait
+
+ID=kStr_SerLibTrapBase+11
+ENGLISH=SerSendCheck
+
+ID=kStr_SerLibTrapBase+12
+ENGLISH=SerSendFlush
+
+ID=kStr_SerLibTrapBase+13
+ENGLISH=SerReceive10
+
+ID=kStr_SerLibTrapBase+14
+ENGLISH=SerReceiveWait
+
+ID=kStr_SerLibTrapBase+15
+ENGLISH=SerReceiveCheck
+
+ID=kStr_SerLibTrapBase+16
+ENGLISH=SerReceiveFlush
+
+ID=kStr_SerLibTrapBase+17
+ENGLISH=SerSetReceiveBuffer
+
+ID=kStr_SerLibTrapBase+18
+ENGLISH=SerReceiveWindowOpen
+
+ID=kStr_SerLibTrapBase+19
+ENGLISH=SerReceiveWindowClose
+
+ID=kStr_SerLibTrapBase+20
+ENGLISH=SerSetWakeupHandler
+
+ID=kStr_SerLibTrapBase+21
+ENGLISH=SerPrimeWakeupHandler
+
+ID=kStr_SerLibTrapBase+22
+ENGLISH=SerControl
+
+ID=kStr_SerLibTrapBase+23
+ENGLISH=SerSend
+
+ID=kStr_SerLibTrapBase+24
+ENGLISH=SerReceive
+
+
+// --------------------
+// Web Library
+// --------------------
+
+ID=kStr_WebLibTrapBase+1
+ENGLISH=WebLibOpen
+
+ID=kStr_WebLibTrapBase+2
+ENGLISH=WebLibClose
+
+ID=kStr_WebLibTrapBase+3
+ENGLISH=WebLibSleep
+
+ID=kStr_WebLibTrapBase+4
+ENGLISH=WebLibWake
+
+ID=kStr_WebLibTrapBase+5
+ENGLISH=WebLibSettingGet
+
+ID=kStr_WebLibTrapBase+6
+ENGLISH=WebLibSettingSet
+
+ID=kStr_WebLibTrapBase+7
+ENGLISH=WebLibFormHandleEvent
+
+ID=kStr_WebLibTrapBase+8
+ENGLISH=WebLibHandleEvent
+
+ID=kStr_WebLibTrapBase+9
+ENGLISH=WebLibRender
+
+ID=kStr_WebLibTrapBase+10
+ENGLISH=WebLibRenderCache
+
+ID=kStr_WebLibTrapBase+11
+ENGLISH=WebLibRenderCancel
+
+ID=kStr_WebLibTrapBase+12
+ENGLISH=WebLibCopyToClipboard
+
+ID=kStr_WebLibTrapBase+13
+ENGLISH=WebLibGetScrollData
+
+ID=kStr_WebLibTrapBase+14
+ENGLISH=WebLibScroll
+
+ID=kStr_WebLibTrapBase+15
+ENGLISH=WebLibCMLToSimpleText
+
+ID=kStr_WebLibTrapBase+16
+ENGLISH=WebLibSimpleTextToCML
+
+ID=kStr_WebLibTrapBase+17
+ENGLISH=WebLibSelectAll
+
+ID=kStr_WebLibTrapBase+18
+ENGLISH=WebLibRedrawForm
+
+ID=kStr_WebLibTrapBase+19
+ENGLISH=WebLibRenderComplete
+
+ID=kStr_WebLibTrapBase+20
+ENGLISH=WebLibRenderData
+
+
+// --------------------------------------------------------------------------------
+//	Template Parts -- Error descriptions
+// --------------------------------------------------------------------------------
+
+// NOTE: the following is commented with C++ comments instead of C comments
+// because the included MPW script contains a */ that prematurely closes
+// the comment.
+//
+//	The following strings were generated as follows.  First, the following
+//	lines were selected in the MPW Shell and executed:
+//
+//		Set root "Phantom:Palm:Projects:Palm:Viewer:dev:4.0:primary:Incs:"
+//		for f in `files -f -s -r "{root}"`
+//			continue if ("{f}" =~ /≈CMServer≈/)		# duplicate cmp error codes with CMClient.h
+//			continue if ("{f}" =~ /≈DLClient≈/)		# duplicate dlk error codes with DLServer.h
+//			continue if ("{f}" =~ /≈PadServer≈/)	# duplicate pad error codes with PadWS.h
+//			continue if ("{f}" =~ /≈UDAMgr≈/)		# udaErrControl not formatted nicely
+//			search -q -ns /∂#define≈∂(≈ErrorClass≈∂|≈/ "{f}"
+//		end
+//
+//	Next, the output was selected and pasted into a new MPW window. Then
+//	the following lines were selected in the MPW Shell and executed:
+//
+//		# Put everthing into ID/ENGLISH format
+//		find •
+//		replace -c ∞ /•∂#define[ ∂t]+([¬ ∂t]+)®1≈∂(([a-z0-9]+)®2[ ∂t]*∂|[ ∂t]*([x0-9a-f]+)®3∂)(≈)®4/ "ID=kStr_PalmOSErrorBase+®2+®3∂nENGLISH=®1®4∂n"
+//
+//		# Convert any trailing comments (C++ version)
+//		find •
+//		replace -c ∞ /[ ∂t]*∂/∂/[ ∂t]*/ " -- "
+//
+//		# Convert any trialing comments (C version)
+//		find •
+//		replace -c ∞ /[ ∂t]*∂/∂*[ ∂t](≈)®1[ ∂t]∂*∂// " -- ®1"
+//
+//		# Remove any trialing periods in comments
+//		find •
+//		replace -c ∞ /.∞/ ""
+
+ID=kStr_PalmOSErrorBase+hwrErrorClass+1
+ENGLISH=hwrErrHwrCustomNotImplemented
+
+ID=kStr_PalmOSErrorBase+hwrErrorClass+2
+ENGLISH=hwrErrCreatorNotSupported
+
+ID=kStr_PalmOSErrorBase+hwrErrorClass+3
+ENGLISH=hwrErrSelectorNotSupported
+
+ID=kStr_PalmOSErrorBase+hwrErrorClass+4
+ENGLISH=hwrErrParamTooSmall
+
+ID=kStr_PalmOSErrorBase+almErrorClass+1
+ENGLISH=almErrMemory -- ran out of memory
+
+ID=kStr_PalmOSErrorBase+almErrorClass+2
+ENGLISH=almErrFull -- alarm table is full
+
+ID=kStr_PalmOSErrorBase+cncErrorClass+1
+ENGLISH=cncErrAddProfileFailed -- Add profile attempt failed
+
+ID=kStr_PalmOSErrorBase+cncErrorClass+2
+ENGLISH=cncErrProfileListFull -- Add attempt failed because the
+
+ID=kStr_PalmOSErrorBase+cncErrorClass+3
+ENGLISH=cncErrGetProfileFailed -- Get profile attempt failed
+
+ID=kStr_PalmOSErrorBase+cncErrorClass+4
+ENGLISH=cncErrConDBNotFound -- Connection database not found
+
+ID=kStr_PalmOSErrorBase+cncErrorClass+5
+ENGLISH=cncErrGetProfileListFailed -- Could not get profile list
+
+ID=kStr_PalmOSErrorBase+cncErrorClass+6
+ENGLISH=cncErrProfileReadOnly -- The profile can not be altered
+
+ID=kStr_PalmOSErrorBase+cncErrorClass+7
+ENGLISH=cncErrProfileNotFound -- The profile could not be found
+
+ID=kStr_PalmOSErrorBase+dmErrorClass+1
+ENGLISH=dmErrMemError
+
+ID=kStr_PalmOSErrorBase+dmErrorClass+2
+ENGLISH=dmErrIndexOutOfRange
+
+ID=kStr_PalmOSErrorBase+dmErrorClass+3
+ENGLISH=dmErrInvalidParam
+
+ID=kStr_PalmOSErrorBase+dmErrorClass+4
+ENGLISH=dmErrReadOnly
+
+ID=kStr_PalmOSErrorBase+dmErrorClass+5
+ENGLISH=dmErrDatabaseOpen
+
+ID=kStr_PalmOSErrorBase+dmErrorClass+6
+ENGLISH=dmErrCantOpen
+
+ID=kStr_PalmOSErrorBase+dmErrorClass+7
+ENGLISH=dmErrCantFind
+
+ID=kStr_PalmOSErrorBase+dmErrorClass+8
+ENGLISH=dmErrRecordInWrongCard
+
+ID=kStr_PalmOSErrorBase+dmErrorClass+9
+ENGLISH=dmErrCorruptDatabase
+
+ID=kStr_PalmOSErrorBase+dmErrorClass+10
+ENGLISH=dmErrRecordDeleted
+
+ID=kStr_PalmOSErrorBase+dmErrorClass+11
+ENGLISH=dmErrRecordArchived
+
+ID=kStr_PalmOSErrorBase+dmErrorClass+12
+ENGLISH=dmErrNotRecordDB
+
+ID=kStr_PalmOSErrorBase+dmErrorClass+13
+ENGLISH=dmErrNotResourceDB
+
+ID=kStr_PalmOSErrorBase+dmErrorClass+14
+ENGLISH=dmErrROMBased
+
+ID=kStr_PalmOSErrorBase+dmErrorClass+15
+ENGLISH=dmErrRecordBusy
+
+ID=kStr_PalmOSErrorBase+dmErrorClass+16
+ENGLISH=dmErrResourceNotFound
+
+ID=kStr_PalmOSErrorBase+dmErrorClass+17
+ENGLISH=dmErrNoOpenDatabase
+
+ID=kStr_PalmOSErrorBase+dmErrorClass+18
+ENGLISH=dmErrInvalidCategory
+
+ID=kStr_PalmOSErrorBase+dmErrorClass+19
+ENGLISH=dmErrNotValidRecord
+
+ID=kStr_PalmOSErrorBase+dmErrorClass+20
+ENGLISH=dmErrWriteOutOfBounds
+
+ID=kStr_PalmOSErrorBase+dmErrorClass+21
+ENGLISH=dmErrSeekFailed
+
+ID=kStr_PalmOSErrorBase+dmErrorClass+22
+ENGLISH=dmErrAlreadyOpenForWrites
+
+ID=kStr_PalmOSErrorBase+dmErrorClass+23
+ENGLISH=dmErrOpenedByAnotherTask
+
+ID=kStr_PalmOSErrorBase+dmErrorClass+24
+ENGLISH=dmErrUniqueIDNotFound
+
+ID=kStr_PalmOSErrorBase+dmErrorClass+25
+ENGLISH=dmErrAlreadyExists
+
+ID=kStr_PalmOSErrorBase+dmErrorClass+26
+ENGLISH=dmErrInvalidDatabaseName
+
+ID=kStr_PalmOSErrorBase+dmErrorClass+27
+ENGLISH=dmErrDatabaseProtected
+
+ID=kStr_PalmOSErrorBase+dmErrorClass+28
+ENGLISH=dmErrDatabaseNotProtected
+
+ID=kStr_PalmOSErrorBase+dlkErrorClass+1
+ENGLISH=dlkErrParam -- invalid parameter
+
+ID=kStr_PalmOSErrorBase+dlkErrorClass+2
+ENGLISH=dlkErrMemory -- memory allocation error
+
+ID=kStr_PalmOSErrorBase+dlkErrorClass+3
+ENGLISH=dlkErrNoSession -- could not establish a session	
+
+ID=kStr_PalmOSErrorBase+dlkErrorClass+4
+ENGLISH=dlkErrSizeErr -- reply length was too big
+
+ID=kStr_PalmOSErrorBase+dlkErrorClass+5
+ENGLISH=dlkErrLostConnection -- lost connection
+
+ID=kStr_PalmOSErrorBase+dlkErrorClass+6
+ENGLISH=dlkErrInterrupted -- sync was interrupted (see sync state)
+
+ID=kStr_PalmOSErrorBase+dlkErrorClass+7
+ENGLISH=dlkErrUserCan -- cancelled by user
+
+ID=kStr_PalmOSErrorBase+dlkErrorClass+8
+ENGLISH=dlkErrIncompatibleProducts -- incompatible desktop version
+
+ID=kStr_PalmOSErrorBase+dlkErrorClass+9
+ENGLISH=dlkErrNPOD -- New Password, Old Desktop
+
+ID=kStr_PalmOSErrorBase+exgErrorClass+1
+ENGLISH=exgMemError
+
+ID=kStr_PalmOSErrorBase+exgErrorClass+2
+ENGLISH=exgErrStackInit -- stack could not initialize
+
+ID=kStr_PalmOSErrorBase+exgErrorClass+3
+ENGLISH=exgErrUserCancel
+
+ID=kStr_PalmOSErrorBase+exgErrorClass+4
+ENGLISH=exgErrNoReceiver -- receiver device not found
+
+ID=kStr_PalmOSErrorBase+exgErrorClass+5
+ENGLISH=exgErrNoKnownTarget -- can't find a target app
+
+ID=kStr_PalmOSErrorBase+exgErrorClass+6
+ENGLISH=exgErrTargetMissing -- target app is known but missing
+
+ID=kStr_PalmOSErrorBase+exgErrorClass+7
+ENGLISH=exgErrNotAllowed -- operation not allowed
+
+ID=kStr_PalmOSErrorBase+exgErrorClass+8
+ENGLISH=exgErrBadData -- internal data was not valid
+
+ID=kStr_PalmOSErrorBase+exgErrorClass+9
+ENGLISH=exgErrAppError -- generic application error
+
+ID=kStr_PalmOSErrorBase+exgErrorClass+10
+ENGLISH=exgErrUnknown -- unknown general error
+
+ID=kStr_PalmOSErrorBase+exgErrorClass+11
+ENGLISH=exgErrDeviceFull -- device is full
+
+ID=kStr_PalmOSErrorBase+exgErrorClass+12
+ENGLISH=exgErrDisconnected -- link disconnected
+
+ID=kStr_PalmOSErrorBase+exgErrorClass+13
+ENGLISH=exgErrNotFound -- requested object not found
+
+ID=kStr_PalmOSErrorBase+exgErrorClass+14
+ENGLISH=exgErrBadParam -- bad parameter to call
+
+ID=kStr_PalmOSErrorBase+exgErrorClass+15
+ENGLISH=exgErrNotSupported -- operation not supported by this library
+
+ID=kStr_PalmOSErrorBase+exgErrorClass+16
+ENGLISH=exgErrDeviceBusy -- device is busy
+
+ID=kStr_PalmOSErrorBase+exgErrorClass+17
+ENGLISH=exgErrBadLibrary -- bad or missing ExgLibrary
+
+ID=kStr_PalmOSErrorBase+exgErrorClass+18
+ENGLISH=exgErrNotEnoughPower -- Device has not enough power to perform the requested operation
+
+ID=kStr_PalmOSErrorBase+ftrErrorClass+1
+ENGLISH=ftrErrInvalidParam
+
+ID=kStr_PalmOSErrorBase+ftrErrorClass+2
+ENGLISH=ftrErrNoSuchFeature
+
+ID=kStr_PalmOSErrorBase+ftrErrorClass+3
+ENGLISH=ftrErrAlreadyExists
+
+ID=kStr_PalmOSErrorBase+ftrErrorClass+4
+ENGLISH=ftrErrROMBased
+
+ID=kStr_PalmOSErrorBase+ftrErrorClass+5
+ENGLISH=ftrErrInternalErr
+
+ID=kStr_PalmOSErrorBase+fileErrorClass+1
+ENGLISH=fileErrMemError -- out of memory error
+
+ID=kStr_PalmOSErrorBase+fileErrorClass+2
+ENGLISH=fileErrInvalidParam -- invalid parameter value passed
+
+ID=kStr_PalmOSErrorBase+fileErrorClass+3
+ENGLISH=fileErrCorruptFile -- the file is corrupted/invalid/not a stream file
+
+ID=kStr_PalmOSErrorBase+fileErrorClass+4
+ENGLISH=fileErrNotFound -- couldn't find the file
+
+ID=kStr_PalmOSErrorBase+fileErrorClass+5
+ENGLISH=fileErrTypeCreatorMismatch -- file's type and creator didn't match those expected
+
+ID=kStr_PalmOSErrorBase+fileErrorClass+6
+ENGLISH=fileErrReplaceError -- couldn't replace an existing file
+
+ID=kStr_PalmOSErrorBase+fileErrorClass+7
+ENGLISH=fileErrCreateError -- couldn't create a new file
+
+ID=kStr_PalmOSErrorBase+fileErrorClass+8
+ENGLISH=fileErrOpenError -- generic open error
+
+ID=kStr_PalmOSErrorBase+fileErrorClass+9
+ENGLISH=fileErrInUse -- file couldn't be opened or deleted because it is in use
+
+ID=kStr_PalmOSErrorBase+fileErrorClass+10
+ENGLISH=fileErrReadOnly -- couldn't open in write mode because db is read-only
+
+ID=kStr_PalmOSErrorBase+fileErrorClass+11
+ENGLISH=fileErrInvalidDescriptor -- invalid file descriptor (FileHandle)
+
+ID=kStr_PalmOSErrorBase+fileErrorClass+12
+ENGLISH=fileErrCloseError -- error closing the database
+
+ID=kStr_PalmOSErrorBase+fileErrorClass+13
+ENGLISH=fileErrOutOfBounds -- attempted operation went out of bounds of the file
+
+ID=kStr_PalmOSErrorBase+fileErrorClass+14
+ENGLISH=fileErrPermissionDenied -- couldn't write to a file open for read-only access
+
+ID=kStr_PalmOSErrorBase+fileErrorClass+15
+ENGLISH=fileErrIOError -- general I/O error
+
+ID=kStr_PalmOSErrorBase+fileErrorClass+16
+ENGLISH=fileErrEOF -- end-of-file error
+
+ID=kStr_PalmOSErrorBase+fileErrorClass+17
+ENGLISH=fileErrNotStream -- attempted to open a file that is not a stream
+
+ID=kStr_PalmOSErrorBase+flpErrorClass+1
+ENGLISH=flpErrOutOfRange
+
+ID=kStr_PalmOSErrorBase+grfErrorClass+1
+ENGLISH=grfErrBadParam
+
+ID=kStr_PalmOSErrorBase+grfErrorClass+2
+ENGLISH=grfErrPointBufferFull
+
+ID=kStr_PalmOSErrorBase+grfErrorClass+3
+ENGLISH=grfErrNoGlyphTable
+
+ID=kStr_PalmOSErrorBase+grfErrorClass+4
+ENGLISH=grfErrNoDictionary
+
+ID=kStr_PalmOSErrorBase+grfErrorClass+5
+ENGLISH=grfErrNoMapping
+
+ID=kStr_PalmOSErrorBase+grfErrorClass+6
+ENGLISH=grfErrMacroNotFound
+
+ID=kStr_PalmOSErrorBase+grfErrorClass+7
+ENGLISH=grfErrDepthTooDeep
+
+ID=kStr_PalmOSErrorBase+grfErrorClass+8
+ENGLISH=grfErrMacroPtrTooSmall
+
+ID=kStr_PalmOSErrorBase+grfErrorClass+9
+ENGLISH=grfErrNoMacros
+
+ID=kStr_PalmOSErrorBase+grfErrorClass+129
+ENGLISH=grfErrMacroIncomplete -- (grfWarningOffset+1)
+
+ID=kStr_PalmOSErrorBase+grfErrorClass+130
+ENGLISH=grfErrBranchNotFound -- (grfWarningOffset+2)
+
+ID=kStr_PalmOSErrorBase+grfErrorClass+16
+ENGLISH=grfErrGenericHWRErrBase
+
+ID=kStr_PalmOSErrorBase+intlErrorClass+1
+ENGLISH=intlErrInvalidSelector
+
+ID=kStr_PalmOSErrorBase+lmErrorClass+1
+ENGLISH=lmErrUnknownLocale
+
+ID=kStr_PalmOSErrorBase+lmErrorClass+2
+ENGLISH=lmErrBadLocaleIndex
+
+ID=kStr_PalmOSErrorBase+lmErrorClass+3
+ENGLISH=lmErrBadLocaleSettingChoice
+
+ID=kStr_PalmOSErrorBase+lmErrorClass+4
+ENGLISH=lmErrSettingDataOverflow
+
+ID=kStr_PalmOSErrorBase+memErrorClass+1
+ENGLISH=memErrChunkLocked
+
+ID=kStr_PalmOSErrorBase+memErrorClass+2
+ENGLISH=memErrNotEnoughSpace
+
+ID=kStr_PalmOSErrorBase+memErrorClass+3
+ENGLISH=memErrInvalidParam -- invalid param or requested size is too big
+
+ID=kStr_PalmOSErrorBase+memErrorClass+4
+ENGLISH=memErrChunkNotLocked
+
+ID=kStr_PalmOSErrorBase+memErrorClass+5
+ENGLISH=memErrCardNotPresent
+
+ID=kStr_PalmOSErrorBase+memErrorClass+6
+ENGLISH=memErrNoCardHeader
+
+ID=kStr_PalmOSErrorBase+memErrorClass+7
+ENGLISH=memErrInvalidStoreHeader
+
+ID=kStr_PalmOSErrorBase+memErrorClass+8
+ENGLISH=memErrRAMOnlyCard
+
+ID=kStr_PalmOSErrorBase+memErrorClass+9
+ENGLISH=memErrWriteProtect
+
+ID=kStr_PalmOSErrorBase+memErrorClass+10
+ENGLISH=memErrNoRAMOnCard
+
+ID=kStr_PalmOSErrorBase+memErrorClass+11
+ENGLISH=memErrNoStore
+
+ID=kStr_PalmOSErrorBase+memErrorClass+12
+ENGLISH=memErrROMOnlyCard
+
+ID=kStr_PalmOSErrorBase+mdmErrorClass+1
+ENGLISH=mdmErrNoTone -- no dial tone
+
+ID=kStr_PalmOSErrorBase+mdmErrorClass+2
+ENGLISH=mdmErrNoDCD -- no carrier / timeout
+
+ID=kStr_PalmOSErrorBase+mdmErrorClass+3
+ENGLISH=mdmErrBusy -- busy signal heard
+
+ID=kStr_PalmOSErrorBase+mdmErrorClass+4
+ENGLISH=mdmErrUserCan -- cancelled by user
+
+ID=kStr_PalmOSErrorBase+mdmErrorClass+5
+ENGLISH=mdmErrCmdError -- command error
+
+ID=kStr_PalmOSErrorBase+mdmErrorClass+6
+ENGLISH=mdmErrNoModem -- no modem detected
+
+ID=kStr_PalmOSErrorBase+mdmErrorClass+7
+ENGLISH=mdmErrMemory -- not enough memory
+
+ID=kStr_PalmOSErrorBase+mdmErrorClass+8
+ENGLISH=mdmErrPrefs -- modem preferences have not been
+
+ID=kStr_PalmOSErrorBase+mdmErrorClass+9
+ENGLISH=mdmErrDial -- dial command error - most likely the dial
+
+ID=kStr_PalmOSErrorBase+mdmErrorClass+10
+ENGLISH=mdmErrNoPhoneNum -- No phone number and not "Direct Connect"
+
+ID=kStr_PalmOSErrorBase+netErrorClass+1
+ENGLISH=netErrAlreadyOpen
+
+ID=kStr_PalmOSErrorBase+netErrorClass+2
+ENGLISH=netErrNotOpen
+
+ID=kStr_PalmOSErrorBase+netErrorClass+3
+ENGLISH=netErrStillOpen
+
+ID=kStr_PalmOSErrorBase+netErrorClass+4
+ENGLISH=netErrParamErr
+
+ID=kStr_PalmOSErrorBase+netErrorClass+5
+ENGLISH=netErrNoMoreSockets
+
+ID=kStr_PalmOSErrorBase+netErrorClass+6
+ENGLISH=netErrOutOfResources
+
+ID=kStr_PalmOSErrorBase+netErrorClass+7
+ENGLISH=netErrOutOfMemory -- Might be because free heap space is <32K probably because handheld's RAM <2MB
+
+ID=kStr_PalmOSErrorBase+netErrorClass+8
+ENGLISH=netErrSocketNotOpen
+
+ID=kStr_PalmOSErrorBase+netErrorClass+9
+ENGLISH=netErrSocketBusy -- EINPROGRESS
+
+ID=kStr_PalmOSErrorBase+netErrorClass+10
+ENGLISH=netErrMessageTooBig
+
+ID=kStr_PalmOSErrorBase+netErrorClass+11
+ENGLISH=netErrSocketNotConnected
+
+ID=kStr_PalmOSErrorBase+netErrorClass+12
+ENGLISH=netErrNoInterfaces -- ENETUNREACH
+
+ID=kStr_PalmOSErrorBase+netErrorClass+13
+ENGLISH=netErrBufTooSmall
+
+ID=kStr_PalmOSErrorBase+netErrorClass+14
+ENGLISH=netErrUnimplemented
+
+ID=kStr_PalmOSErrorBase+netErrorClass+15
+ENGLISH=netErrPortInUse -- EADDRINUSE
+
+ID=kStr_PalmOSErrorBase+netErrorClass+16
+ENGLISH=netErrQuietTimeNotElapsed -- EADDRINUSE
+
+ID=kStr_PalmOSErrorBase+netErrorClass+17
+ENGLISH=netErrInternal
+
+ID=kStr_PalmOSErrorBase+netErrorClass+18
+ENGLISH=netErrTimeout -- ETIMEDOUT
+
+ID=kStr_PalmOSErrorBase+netErrorClass+19
+ENGLISH=netErrSocketAlreadyConnected -- EISCONN
+
+ID=kStr_PalmOSErrorBase+netErrorClass+20
+ENGLISH=netErrSocketClosedByRemote
+
+ID=kStr_PalmOSErrorBase+netErrorClass+21
+ENGLISH=netErrOutOfCmdBlocks
+
+ID=kStr_PalmOSErrorBase+netErrorClass+22
+ENGLISH=netErrWrongSocketType
+
+ID=kStr_PalmOSErrorBase+netErrorClass+23
+ENGLISH=netErrSocketNotListening
+
+ID=kStr_PalmOSErrorBase+netErrorClass+24
+ENGLISH=netErrUnknownSetting
+
+ID=kStr_PalmOSErrorBase+netErrorClass+25
+ENGLISH=netErrInvalidSettingSize
+
+ID=kStr_PalmOSErrorBase+netErrorClass+26
+ENGLISH=netErrPrefNotFound
+
+ID=kStr_PalmOSErrorBase+netErrorClass+27
+ENGLISH=netErrInvalidInterface
+
+ID=kStr_PalmOSErrorBase+netErrorClass+28
+ENGLISH=netErrInterfaceNotFound
+
+ID=kStr_PalmOSErrorBase+netErrorClass+29
+ENGLISH=netErrTooManyInterfaces
+
+ID=kStr_PalmOSErrorBase+netErrorClass+30
+ENGLISH=netErrBufWrongSize
+
+ID=kStr_PalmOSErrorBase+netErrorClass+31
+ENGLISH=netErrUserCancel
+
+ID=kStr_PalmOSErrorBase+netErrorClass+32
+ENGLISH=netErrBadScript
+
+ID=kStr_PalmOSErrorBase+netErrorClass+33
+ENGLISH=netErrNoSocket
+
+ID=kStr_PalmOSErrorBase+netErrorClass+34
+ENGLISH=netErrSocketRcvBufFull
+
+ID=kStr_PalmOSErrorBase+netErrorClass+35
+ENGLISH=netErrNoPendingConnect
+
+ID=kStr_PalmOSErrorBase+netErrorClass+36
+ENGLISH=netErrUnexpectedCmd
+
+ID=kStr_PalmOSErrorBase+netErrorClass+37
+ENGLISH=netErrNoTCB
+
+ID=kStr_PalmOSErrorBase+netErrorClass+38
+ENGLISH=netErrNilRemoteWindowSize
+
+ID=kStr_PalmOSErrorBase+netErrorClass+39
+ENGLISH=netErrNoTimerProc
+
+ID=kStr_PalmOSErrorBase+netErrorClass+40
+ENGLISH=netErrSocketInputShutdown -- EOF to sockets API
+
+ID=kStr_PalmOSErrorBase+netErrorClass+41
+ENGLISH=netErrCmdBlockNotCheckedOut		 
+
+ID=kStr_PalmOSErrorBase+netErrorClass+42
+ENGLISH=netErrCmdNotDone		 
+
+ID=kStr_PalmOSErrorBase+netErrorClass+43
+ENGLISH=netErrUnknownProtocol		 
+
+ID=kStr_PalmOSErrorBase+netErrorClass+44
+ENGLISH=netErrUnknownService		 
+
+ID=kStr_PalmOSErrorBase+netErrorClass+45
+ENGLISH=netErrUnreachableDest	
+
+ID=kStr_PalmOSErrorBase+netErrorClass+46
+ENGLISH=netErrReadOnlySetting	 
+
+ID=kStr_PalmOSErrorBase+netErrorClass+47
+ENGLISH=netErrWouldBlock -- EWOULDBLOCK
+
+ID=kStr_PalmOSErrorBase+netErrorClass+48
+ENGLISH=netErrAlreadyInProgress -- EALREADY
+
+ID=kStr_PalmOSErrorBase+netErrorClass+49
+ENGLISH=netErrPPPTimeout
+
+ID=kStr_PalmOSErrorBase+netErrorClass+50
+ENGLISH=netErrPPPBroughtDown
+
+ID=kStr_PalmOSErrorBase+netErrorClass+51
+ENGLISH=netErrAuthFailure
+
+ID=kStr_PalmOSErrorBase+netErrorClass+52
+ENGLISH=netErrPPPAddressRefused
+
+ID=kStr_PalmOSErrorBase+netErrorClass+53
+ENGLISH=netErrDNSNameTooLong
+
+ID=kStr_PalmOSErrorBase+netErrorClass+54
+ENGLISH=netErrDNSBadName
+
+ID=kStr_PalmOSErrorBase+netErrorClass+55
+ENGLISH=netErrDNSBadArgs
+
+ID=kStr_PalmOSErrorBase+netErrorClass+56
+ENGLISH=netErrDNSLabelTooLong
+
+ID=kStr_PalmOSErrorBase+netErrorClass+57
+ENGLISH=netErrDNSAllocationFailure
+
+ID=kStr_PalmOSErrorBase+netErrorClass+58
+ENGLISH=netErrDNSTimeout
+
+ID=kStr_PalmOSErrorBase+netErrorClass+59
+ENGLISH=netErrDNSUnreachable
+
+ID=kStr_PalmOSErrorBase+netErrorClass+60
+ENGLISH=netErrDNSFormat
+
+ID=kStr_PalmOSErrorBase+netErrorClass+61
+ENGLISH=netErrDNSServerFailure
+
+ID=kStr_PalmOSErrorBase+netErrorClass+62
+ENGLISH=netErrDNSNonexistantName
+
+ID=kStr_PalmOSErrorBase+netErrorClass+63
+ENGLISH=netErrDNSNIY
+
+ID=kStr_PalmOSErrorBase+netErrorClass+64
+ENGLISH=netErrDNSRefused
+
+ID=kStr_PalmOSErrorBase+netErrorClass+65
+ENGLISH=netErrDNSImpossible
+
+ID=kStr_PalmOSErrorBase+netErrorClass+66
+ENGLISH=netErrDNSNoRRS
+
+ID=kStr_PalmOSErrorBase+netErrorClass+67
+ENGLISH=netErrDNSAborted
+
+ID=kStr_PalmOSErrorBase+netErrorClass+68
+ENGLISH=netErrDNSBadProtocol
+
+ID=kStr_PalmOSErrorBase+netErrorClass+69
+ENGLISH=netErrDNSTruncated
+
+ID=kStr_PalmOSErrorBase+netErrorClass+70
+ENGLISH=netErrDNSNoRecursion
+
+ID=kStr_PalmOSErrorBase+netErrorClass+71
+ENGLISH=netErrDNSIrrelevant
+
+ID=kStr_PalmOSErrorBase+netErrorClass+72
+ENGLISH=netErrDNSNotInLocalCache
+
+ID=kStr_PalmOSErrorBase+netErrorClass+73
+ENGLISH=netErrDNSNoPort
+
+ID=kStr_PalmOSErrorBase+netErrorClass+74
+ENGLISH=netErrIPCantFragment
+
+ID=kStr_PalmOSErrorBase+netErrorClass+75
+ENGLISH=netErrIPNoRoute
+
+ID=kStr_PalmOSErrorBase+netErrorClass+76
+ENGLISH=netErrIPNoSrc
+
+ID=kStr_PalmOSErrorBase+netErrorClass+77
+ENGLISH=netErrIPNoDst
+
+ID=kStr_PalmOSErrorBase+netErrorClass+78
+ENGLISH=netErrIPktOverflow
+
+ID=kStr_PalmOSErrorBase+netErrorClass+79
+ENGLISH=netErrTooManyTCPConnections
+
+ID=kStr_PalmOSErrorBase+netErrorClass+80
+ENGLISH=netErrNoDNSServers
+
+ID=kStr_PalmOSErrorBase+netErrorClass+81
+ENGLISH=netErrInterfaceDown
+
+ID=kStr_PalmOSErrorBase+netErrorClass+82
+ENGLISH=netErrNoChannel -- The datalink layer cannot acquire a channel 
+
+ID=kStr_PalmOSErrorBase+netErrorClass+83
+ENGLISH=netErrDieState -- Mobitex network has issued a DIE command
+
+ID=kStr_PalmOSErrorBase+netErrorClass+84
+ENGLISH=netErrReturnedInMail -- The addressed of the transmitted packet was not available, and the message was placed in the network's mailbox
+
+ID=kStr_PalmOSErrorBase+netErrorClass+85
+ENGLISH=netErrReturnedNoTransfer -- This message cannot be transferred or put in the network mailbox
+
+ID=kStr_PalmOSErrorBase+netErrorClass+86
+ENGLISH=netErrReturnedIllegal -- The message could not be switched to the network
+
+ID=kStr_PalmOSErrorBase+netErrorClass+87
+ENGLISH=netErrReturnedCongest -- Line, radio channels, or network nodes are congested
+
+ID=kStr_PalmOSErrorBase+netErrorClass+88
+ENGLISH=netErrReturnedError -- Technical error in the network
+
+ID=kStr_PalmOSErrorBase+netErrorClass+89
+ENGLISH=netErrReturnedBusy -- The B-party is busy
+
+ID=kStr_PalmOSErrorBase+netErrorClass+90
+ENGLISH=netErrGMANState -- The modem has not registered with the network
+
+ID=kStr_PalmOSErrorBase+netErrorClass+91
+ENGLISH=netErrQuitOnTxFail -- Couldn't get packet through, shutdown
+
+ID=kStr_PalmOSErrorBase+netErrorClass+92
+ENGLISH=netErrFlexListFull -- raw IF error message: see Mobitex spec
+
+ID=kStr_PalmOSErrorBase+netErrorClass+93
+ENGLISH=netErrSenderMAN -- ditto
+
+ID=kStr_PalmOSErrorBase+netErrorClass+94
+ENGLISH=netErrIllegalType -- ditto
+
+ID=kStr_PalmOSErrorBase+netErrorClass+95
+ENGLISH=netErrIllegalState -- ditto
+
+ID=kStr_PalmOSErrorBase+netErrorClass+96
+ENGLISH=netErrIllegalFlags -- ditto
+
+ID=kStr_PalmOSErrorBase+netErrorClass+97
+ENGLISH=netErrIllegalSendlist -- ditto
+
+ID=kStr_PalmOSErrorBase+netErrorClass+98
+ENGLISH=netErrIllegalMPAKLength -- ditto
+
+ID=kStr_PalmOSErrorBase+netErrorClass+99
+ENGLISH=netErrIllegalAddressee -- ditto
+
+ID=kStr_PalmOSErrorBase+netErrorClass+100
+ENGLISH=netErrIllegalPacketClass -- ditto
+
+ID=kStr_PalmOSErrorBase+netErrorClass+101
+ENGLISH=netErrBufferLength -- any 
+
+ID=kStr_PalmOSErrorBase+netErrorClass+102
+ENGLISH=netErrNiCdLowBattery -- any 
+
+ID=kStr_PalmOSErrorBase+netErrorClass+103
+ENGLISH=netErrRFinterfaceFatal -- any
+
+ID=kStr_PalmOSErrorBase+netErrorClass+104
+ENGLISH=netErrIllegalLogout -- raw IF error message
+
+ID=kStr_PalmOSErrorBase+netErrorClass+105
+ENGLISH=netErrAAARadioLoad -- 7/20/98 JB.  If there is insufficient AAA
+
+ID=kStr_PalmOSErrorBase+netErrorClass+106
+ENGLISH=netErrAntennaDown
+
+ID=kStr_PalmOSErrorBase+netErrorClass+107
+ENGLISH=netErrNiCdCharging -- just for charging
+
+ID=kStr_PalmOSErrorBase+netErrorClass+108
+ENGLISH=netErrAntennaWentDown
+
+ID=kStr_PalmOSErrorBase+netErrorClass+109
+ENGLISH=netErrNotActivated -- The unit has not been FULLY activated.  George and Morty completed
+
+ID=kStr_PalmOSErrorBase+netErrorClass+110
+ENGLISH=netErrRadioTemp -- Radio's temp is too high for FCC compliant TX
+
+ID=kStr_PalmOSErrorBase+netErrorClass+111
+ENGLISH=netErrNiCdChargeError -- Charging stopped due to NiCd charging characteristic
+
+ID=kStr_PalmOSErrorBase+netErrorClass+112
+ENGLISH=netErrNiCdSag -- the computed sag or actual sag indicates a NiCd with diminished capacity
+
+ID=kStr_PalmOSErrorBase+netErrorClass+113
+ENGLISH=netErrNiCdChargeSuspend -- Charging has been suspended due to low AAA batteries
+
+ID=kStr_PalmOSErrorBase+netErrorClass+115
+ENGLISH=netErrConfigNotFound
+
+ID=kStr_PalmOSErrorBase+netErrorClass+116
+ENGLISH=netErrConfigCantDelete
+
+ID=kStr_PalmOSErrorBase+netErrorClass+117
+ENGLISH=netErrConfigTooMany
+
+ID=kStr_PalmOSErrorBase+netErrorClass+118
+ENGLISH=netErrConfigBadName
+
+ID=kStr_PalmOSErrorBase+netErrorClass+119
+ENGLISH=netErrConfigNotAlias
+
+ID=kStr_PalmOSErrorBase+netErrorClass+120
+ENGLISH=netErrConfigCantPointToAlias
+
+ID=kStr_PalmOSErrorBase+netErrorClass+121
+ENGLISH=netErrConfigEmpty
+
+ID=kStr_PalmOSErrorBase+netErrorClass+122
+ENGLISH=netErrAlreadyOpenWithOtherConfig
+
+ID=kStr_PalmOSErrorBase+netErrorClass+123
+ENGLISH=netErrConfigAliasErr
+
+ID=kStr_PalmOSErrorBase+netErrorClass+124
+ENGLISH=netErrNoMultiPktAddr
+
+ID=kStr_PalmOSErrorBase+netErrorClass+125
+ENGLISH=netErrOutOfPackets 
+
+ID=kStr_PalmOSErrorBase+netErrorClass+126
+ENGLISH=netErrMultiPktAddrReset
+
+ID=kStr_PalmOSErrorBase+netErrorClass+127
+ENGLISH=netErrStaleMultiPktAddr
+
+ID=kStr_PalmOSErrorBase+netErrorClass+128
+ENGLISH=netErrScptPluginMissing
+
+ID=kStr_PalmOSErrorBase+netErrorClass+129
+ENGLISH=netErrScptPluginLaunchFail
+
+ID=kStr_PalmOSErrorBase+netErrorClass+130
+ENGLISH=netErrScptPluginCmdFail
+
+ID=kStr_PalmOSErrorBase+netErrorClass+131
+ENGLISH=netErrScptPluginInvalidCmd
+
+ID=kStr_PalmOSErrorBase+netErrorClass+132
+ENGLISH=netErrTelMissingComponent
+
+ID=kStr_PalmOSErrorBase+netErrorClass+133
+ENGLISH=netErrTelErrorNotHandled
+
+ID=kStr_PalmOSErrorBase+omErrorClass+1
+ENGLISH=omErrBaseRequiresOverlay
+
+ID=kStr_PalmOSErrorBase+omErrorClass+2
+ENGLISH=omErrUnknownLocale
+
+ID=kStr_PalmOSErrorBase+omErrorClass+3
+ENGLISH=omErrBadOverlayDBName
+
+ID=kStr_PalmOSErrorBase+omErrorClass+4
+ENGLISH=omErrInvalidLocaleIndex	
+
+ID=kStr_PalmOSErrorBase+omErrorClass+5
+ENGLISH=omErrInvalidLocale
+
+ID=kStr_PalmOSErrorBase+omErrorClass+6
+ENGLISH=omErrInvalidSystemOverlay
+
+ID=kStr_PalmOSErrorBase+omErrorClass+7
+ENGLISH=omErrNoNextSystemLocale
+
+ID=kStr_PalmOSErrorBase+penErrorClass+1
+ENGLISH=penErrBadParam
+
+ID=kStr_PalmOSErrorBase+penErrorClass+2
+ENGLISH=penErrIgnorePoint
+
+ID=kStr_PalmOSErrorBase+slkErrorClass+1
+ENGLISH=slkErrChecksum
+
+ID=kStr_PalmOSErrorBase+slkErrorClass+2
+ENGLISH=slkErrFormat
+
+ID=kStr_PalmOSErrorBase+slkErrorClass+3
+ENGLISH=slkErrBuffer
+
+ID=kStr_PalmOSErrorBase+slkErrorClass+4
+ENGLISH=slkErrTimeOut
+
+ID=kStr_PalmOSErrorBase+slkErrorClass+5
+ENGLISH=slkErrHandle
+
+ID=kStr_PalmOSErrorBase+slkErrorClass+6
+ENGLISH=slkErrBodyLimit
+
+ID=kStr_PalmOSErrorBase+slkErrorClass+7
+ENGLISH=slkErrTransId
+
+ID=kStr_PalmOSErrorBase+slkErrorClass+8
+ENGLISH=slkErrResponse
+
+ID=kStr_PalmOSErrorBase+slkErrorClass+9
+ENGLISH=slkErrNoDefaultProc
+
+ID=kStr_PalmOSErrorBase+slkErrorClass+10
+ENGLISH=slkErrWrongPacketType
+
+ID=kStr_PalmOSErrorBase+slkErrorClass+11
+ENGLISH=slkErrBadParam
+
+ID=kStr_PalmOSErrorBase+slkErrorClass+12
+ENGLISH=slkErrAlreadyOpen
+
+ID=kStr_PalmOSErrorBase+slkErrorClass+13
+ENGLISH=slkErrOutOfSockets
+
+ID=kStr_PalmOSErrorBase+slkErrorClass+14
+ENGLISH=slkErrSocketNotOpen
+
+ID=kStr_PalmOSErrorBase+slkErrorClass+15
+ENGLISH=slkErrWrongDestSocket
+
+ID=kStr_PalmOSErrorBase+slkErrorClass+16
+ENGLISH=slkErrWrongPktType
+
+ID=kStr_PalmOSErrorBase+slkErrorClass+17
+ENGLISH=slkErrBusy -- called while sending a packet
+
+ID=kStr_PalmOSErrorBase+slkErrorClass+18
+ENGLISH=slkErrNotOpen
+
+ID=kStr_PalmOSErrorBase+serErrorClass+1
+ENGLISH=serErrBadParam
+
+ID=kStr_PalmOSErrorBase+serErrorClass+2
+ENGLISH=serErrBadPort
+
+ID=kStr_PalmOSErrorBase+serErrorClass+3
+ENGLISH=serErrNoMem
+
+ID=kStr_PalmOSErrorBase+serErrorClass+4
+ENGLISH=serErrBadConnID
+
+ID=kStr_PalmOSErrorBase+serErrorClass+5
+ENGLISH=serErrTimeOut
+
+ID=kStr_PalmOSErrorBase+serErrorClass+6
+ENGLISH=serErrLineErr
+
+ID=kStr_PalmOSErrorBase+serErrorClass+7
+ENGLISH=serErrAlreadyOpen
+
+ID=kStr_PalmOSErrorBase+serErrorClass+8
+ENGLISH=serErrStillOpen
+
+ID=kStr_PalmOSErrorBase+serErrorClass+9
+ENGLISH=serErrNotOpen
+
+ID=kStr_PalmOSErrorBase+serErrorClass+10
+ENGLISH=serErrNotSupported -- functionality not supported
+
+ID=kStr_PalmOSErrorBase+serErrorClass+11
+ENGLISH=serErrNoDevicesAvail -- No serial devices were loaded or are available
+
+ID=kStr_PalmOSErrorBase+serErrorClass+12
+ENGLISH=serErrConfigurationFailed
+
+ID=kStr_PalmOSErrorBase+sndErrorClass+1
+ENGLISH=sndErrBadParam
+
+ID=kStr_PalmOSErrorBase+sndErrorClass+2
+ENGLISH=sndErrBadChannel
+
+ID=kStr_PalmOSErrorBase+sndErrorClass+3
+ENGLISH=sndErrMemory
+
+ID=kStr_PalmOSErrorBase+sndErrorClass+4
+ENGLISH=sndErrOpen
+
+ID=kStr_PalmOSErrorBase+sndErrorClass+5
+ENGLISH=sndErrQFull
+
+ID=kStr_PalmOSErrorBase+sndErrorClass+6
+ENGLISH=sndErrQEmpty -- internal
+
+ID=kStr_PalmOSErrorBase+sndErrorClass+7
+ENGLISH=sndErrFormat -- unsupported data format
+
+ID=kStr_PalmOSErrorBase+sndErrorClass+8
+ENGLISH=sndErrBadStream -- invalid data stream
+
+ID=kStr_PalmOSErrorBase+sndErrorClass+9
+ENGLISH=sndErrInterrupted -- play was interrupted
+
+ID=kStr_PalmOSErrorBase+evtErrorClass+1
+ENGLISH=evtErrParamErr
+
+ID=kStr_PalmOSErrorBase+evtErrorClass+2
+ENGLISH=evtErrQueueFull
+
+ID=kStr_PalmOSErrorBase+evtErrorClass+3
+ENGLISH=evtErrQueueEmpty
+
+ID=kStr_PalmOSErrorBase+sysErrorClass+1
+ENGLISH=sysErrTimeout
+
+ID=kStr_PalmOSErrorBase+sysErrorClass+2
+ENGLISH=sysErrParamErr
+
+ID=kStr_PalmOSErrorBase+sysErrorClass+3
+ENGLISH=sysErrNoFreeResource
+
+ID=kStr_PalmOSErrorBase+sysErrorClass+4
+ENGLISH=sysErrNoFreeRAM
+
+ID=kStr_PalmOSErrorBase+sysErrorClass+5
+ENGLISH=sysErrNotAllowed
+
+ID=kStr_PalmOSErrorBase+sysErrorClass+6
+ENGLISH=sysErrSemInUse
+
+ID=kStr_PalmOSErrorBase+sysErrorClass+7
+ENGLISH=sysErrInvalidID
+
+ID=kStr_PalmOSErrorBase+sysErrorClass+8
+ENGLISH=sysErrOutOfOwnerIDs
+
+ID=kStr_PalmOSErrorBase+sysErrorClass+9
+ENGLISH=sysErrNoFreeLibSlots
+
+ID=kStr_PalmOSErrorBase+sysErrorClass+10
+ENGLISH=sysErrLibNotFound
+
+ID=kStr_PalmOSErrorBase+sysErrorClass+11
+ENGLISH=sysErrDelayWakened -- SysTaskDelay wakened by SysTaskWake before delay completed
+
+ID=kStr_PalmOSErrorBase+sysErrorClass+12
+ENGLISH=sysErrRomIncompatible
+
+ID=kStr_PalmOSErrorBase+sysErrorClass+13
+ENGLISH=sysErrBufTooSmall
+
+ID=kStr_PalmOSErrorBase+sysErrorClass+14
+ENGLISH=sysErrPrefNotFound
+
+ID=kStr_PalmOSErrorBase+sysErrorClass+16
+ENGLISH=sysNotifyErrEntryNotFound -- could not find registration entry in the list
+
+ID=kStr_PalmOSErrorBase+sysErrorClass+17
+ENGLISH=sysNotifyErrDuplicateEntry -- identical entry already exists
+
+ID=kStr_PalmOSErrorBase+sysErrorClass+19
+ENGLISH=sysNotifyErrBroadcastBusy -- a broadcast is already in progress - try again later
+
+ID=kStr_PalmOSErrorBase+sysErrorClass+20
+ENGLISH=sysNotifyErrBroadcastCancelled -- a handler cancelled the broadcast
+
+ID=kStr_PalmOSErrorBase+sysErrorClass+21
+ENGLISH=sysErrMbId
+
+ID=kStr_PalmOSErrorBase+sysErrorClass+22
+ENGLISH=sysErrMbNone	
+
+ID=kStr_PalmOSErrorBase+sysErrorClass+23
+ENGLISH=sysErrMbBusy
+
+ID=kStr_PalmOSErrorBase+sysErrorClass+24
+ENGLISH=sysErrMbFull
+
+ID=kStr_PalmOSErrorBase+sysErrorClass+25
+ENGLISH=sysErrMbDepth
+
+ID=kStr_PalmOSErrorBase+sysErrorClass+26
+ENGLISH=sysErrMbEnv
+
+ID=kStr_PalmOSErrorBase+sysErrorClass+27
+ENGLISH=sysNotifyErrQueueFull -- deferred queue is full
+
+ID=kStr_PalmOSErrorBase+sysErrorClass+28
+ENGLISH=sysNotifyErrQueueEmpty -- deferred queue is empty
+
+ID=kStr_PalmOSErrorBase+sysErrorClass+29
+ENGLISH=sysNotifyErrNoStackSpace -- not enough stack space for a broadcast
+
+ID=kStr_PalmOSErrorBase+sysErrorClass+30
+ENGLISH=sysErrNotInitialized -- manager is not initialized
+
+ID=kStr_PalmOSErrorBase+sysErrorClass+31
+ENGLISH=sysErrNotAsleep -- Task woken by SysTaskWake was not asleep, 1 wake pending
+
+ID=kStr_PalmOSErrorBase+sysErrorClass+32
+ENGLISH=sysErrNotAsleepN -- Task woken by SysTaskWake was not asleep, >1 wake pending
+
+ID=kStr_PalmOSErrorBase+pwrErrorClass+0
+ENGLISH=pwrErrNone
+
+ID=kStr_PalmOSErrorBase+pwrErrorClass+1
+ENGLISH=pwrErrBacklight
+
+ID=kStr_PalmOSErrorBase+pwrErrorClass+2
+ENGLISH=pwrErrRadio
+
+ID=kStr_PalmOSErrorBase+pwrErrorClass+3
+ENGLISH=pwrErrBeam
+
+ID=kStr_PalmOSErrorBase+pwrErrorClass+4
+ENGLISH=pwrErrGeneric
+
+ID=kStr_PalmOSErrorBase+txtErrorClass+1
+ENGLISH=txtErrUknownTranslitOp
+
+ID=kStr_PalmOSErrorBase+txtErrorClass+2
+ENGLISH=txtErrTranslitOverrun
+
+ID=kStr_PalmOSErrorBase+txtErrorClass+3
+ENGLISH=txtErrTranslitOverflow
+
+ID=kStr_PalmOSErrorBase+txtErrorClass+4
+ENGLISH=txtErrConvertOverflow
+
+ID=kStr_PalmOSErrorBase+txtErrorClass+5
+ENGLISH=txtErrConvertUnderflow
+
+ID=kStr_PalmOSErrorBase+txtErrorClass+6
+ENGLISH=txtErrUnknownEncoding
+
+ID=kStr_PalmOSErrorBase+txtErrorClass+7
+ENGLISH=txtErrNoCharMapping
+
+ID=kStr_PalmOSErrorBase+txtErrorClass+8
+ENGLISH=txtErrTranslitUnderflow
+
+ID=kStr_PalmOSErrorBase+timErrorClass+1
+ENGLISH=timErrMemory
+
+ID=kStr_PalmOSErrorBase+winErrorClass+1
+ENGLISH=winErrPalette
+
+ID=kStr_PalmOSErrorBase+attnErrorClass+1
+ENGLISH=attnErrMemory -- ran out of memory
+
+ID=kStr_PalmOSErrorBase+menuErrorClass+1
+ENGLISH=menuErrNoMenu
+
+ID=kStr_PalmOSErrorBase+menuErrorClass+2
+ENGLISH=menuErrNotFound
+
+ID=kStr_PalmOSErrorBase+menuErrorClass+3
+ENGLISH=menuErrSameId
+
+ID=kStr_PalmOSErrorBase+menuErrorClass+4
+ENGLISH=menuErrTooManyItems
+
+ID=kStr_PalmOSErrorBase+menuErrorClass+5
+ENGLISH=menuErrOutOfMemory
+
+ID=kStr_PalmOSErrorBase+expErrorClass+1
+ENGLISH=expErrUnsupportedOperation -- unsupported or undefined opcode and/or creator
+
+ID=kStr_PalmOSErrorBase+expErrorClass+2
+ENGLISH=expErrNotEnoughPower -- the required power is not available
+
+ID=kStr_PalmOSErrorBase+expErrorClass+3
+ENGLISH=expErrCardNotPresent -- no card is present
+
+ID=kStr_PalmOSErrorBase+expErrorClass+4
+ENGLISH=expErrInvalidSlotRefNum -- slot reference number is bad
+
+ID=kStr_PalmOSErrorBase+expErrorClass+5
+ENGLISH=expErrSlotDeallocated -- slot reference number is within valid range, but has been deallocated
+
+ID=kStr_PalmOSErrorBase+expErrorClass+6
+ENGLISH=expErrCardNoSectorReadWrite -- the card does not support the 
+
+ID=kStr_PalmOSErrorBase+expErrorClass+7
+ENGLISH=expErrCardReadOnly -- the card does support R/W API
+
+ID=kStr_PalmOSErrorBase+expErrorClass+8
+ENGLISH=expErrCardBadSector -- the card does support R/W API
+
+ID=kStr_PalmOSErrorBase+expErrorClass+9
+ENGLISH=expErrCardProtectedSector -- The card does support R/W API
+
+ID=kStr_PalmOSErrorBase+expErrorClass+10
+ENGLISH=expErrNotOpen -- slot driver library has not been opened
+
+ID=kStr_PalmOSErrorBase+expErrorClass+11
+ENGLISH=expErrStillOpen -- slot driver library is still open - maybe it was opened > once
+
+ID=kStr_PalmOSErrorBase+expErrorClass+12
+ENGLISH=expErrUnimplemented -- Call is unimplemented
+
+ID=kStr_PalmOSErrorBase+expErrorClass+13
+ENGLISH=expErrEnumerationEmpty -- No values remaining to enumerate
+
+ID=kStr_PalmOSErrorBase+expErrorClass+14
+ENGLISH=expErrIncompatibleAPIVer -- The API version of this slot driver is not supported by this version of ExpansionMgr
+
+ID=kStr_PalmOSErrorBase+vfsErrorClass+1
+ENGLISH=vfsErrBufferOverflow -- passed in buffer is too small
+
+ID=kStr_PalmOSErrorBase+vfsErrorClass+2
+ENGLISH=vfsErrFileGeneric -- Generic file error
+
+ID=kStr_PalmOSErrorBase+vfsErrorClass+3
+ENGLISH=vfsErrFileBadRef -- the fileref is invalid (has been closed, or was not obtained from VFSFileOpen())
+
+ID=kStr_PalmOSErrorBase+vfsErrorClass+4
+ENGLISH=vfsErrFileStillOpen -- returned from FSFileDelete if the file is still open
+
+ID=kStr_PalmOSErrorBase+vfsErrorClass+5
+ENGLISH=vfsErrFilePermissionDenied -- The file is read only
+
+ID=kStr_PalmOSErrorBase+vfsErrorClass+6
+ENGLISH=vfsErrFileAlreadyExists -- a file of this name exists already in this location
+
+ID=kStr_PalmOSErrorBase+vfsErrorClass+7
+ENGLISH=vfsErrFileEOF -- file pointer is at end of file
+
+ID=kStr_PalmOSErrorBase+vfsErrorClass+8
+ENGLISH=vfsErrFileNotFound -- file was not found at the path specified
+
+ID=kStr_PalmOSErrorBase+vfsErrorClass+9
+ENGLISH=vfsErrVolumeBadRef -- the volume refnum is invalid
+
+ID=kStr_PalmOSErrorBase+vfsErrorClass+10
+ENGLISH=vfsErrVolumeStillMounted -- returned from FSVolumeFormat if the volume is still mounted
+
+ID=kStr_PalmOSErrorBase+vfsErrorClass+11
+ENGLISH=vfsErrNoFileSystem -- no installed filesystem supports this operation
+
+ID=kStr_PalmOSErrorBase+vfsErrorClass+12
+ENGLISH=vfsErrBadData -- operation could not be completed because of invalid data (i.e., import DB from .PRC file)
+
+ID=kStr_PalmOSErrorBase+vfsErrorClass+13
+ENGLISH=vfsErrDirNotEmpty -- can't delete a non-empty directory
+
+ID=kStr_PalmOSErrorBase+vfsErrorClass+14
+ENGLISH=vfsErrBadName -- invalid filename, or path, or volume label or something..
+
+ID=kStr_PalmOSErrorBase+vfsErrorClass+15
+ENGLISH=vfsErrVolumeFull -- not enough space left on volume
+
+ID=kStr_PalmOSErrorBase+vfsErrorClass+16
+ENGLISH=vfsErrUnimplemented -- this call is not implemented
+
+ID=kStr_PalmOSErrorBase+vfsErrorClass+17
+ENGLISH=vfsErrNotADirectory -- This operation requires a directory
+
+ID=kStr_PalmOSErrorBase+vfsErrorClass+18
+ENGLISH=vfsErrIsADirectory -- This operation requires a regular file, not a directory
+
+ID=kStr_PalmOSErrorBase+vfsErrorClass+19
+ENGLISH=vfsErrDirectoryNotFound -- Returned from VFSFileCreate when the path leading up to the new file does not exist
+
+ID=kStr_PalmOSErrorBase+vfsErrorClass+20
+ENGLISH=vfsErrNameShortened -- A volume name or filename was automatically shortened to conform to filesystem spec
+
+ID=kStr_PalmOSErrorBase+inetErrorClass+1
+ENGLISH=inetErrTooManyClients -- Too many clients already
+
+ID=kStr_PalmOSErrorBase+inetErrorClass+2
+ENGLISH=inetErrHandleInvalid -- Invalid inetH or sockH
+
+ID=kStr_PalmOSErrorBase+inetErrorClass+3
+ENGLISH=inetErrParamsInvalid -- 
+
+ID=kStr_PalmOSErrorBase+inetErrorClass+4
+ENGLISH=inetErrURLVersionInvalid -- 
+
+ID=kStr_PalmOSErrorBase+inetErrorClass+5
+ENGLISH=inetErrURLBufTooSmall -- 
+
+ID=kStr_PalmOSErrorBase+inetErrorClass+6
+ENGLISH=inetErrURLInvalid -- 
+
+ID=kStr_PalmOSErrorBase+inetErrorClass+7
+ENGLISH=inetErrTooManySockets -- 
+
+ID=kStr_PalmOSErrorBase+inetErrorClass+8
+ENGLISH=inetErrNoRequestCreated
+
+ID=kStr_PalmOSErrorBase+inetErrorClass+9
+ENGLISH=inetErrNotConnected
+
+ID=kStr_PalmOSErrorBase+inetErrorClass+10
+ENGLISH=inetErrInvalidRequest
+
+ID=kStr_PalmOSErrorBase+inetErrorClass+11
+ENGLISH=inetErrNeedTime
+
+ID=kStr_PalmOSErrorBase+inetErrorClass+12
+ENGLISH=inetErrHostnameInvalid
+
+ID=kStr_PalmOSErrorBase+inetErrorClass+13
+ENGLISH=inetErrInvalidPort
+
+ID=kStr_PalmOSErrorBase+inetErrorClass+14
+ENGLISH=inetErrInvalidHostAddr
+
+ID=kStr_PalmOSErrorBase+inetErrorClass+15
+ENGLISH=inetErrNilBuffer
+
+ID=kStr_PalmOSErrorBase+inetErrorClass+16
+ENGLISH=inetErrConnectTimeout
+
+ID=kStr_PalmOSErrorBase+inetErrorClass+17
+ENGLISH=inetErrResolveTimeout
+
+ID=kStr_PalmOSErrorBase+inetErrorClass+18
+ENGLISH=inetErrSendReqTimeout
+
+ID=kStr_PalmOSErrorBase+inetErrorClass+19
+ENGLISH=inetErrReadTimeout
+
+ID=kStr_PalmOSErrorBase+inetErrorClass+20
+ENGLISH=inetErrBufTooSmall
+
+ID=kStr_PalmOSErrorBase+inetErrorClass+21
+ENGLISH=inetErrSchemeNotSupported
+
+ID=kStr_PalmOSErrorBase+inetErrorClass+22
+ENGLISH=inetErrInvalidResponse
+
+ID=kStr_PalmOSErrorBase+inetErrorClass+25
+ENGLISH=inetErrSettingTooLarge
+
+ID=kStr_PalmOSErrorBase+inetErrorClass+26
+ENGLISH=inetErrSettingSizeInvalid
+
+ID=kStr_PalmOSErrorBase+inetErrorClass+27
+ENGLISH=inetErrRequestTooLong
+
+ID=kStr_PalmOSErrorBase+inetErrorClass+28
+ENGLISH=inetErrSettingNotImplemented
+
+ID=kStr_PalmOSErrorBase+inetErrorClass+29
+ENGLISH=inetErrConfigNotFound
+
+ID=kStr_PalmOSErrorBase+inetErrorClass+30
+ENGLISH=inetErrConfigCantDelete
+
+ID=kStr_PalmOSErrorBase+inetErrorClass+31
+ENGLISH=inetErrConfigTooMany
+
+ID=kStr_PalmOSErrorBase+inetErrorClass+32
+ENGLISH=inetErrConfigBadName
+
+ID=kStr_PalmOSErrorBase+inetErrorClass+33
+ENGLISH=inetErrConfigNotAlias
+
+ID=kStr_PalmOSErrorBase+inetErrorClass+34
+ENGLISH=inetErrConfigCantPointToAlias
+
+ID=kStr_PalmOSErrorBase+inetErrorClass+35
+ENGLISH=inetErrConfigEmpty
+
+ID=kStr_PalmOSErrorBase+inetErrorClass+37
+ENGLISH=inetErrConfigAliasErr
+
+ID=kStr_PalmOSErrorBase+inetErrorClass+38
+ENGLISH=inetErrNoWirelessInterface
+
+ID=kStr_PalmOSErrorBase+inetErrorClass+39
+ENGLISH=inetErrEncryptionNotAvail
+
+ID=kStr_PalmOSErrorBase+inetErrorClass+40
+ENGLISH=inetErrNeedRetryEncSeqNum
+
+ID=kStr_PalmOSErrorBase+inetErrorClass+41
+ENGLISH=inetErrNeedRetryEncPublicKey
+
+ID=kStr_PalmOSErrorBase+inetErrorClass+42
+ENGLISH=inetErrResponseTooShort
+
+ID=kStr_PalmOSErrorBase+inetErrorClass+43
+ENGLISH=inetErrMobitexIllegalOKHost
+
+ID=kStr_PalmOSErrorBase+inetErrorClass+44
+ENGLISH=inetErrMobitexIllegalBadHost
+
+ID=kStr_PalmOSErrorBase+inetErrorClass+45
+ENGLISH=inetErrHTTPBadRequest
+
+ID=kStr_PalmOSErrorBase+inetErrorClass+46
+ENGLISH=inetErrHTTPUnauthorized
+
+ID=kStr_PalmOSErrorBase+inetErrorClass+47
+ENGLISH=inetErrHTTPForbidden
+
+ID=kStr_PalmOSErrorBase+inetErrorClass+48
+ENGLISH=inetErrHTTPNotFound
+
+ID=kStr_PalmOSErrorBase+inetErrorClass+49
+ENGLISH=inetErrHTTPMethodNotAllowed
+
+ID=kStr_PalmOSErrorBase+inetErrorClass+50
+ENGLISH=inetErrHTTPNotAcceptable
+
+ID=kStr_PalmOSErrorBase+inetErrorClass+51
+ENGLISH=inetErrHTTPProxyAuthRequired
+
+ID=kStr_PalmOSErrorBase+inetErrorClass+52
+ENGLISH=inetErrHTTPRequestTimeout
+
+ID=kStr_PalmOSErrorBase+inetErrorClass+53
+ENGLISH=inetErrHTTPConflict
+
+ID=kStr_PalmOSErrorBase+inetErrorClass+54
+ENGLISH=inetErrHTTPGone
+
+ID=kStr_PalmOSErrorBase+inetErrorClass+55
+ENGLISH=inetErrHTTPLengthRequired
+
+ID=kStr_PalmOSErrorBase+inetErrorClass+56
+ENGLISH=inetErrHTTPPreconditionFailed
+
+ID=kStr_PalmOSErrorBase+inetErrorClass+57
+ENGLISH=inetErrHTTPRequestTooLarge
+
+ID=kStr_PalmOSErrorBase+inetErrorClass+58
+ENGLISH=inetErrHTTPRequestURITooLong
+
+ID=kStr_PalmOSErrorBase+inetErrorClass+59
+ENGLISH=inetErrHTTPUnsupportedType
+
+ID=kStr_PalmOSErrorBase+inetErrorClass+60
+ENGLISH=inetErrHTTPServerError
+
+ID=kStr_PalmOSErrorBase+inetErrorClass+61
+ENGLISH=inetErrCTPServerError
+
+ID=kStr_PalmOSErrorBase+inetErrorClass+62
+ENGLISH=inetErrTypeNotCached
+
+ID=kStr_PalmOSErrorBase+inetErrorClass+63
+ENGLISH=inetErrCacheInvalid
+
+ID=kStr_PalmOSErrorBase+inetErrorClass+64
+ENGLISH=inetErrURLDispatched
+
+ID=kStr_PalmOSErrorBase+inetErrorClass+65
+ENGLISH=inetErrDatabaseNotFound
+
+ID=kStr_PalmOSErrorBase+inetErrorClass+66
+ENGLISH=inetErrCTPMalformedRequest
+
+ID=kStr_PalmOSErrorBase+inetErrorClass+67
+ENGLISH=inetErrCTPUnknownCommand
+
+ID=kStr_PalmOSErrorBase+inetErrorClass+68
+ENGLISH=inetErrCTPTruncated
+
+ID=kStr_PalmOSErrorBase+inetErrorClass+69
+ENGLISH=inetErrCTPUnknownError
+
+ID=kStr_PalmOSErrorBase+inetErrorClass+70
+ENGLISH=inetErrCTPProxyError
+
+ID=kStr_PalmOSErrorBase+inetErrorClass+71
+ENGLISH=inetErrCTPSocketErr
+
+ID=kStr_PalmOSErrorBase+inetErrorClass+72
+ENGLISH=inetErrCTPInvalidURL
+
+ID=kStr_PalmOSErrorBase+inetErrorClass+73
+ENGLISH=inetErrCTPReferringPageOutOfDate
+
+ID=kStr_PalmOSErrorBase+inetErrorClass+74
+ENGLISH=inetErrCTPBadRequest
+
+ID=kStr_PalmOSErrorBase+inetErrorClass+75
+ENGLISH=inetErrUNUSED
+
+ID=kStr_PalmOSErrorBase+inetErrorClass+76
+ENGLISH=inetErrCTPMailServerDown
+
+ID=kStr_PalmOSErrorBase+inetErrorClass+77
+ENGLISH=inetErrCTPHostNotFound
+
+ID=kStr_PalmOSErrorBase+inetErrorClass+78
+ENGLISH=inetErrCTPContentInvalidTag
+
+ID=kStr_PalmOSErrorBase+inetErrorClass+79
+ENGLISH=inetErrCTPContentInternal
+
+ID=kStr_PalmOSErrorBase+inetErrorClass+80
+ENGLISH=inetErrCTPContentDataEnd
+
+ID=kStr_PalmOSErrorBase+inetErrorClass+81
+ENGLISH=inetErrCTPContentResourceTooBig
+
+ID=kStr_PalmOSErrorBase+inetErrorClass+82
+ENGLISH=inetErrCTPContentNoNoFrames
+
+ID=kStr_PalmOSErrorBase+inetErrorClass+83
+ENGLISH=inetErrCTPContentUnsupportedContent
+
+ID=kStr_PalmOSErrorBase+inetErrorClass+84
+ENGLISH=inetErrCTPContentUnsupportedEncoding
+
+ID=kStr_PalmOSErrorBase+inetErrorClass+85
+ENGLISH=inetErrCTPContentBadForm
+
+ID=kStr_PalmOSErrorBase+inetErrorClass+86
+ENGLISH=inetErrCTPContentBadFormMissingAction
+
+ID=kStr_PalmOSErrorBase+inetErrorClass+87
+ENGLISH=inetErrCTPContentBadFormMissingMethod
+
+ID=kStr_PalmOSErrorBase+inetErrorClass+88
+ENGLISH=inetErrCTPContentNoSourceData
+
+ID=kStr_PalmOSErrorBase+inetErrorClass+89
+ENGLISH=inetErrCTPContentBadImage
+
+ID=kStr_PalmOSErrorBase+inetErrorClass+90
+ENGLISH=inetErrCTPContentImageTooLarge
+
+ID=kStr_PalmOSErrorBase+inetErrorClass+91
+ENGLISH=inetErrMobitexErrorHandled
+
+ID=kStr_PalmOSErrorBase+inetErrorClass+92
+ENGLISH=inetErrProxyDownBadHost
+
+ID=kStr_PalmOSErrorBase+inetErrorClass+93
+ENGLISH=inetErrHostConnectionLost
+
+ID=kStr_PalmOSErrorBase+inetErrorClass+94
+ENGLISH=inetErrLinkNotFound
+
+ID=kStr_PalmOSErrorBase+inetErrorClass+95
+ENGLISH=inetErrCacheInvalidSort
+
+ID=kStr_PalmOSErrorBase+lz77ErrorClass+0x00
+ENGLISH=lz77ErrNonFatalFirstErr
+
+ID=kStr_PalmOSErrorBase+lz77ErrorClass+0x01
+ENGLISH=lz77ErrNonFatalInputBufferIncomplete
+
+ID=kStr_PalmOSErrorBase+lz77ErrorClass+0x02
+ENGLISH=lz77ErrNonFatalOutputBufferFull
+
+ID=kStr_PalmOSErrorBase+lz77ErrorClass+0x7F
+ENGLISH=lz77ErrNonFatalLastErr
+
+ID=kStr_PalmOSErrorBase+lz77ErrorClass+0x80
+ENGLISH=lz77ErrFatalUnfinishedInputBuffer
+
+ID=kStr_PalmOSErrorBase+lz77ErrorClass+0x81
+ENGLISH=lz77ErrFatalInputBufferIncomplete
+
+ID=kStr_PalmOSErrorBase+lz77ErrorClass+0x82
+ENGLISH=lz77ErrFatalInputBufferInvalid
+
+ID=kStr_PalmOSErrorBase+lz77ErrorClass+0x83
+ENGLISH=lz77ErrFatalMemAllocation
+
+ID=kStr_PalmOSErrorBase+lz77ErrorClass+0x84
+ENGLISH=lz77ErrFatalHandleInvalid
+
+ID=kStr_PalmOSErrorBase+lz77ErrorClass+0x85
+ENGLISH=lz77ErrFatalCantChangeToCompress
+
+ID=kStr_PalmOSErrorBase+lz77ErrorClass+0x86
+ENGLISH=lz77ErrFatalUnknownVersion
+
+ID=kStr_PalmOSErrorBase+lz77ErrorClass+0x87
+ENGLISH=lz77ErrFatalOutputBufferTooSmall
+
+ID=kStr_PalmOSErrorBase+lz77ErrorClass+0x88
+ENGLISH=lz77ErrFatalInvalidArgument
+
+ID=kStr_PalmOSErrorBase+lz77ErrorClass+0xFF
+ENGLISH=lz77ErrFatalLastErr
+
+ID=kStr_PalmOSErrorBase+pdiErrorClass+1
+ENGLISH=pdiErrRead
+
+ID=kStr_PalmOSErrorBase+pdiErrorClass+2
+ENGLISH=pdiErrWrite
+
+ID=kStr_PalmOSErrorBase+pdiErrorClass+3
+ENGLISH=pdiErrNoPropertyName
+
+ID=kStr_PalmOSErrorBase+pdiErrorClass+4
+ENGLISH=pdiErrNoPropertyValue
+
+ID=kStr_PalmOSErrorBase+pdiErrorClass+5
+ENGLISH=pdiErrMoreChars
+
+ID=kStr_PalmOSErrorBase+pdiErrorClass+6
+ENGLISH=pdiErrNoMoreFields
+
+ID=kStr_PalmOSErrorBase+pdiErrorClass+7
+ENGLISH=pdiErrOpenFailed
+
+ID=kStr_PalmOSErrorBase+pdiErrorClass+8
+ENGLISH=pdiErrCloseFailed
+
+ID=kStr_PalmOSErrorBase+smsErrorClass+0x01
+ENGLISH=kSmsErrMaxSizeExceeded -- Message exceeds maximum size supported by network
+
+ID=kStr_PalmOSErrorBase+telErrorClass+0x01
+ENGLISH=telErrMsgAllocation -- couldn't allocate message	
+
+ID=kStr_PalmOSErrorBase+telErrorClass+0x02
+ENGLISH=telErrUnknown -- unknown Tel internal error	
+
+ID=kStr_PalmOSErrorBase+telErrorClass+0x03
+ENGLISH=telErrMemAllocation -- memory allocation error
+
+ID=kStr_PalmOSErrorBase+telErrorClass+0x04
+ENGLISH=telErrResultTimeOut -- time-out was reached
+
+ID=kStr_PalmOSErrorBase+telErrorClass+0x05
+ENGLISH=telErrResultUserCancel -- user cancelled action
+
+ID=kStr_PalmOSErrorBase+telErrorClass+0x06
+ENGLISH=telErrResultBusyResource -- resource is busy
+
+ID=kStr_PalmOSErrorBase+telErrorClass+0x07
+ENGLISH=telErrInvalidAppId -- don't know that application
+
+ID=kStr_PalmOSErrorBase+telErrorClass+0x08
+ENGLISH=telErrTooManyApps -- applications table is full
+
+ID=kStr_PalmOSErrorBase+telErrorClass+0x09
+ENGLISH=telErrSecurity -- access to ME has not been granted
+
+ID=kStr_PalmOSErrorBase+telErrorClass+0x0A
+ENGLISH=telErrBufferSize -- buffer used to retrieve data is too small
+
+ID=kStr_PalmOSErrorBase+telErrorClass+0x0B
+ENGLISH=telErrFeatureNotSupported -- the feature is not supported by phone/network
+
+ID=kStr_PalmOSErrorBase+telErrorClass+0x0C
+ENGLISH=telErrPhoneComm -- the communication link with the phone is down
+
+ID=kStr_PalmOSErrorBase+telErrorClass+0x0D
+ENGLISH=telErrPhoneReply -- the phone reply syntax is incorrect, check the phone driver!
+
+ID=kStr_PalmOSErrorBase+telErrorClass+0x0E
+ENGLISH=telErrCommandFailed -- the phone couldn't achieve the associated command, check the phone driver! 
+
+ID=kStr_PalmOSErrorBase+telErrorClass+0x0F
+ENGLISH=telErrSpcLineIsBusy -- spc call failure events, error field values
+
+ID=kStr_PalmOSErrorBase+telErrorClass+0x10
+ENGLISH=telErrPhoneCodeRequired -- phone code required
+
+ID=kStr_PalmOSErrorBase+telErrorClass+0x11
+ENGLISH=telErrNoSIMInserted -- no SIM inserted
+
+ID=kStr_PalmOSErrorBase+telErrorClass+0x12
+ENGLISH=telErrPINRequired -- PIN is required
+
+ID=kStr_PalmOSErrorBase+telErrorClass+0x13
+ENGLISH=telErrPUKRequired -- PUK is required
+
+ID=kStr_PalmOSErrorBase+telErrorClass+0x14
+ENGLISH=telErrSIMFailure -- the SIM is not working properly
+
+ID=kStr_PalmOSErrorBase+telErrorClass+0x15
+ENGLISH=telErrSIMBusy -- the SIM couldn't reply
+
+ID=kStr_PalmOSErrorBase+telErrorClass+0x16
+ENGLISH=telErrSIMWrong -- the SIM is not accepted by the phone
+
+ID=kStr_PalmOSErrorBase+telErrorClass+0x17
+ENGLISH=telErrPassword -- incorrect password
+
+ID=kStr_PalmOSErrorBase+telErrorClass+0x18
+ENGLISH=telErrPIN2Required -- PIN2 is required
+
+ID=kStr_PalmOSErrorBase+telErrorClass+0x19
+ENGLISH=telErrPUK2Required -- PUK2 is required
+
+ID=kStr_PalmOSErrorBase+telErrorClass+0x1A
+ENGLISH=telErrPhoneMemAllocation -- phone memory is full
+
+ID=kStr_PalmOSErrorBase+telErrorClass+0x1B
+ENGLISH=telErrInvalidIndex -- invalid index when accessing a storage
+
+ID=kStr_PalmOSErrorBase+telErrorClass+0x1C
+ENGLISH=telErrEntryNotFound -- entry not found
+
+ID=kStr_PalmOSErrorBase+telErrorClass+0x1D
+ENGLISH=telErrPhoneMemFailure -- the phone encountered a memory error
+
+ID=kStr_PalmOSErrorBase+telErrorClass+0x1E
+ENGLISH=telErrInvalidString -- bad character in text string
+
+ID=kStr_PalmOSErrorBase+telErrorClass+0x1F
+ENGLISH=telErrInvalidDial -- bad character in dial string
+
+ID=kStr_PalmOSErrorBase+telErrorClass+0x20
+ENGLISH=telErrNoNetwork -- no network available
+
+ID=kStr_PalmOSErrorBase+telErrorClass+0x21
+ENGLISH=telErrNetworkTimeOut -- the network didn't reply within 'normal' time delay
+
+ID=kStr_PalmOSErrorBase+telErrorClass+0x22
+ENGLISH=telErrInvalidParameter -- bad parameter passed to an API
+
+ID=kStr_PalmOSErrorBase+telErrorClass+0x23
+ENGLISH=telErrValidityPeriod -- the specified short message validity period is invalid
+
+ID=kStr_PalmOSErrorBase+telErrorClass+0x24
+ENGLISH=telErrCodingScheme -- the specified short message coding scheme is invalid
+
+ID=kStr_PalmOSErrorBase+telErrorClass+0x25
+ENGLISH=telErrPhoneNumber -- the specified short message smsc or destination phone number is invalid
+
+ID=kStr_PalmOSErrorBase+telErrorClass+0x26
+ENGLISH=telErrValueStale -- information couldn't be retrieved, a copy of last retrieved value was returned
+
+ID=kStr_PalmOSErrorBase+telErrorClass+0x27
+ENGLISH=telErrTTaskNotRunning -- the Telephony Task is not running
+
+ID=kStr_PalmOSErrorBase+telErrorClass+0x28
+ENGLISH=telErrPhoneToSIMPINRequired -- Phone 2 SIM PIN is required
+
+ID=kStr_PalmOSErrorBase+telErrorClass+0x29
+ENGLISH=telErrSpecificDrvNotFound -- the specified driver was not found
+
+ID=kStr_PalmOSErrorBase+telErrorClass+0x2A
+ENGLISH=telErrGenericDrvNotFound -- the generic driver was not found
+
+ID=kStr_PalmOSErrorBase+telErrorClass+0x2B
+ENGLISH=telErrNoSpecificDrv -- no specific driver was specified
+
+ID=kStr_PalmOSErrorBase+telErrorClass+0x2C
+ENGLISH=telErrSpcLineIsReleased -- the call has been released
+
+ID=kStr_PalmOSErrorBase+telErrorClass+0x2D
+ENGLISH=telErrSpcCallError -- the call has encountered an error
+
+ID=kStr_PalmOSErrorBase+telErrorClass+0x2E
+ENGLISH=telErrNotInstalled -- the shared lib couldn't be installed
+
+ID=kStr_PalmOSErrorBase+telErrorClass+0x2F
+ENGLISH=telErrVersion -- the shared lib version doesn't match the application one
+
+ID=kStr_PalmOSErrorBase+telErrorClass+0x30
+ENGLISH=telErrSettings -- bad telephony settings: Phone Panel Prefs doesn't exist or Telephony Profile not (correctly) set
+
+ID=kStr_PalmOSErrorBase+telErrorClass+0x31
+ENGLISH=telErrUnavailableValue -- the asked value can't be retrieved at that time (i.e.: TelSpcGetCallerNumber and no active line)
+
+ID=kStr_PalmOSErrorBase+telErrorClass+0x32
+ENGLISH=telErrLimitedCompatibility -- the current driver is partially compatible with the connected phone
+
+ID=kStr_PalmOSErrorBase+telErrorClass+0x33
+ENGLISH=telErrProfileConflict -- the currently used profile conflicts with the requested profile
+
+ID=kStr_PalmOSErrorBase+telErrorClass+0x34
+ENGLISH=telErrLibStillInUse -- the shared lib is currently being used by another app, don't unload it!
+
+ID=kStr_PalmOSErrorBase+telErrorClass+0x35
+ENGLISH=telErrTTaskNotFound -- couldn't find the specified (by phone driver) telephony task
+
+
+END
+
+#!/usr/bin/perl
+use Cwd;
+use File::Basename;
+
+$file = $0;
+$dir = dirname($file);
+if ($^O =~ /MacOS/i) {
+	@ARGV = ($file,  "");
+	do $dir . "::Tools:Strings2Resource.pl";
+} else {
+	@ARGV = ($file, "");
+	do $dir . "/../Tools/Strings2Resource.pl";
+}
