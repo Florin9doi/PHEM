@@ -11,21 +11,25 @@ android {
 
         versionCode 2190143
         versionName "1.43"
+        
+        flavorDimensions "architecture"
 
         productFlavors {
             arm {
                 versionNameSuffix "-arm"
+                dimension "architecture"
                 ndk {
                     abiFilters "armeabi-v7a"
                 }
             }
             intel {
                 versionNameSuffix "-intel"
+                dimension "architecture"
                 ndk {
                     abiFilters "x86"
                 }
             }
-        }
+       }
 
         externalNativeBuild {
             ndkBuild {
@@ -44,6 +48,9 @@ android {
         ndkBuild {
             path 'src/main/jni/Android.mk'
         }
+    }
+    lintOptions {
+      abortOnError false
     }
 }
 
