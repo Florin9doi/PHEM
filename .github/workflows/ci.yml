@@ -1,0 +1,61 @@
+name: Builder
+
+on:
+  push:
+    tags: '*'
+  workflow_dispatch:
+  
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+    - name: Set up JDK 8
+      uses: actions/setup-java@v2
+      with:
+        java-version: '8'
+        distribution: 'adopt'
+    - name : install ndk
+      run: | 
+        sudo curl --silent --show-error --location --fail --retry 3 \
+          --output /tmp/$NDK_VERSION.zip \
+          https://dl.google.com/android/repository/$NDK_VERSION-linux-x86_64.zip
+
+        sudo echo "$NDK_SHA /tmp/$NDK_VERSION.zip" > /tmp/$NDK_VERSION.zip.sha1
+
+        sha1sum -c /tmp/$NDK_VERSION.zip.sha1
+
+        sudo rm -rf $ANDROID_SDK_ROOT/ndk-bundle
+        sudo unzip -q /tmp/$NDK_VERSION.zip -d $ANDROID_SDK_ROOT
+        sudo mv $ANDROID_SDK_ROOT/$NDK_VERSION $ANDROID_SDK_ROOT/ndk-bundle
+        sudo chown -R root:root $ANDROID_SDK_ROOT/ndk-bundle
+        sudo rm -f /tmp/$NDK_VERSION*
+
+        if [[ -d $ANDROID_SDK_ROOT/ndk-bundle && \
+          -n "$(ls -A $ANDROID_SDK_ROOT/ndk-bundle)" ]]; then
+          echo "Android NDK installed"
+        else
+          echo "Android NDK did not install successfully"
+          exit 1
+        fi
+      env:
+        NDK_SHA: 12cacc70c3fd2f40574015631c00f41fb8a39048
+        NDK_VERSION: android-ndk-r17c
+    - name: Validate Gradle wrapper
+      uses: gradle/wrapper-validation-action@e6e38bacfdf1a337459f332974bb2327a31aaf4b
+    - name: build
+      run: |
+        if [[ -n "${{ secrets.KEYSTORE_BASE64 }}" ]]; then
+          echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 -d > release.keystore
+          export KEYSTORE_PASSWORD="${{ secrets.KEYSTORE_PASSWORD }}"
+          export KEY_ALIAS="${{ secrets.KEY_ALIAS }}"
+          export KEY_PASSWORD="${{ secrets.KEYSTORE_PASSWORD }}"
+        fi
+        chmod +x ./gradlew
+        ./gradlew assembleRelease
+    - uses: actions/upload-artifact@v2
+      with:
+        name: Package
+        path: app/build/outputs/apk
