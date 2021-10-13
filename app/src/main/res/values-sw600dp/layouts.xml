@@ -3,5 +3,5 @@
     <item name="main" type="layout">@layout/main_portrait</item>
     <bool name="big_screen">true</bool>
     <bool name="is_landscape">false</bool>
-    <string name="which_one">values-sw600dp-port</string>
+    <string name="which_one" translatable="false">values-sw600dp-port</string>
 </resources>

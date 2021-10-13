@@ -59,8 +59,6 @@
     <string name="overwrite_file_text">A file of the same name already exists. Overwrite?</string>
     <string name="card_emu_title">Card Emulation</string>
     <string name="about_title_text">PHEM v</string>
-    <string name="title_activity_card__mgmt">Card Management</string>
-    <string name="hello_world">Hello world!</string>
     <string name="install_hostfs_text">To emulate card storage, a &quot;HostFS&quot; library must be installed into the emulated Palm. This button will install the required library and soft-reset the Palm to enable it. Then return to the Card Emulation page to complete the setup.</string>
     <string name="card_emu_label">Card Storage Emulation</string>
     <string name="emulator_alert_title">Emulator Alert</string>

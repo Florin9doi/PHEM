@@ -59,8 +59,6 @@
     <string name="overwrite_file_text">同じ名前のファイルが既に存在しています。上書きしますか?</string>
     <string name="card_emu_title">外部メモリカード</string>
     <string name="about_title_text">PHEM v</string>
-    <string name="title_activity_card__mgmt">外部メモリカード管理</string>
-    <string name="hello_world">Hello world!</string>
     <string name="install_hostfs_text">外部メモリカードをエミュレートする場合、HostFSライブラリが必要です。このボタンを押せば必要なライブラリをインストールします。その後、ライブラリを使用可能にするためにソフトリセットします。</string>
     <string name="card_emu_label">外部メモリカード管理</string>
     <string name="emulator_alert_title">エミュレータ警告</string>
