@@ -10,8 +10,8 @@ android {
         minSdkVersion 9
         targetSdkVersion 28
 
-        versionCode 2190143
-        versionName "1.43"
+        versionCode 2190144
+        versionName "1.44"
         
         flavorDimensions "architecture"
 
