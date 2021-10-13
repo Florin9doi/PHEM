@@ -1,13 +1,13 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 23
-    buildToolsVersion "25.0.3"
+    compileSdkVersion 30
+    buildToolsVersion "30.0.3"
 
     defaultConfig {
         applicationId "com.perpendox.phem"
         minSdkVersion 8
-        targetSdkVersion 19
+        targetSdkVersion 28
 
         versionCode 2190143
         versionName "1.43"
@@ -29,7 +29,7 @@ android {
                     abiFilters "x86"
                 }
             }
-       }
+        }
 
         externalNativeBuild {
             ndkBuild {
@@ -62,7 +62,7 @@ android {
         }
     }
     lintOptions {
-      abortOnError false
+        abortOnError false
     }
 }
 

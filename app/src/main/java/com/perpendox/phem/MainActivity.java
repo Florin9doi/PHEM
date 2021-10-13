@@ -11,23 +11,13 @@ import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
 import java.util.Locale;
 
-
-
-
-
-
-
-
-
-
-
-
-import com.perpendox.phem.PHEMNativeIF;
-
+import android.Manifest;
+import android.content.pm.PackageManager;
 import android.location.GpsStatus.NmeaListener;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.ConditionVariable;
 import android.os.Environment;
@@ -126,6 +116,7 @@ public class MainActivity extends ActionBarActivity implements
 	public static final String PREF_USE_HWKEYS = PREF_ROOT + ".use_hwkeys";
 	public static final String PREF_FILTER_GPS = PREF_ROOT + ".filter_gps";
 	private static final int LED_NOTIFICATION_ID = 0;
+	private static final int STORAGE_PERMISSION_REQUEST = 1;
 
 	// workaround for bug in Android; even if a checkbox is disabled you can still click it
 	public static boolean gps_checked = false;
@@ -619,6 +610,16 @@ public class MainActivity extends ActionBarActivity implements
 			}
 		}
 
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+			if (this.checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+				this.requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, STORAGE_PERMISSION_REQUEST);
+				return;
+			}
+		}
+		interfaceInit();
+	}
+
+	void interfaceInit() {
 		// What's the storage situation?
 		if (!Environment.MEDIA_MOUNTED.equals(Environment
 				.getExternalStorageState())
@@ -713,6 +714,19 @@ public class MainActivity extends ActionBarActivity implements
 									finish();
 								}
 							}).show();
+		}
+	}
+
+	public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+		switch (requestCode) {
+			case STORAGE_PERMISSION_REQUEST: {
+				if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+					interfaceInit();
+				} else {
+					finish();
+				}
+				return;
+			}
 		}
 	}
 
