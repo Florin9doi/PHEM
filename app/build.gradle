@@ -3,10 +3,11 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion 30
     buildToolsVersion "30.0.3"
+    ndkVersion "17.2.4988734"
 
     defaultConfig {
         applicationId "com.perpendox.phem"
-        minSdkVersion 8
+        minSdkVersion 9
         targetSdkVersion 28
 
         versionCode 2190143
@@ -67,6 +68,6 @@ android {
 }
 
 dependencies {
-    compile 'com.android.support:support-v4:19.+'
-    compile 'com.android.support:appcompat-v7:19.+'
+    implementation 'com.android.support:support-v4:25.3.1'
+    implementation 'com.android.support:appcompat-v7:25.3.1'
 }
